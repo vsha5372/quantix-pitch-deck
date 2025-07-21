@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantix | Interactive Business Report</title>
+    
+    <!-- External Libraries: Tailwind CSS for styling, Chart.js for data visualization -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS for styling overrides and component design -->
+    <style>
+        :root {
+            --bg-light: #F5F5F4; /* stone-50 */
+            --bg-card: #FFFFFF;
+            --bg-card-alt: #FAFAF9; /* stone-100 */
+            --border-color: #E7E5E4; /* stone-200 */
+            --text-primary: #1C1917; /* stone-900 */
+            --text-secondary: #78716C; /* stone-500 */
+            --accent-primary: #0D9488; /* teal-600 */
+            --accent-primary-hover: #0F766E; /* teal-700 */
+            --accent-secondary: #F59E0B; /* amber-500 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link.active {
+            background-color: var(--accent-primary);
+            color: white;
+            font-weight: 600;
+        }
+        .tab-btn.active {
+            background-color: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: -0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background-color: var(--bg-light);
+            border: 3px solid var(--accent-primary);
+            border-radius: 9999px;
+            z-index: 10;
+        }
+        .summary-table .section-header { font-weight: 700; background-color: rgba(13, 148, 136, 0.1); }
+        .summary-table .sub-item { padding-left: 2.5rem !important; color: var(--text-secondary); }
+        .summary-table .total-row { background-color: #FAFAF9; font-weight: 700 !important; }
+        .summary-table .total-row-final td { background-color: var(--bg-card-alt) !important; font-weight: 800 !important; font-size: 1.1rem !important;}
+        .summary-table .loss { color: #DC2626; }
+        .summary-table .profit { color: #16A34A; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="flex">
+        <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
+        <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl">Q</div>
+                <h1 class="text-2xl font-bold text-stone-800">Quantix</h1>
+            </div>
+            <nav id="main-nav" class="flex flex-col space-y-2">
+                <a href="#summary" class="nav-link p-3 rounded-lg transition text-sm">Summary</a>
+                <a href="#problem" class="nav-link p-3 rounded-lg transition text-sm">The Challenge</a>
+                <a href="#solution" class="nav-link p-3 rounded-lg transition text-sm">Solution</a>
+                <a href="#strategy" class="nav-link p-3 rounded-lg transition text-sm">Strategy</a>
+                <a href="#roadmap" class="nav-link p-3 rounded-lg transition text-sm">Roadmap</a>
+                <a href="#key-functionalities" class="nav-link p-3 rounded-lg transition text-sm">Functionalities</a>
+                <a href="#market-size" class="nav-link p-3 rounded-lg transition text-sm">Market Size</a>
+                <a href="#financials" class="nav-link p-3 rounded-lg transition text-sm">Financials</a>
+                <a href="#team-budget" class="nav-link p-3 rounded-lg transition text-sm">Budget</a>
+                <a href="#team" class="nav-link p-3 rounded-lg transition text-sm">Team</a>
+                <a href="#competition" class="nav-link p-3 rounded-lg transition text-sm">Competition</a>
+            </nav>
+        </aside>
+
+        <div class="flex-1 overflow-y-auto">
+            <main class="p-4 md:p-8">
+                <!-- Section: Executive Summary -->
+                <section id="summary" class="mb-16 scroll-mt-24">
+                    <div class="text-center mb-10">
+                        <h2 class="text-4xl font-bold tracking-tight">An AI Trading Agents Company</h2>
+                        <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is democratizing institutional-grade trading for everyone, from retail investors to hedge funds, across both Cryptocurrency and Forex markets.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-base font-semibold text-stone-500">Projected Year 5 Revenue</h3>
+                            <p id="kpi-y5-revenue" class="text-4xl font-bold text-teal-600 mt-2">$32.4M</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-base font-semibold text-stone-500">Peak Funding Requirement</h3>
+                            <p id="kpi-peak-funding" class="text-4xl font-bold text-amber-500 mt-2">~$2.2M</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-base font-semibold text-stone-500">Target Seed Round (w/ Buffer)</h3>
+                            <p id="kpi-seed-round" class="text-4xl font-bold text-teal-600 mt-2">$2.9M</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: The Problem -->
+                <section id="problem" class="mb-16 scroll-mt-24">
+                     <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h2 class="text-3xl font-bold text-center mb-8">The Challenge in Modern Trading</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="text-center">
+                                <h3 class="font-semibold text-lg mb-4">For Retail Traders</h3>
+                                <div class="text-sm text-stone-600 space-y-2">
+                                    <p>Emotional Decisions</p>
+                                    <p>Indicator Overload</p>
+                                    <p>24/7 Monitoring Demands</p>
+                                    <p>Steep Learning Curve</p>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="font-semibold text-lg mb-4">For All Traders</h3>
+                                <div class="text-sm text-stone-600 space-y-2">
+                                    <p>The Coding Barrier</p>
+                                    <p>Lack of Transparency</p>
+                                    <p>High Cost of Tools</p>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="font-semibold text-lg mb-4">For Institutions</h3>
+                                 <div class="text-sm text-stone-600 space-y-2">
+                                    <p>Complex Infrastructure</p>
+                                    <p>High R&D Costs</p>
+                                    <p>Slow Strategy Deployment</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: The Solution -->
+                <section id="solution" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">The Quantix Three-Tiered Solution</h2>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex justify-center border-b border-stone-200 mb-6">
+                            <button class="tab-btn active flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition border-b-2" data-tab="marketplace">Marketplace</button>
+                            <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600 border-b-2 border-transparent" data-tab="iq">IQ</button>
+                            <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600 border-b-2 border-transparent" data-tab="pro">Pro</button>
+                        </div>
+                        <div id="tab-content">
+                            <!-- Content will be injected by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Go-To-Market Strategy -->
+                <section id="strategy" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Go-To-Market Strategy</h2>
+                    <div class="relative pl-4 border-l-2 border-teal-500">
+                        <!-- Phase 1 -->
+                        <div class="mb-10 pl-8 relative timeline-item">
+                            <h3 class="text-xl font-bold">Phase 1: Cryptocurrency Market Entry</h3>
+                            <p class="text-sm text-stone-500 font-semibold mb-4">Year 1 - Mid Year 2</p>
+                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                <ul class="list-disc list-inside space-y-2 text-stone-600">
+                                    <li><strong>Q2 Launch:</strong> Launch Quantix Marketplace for crypto on top-tier exchanges (Binance, Bybit, OKX).</li>
+                                    <li><strong>Q3 Launch:</strong> Release Quantix IQ (Freemium) to build a user base and community.</li>
+                                    <li><strong>Post-Launch:</strong> Initiate an affiliate and influencer-led marketing campaign on social media to build prosumer awareness.</li>
+                                    <li><strong>Throughout:</strong> Begin direct sales of Quantix Pro to family offices and institutions.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Phase 2 -->
+                        <div class="pl-8 relative timeline-item">
+                            <h3 class="text-xl font-bold">Phase 2: Forex Market Expansion</h3>
+                            <p class="text-sm text-stone-500 font-semibold mb-4">Late Year 2 - Onward</p>
+                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                 <ul class="list-disc list-inside space-y-2 text-stone-600">
+                                    <li><strong>Q4 2025 - Q1 2026:</strong> Develop and test MT4/MT5 integration for Forex market entry.</li>
+                                    <li><strong>Q1 2026:</strong> Roll out Marketplace and IQ products to top 20 Forex brokers.</li>
+                                    <li><strong>Q2 2026:</strong> Introduce a retail version of Quantix Pro as a high-tier SaaS offering.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section: Roadmap -->
+                <section id="roadmap" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap</h2>
+                    <div class="relative">
+                        <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
+                        <div class="space-y-12 md:space-y-0">
+                            <!-- Item 1 -->
+                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
+                                <div class="flex justify-center md:justify-end mb-4 md:mb-0">
+                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
+                                        <h3 class="font-bold text-teal-600">To Date</h3>
+                                        <p class="text-sm text-stone-500">Completed Milestones</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -left-2"></div>
+                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                        <ul class="text-sm text-stone-600 space-y-2">
+                                            <li>✓ Q2 2020: Founders meet, research begins.</li>
+                                            <li>✓ 2022-2023: ML & Deep Learning R&D.</li>
+                                            <li>✓ Q1 2024: Legal entity formed in Oman.</li>
+                                            <li>✓ Q4 2024: Marketplace & Pro initial releases.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Item 2 -->
+                             <div class="md:grid md:grid-cols-2 md:gap-8 items-center mt-12">
+                                <div class="relative md:text-right">
+                                    <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -right-2"></div>
+                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                        <ul class="text-sm text-stone-600 space-y-2">
+                                            <li>→ Q2 2025: Launch Marketplace for Crypto.</li>
+                                            <li>→ Q3 2025: Release Quantix IQ for Crypto.</li>
+                                            <li>→ Q4 2025: Expand to Forex Market.</li>
+                                            <li>→ Q2 2026: Introduce Quantix Pro for retail.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                               <div class="flex justify-center md:justify-start mt-4 md:mt-0">
+                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
+                                        <h3 class="font-bold text-teal-600">Going Forward</h3>
+                                        <p class="text-sm text-stone-500">Upcoming Launches</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Quantix Key Functionalities -->
+                <section id="key-functionalities" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Quantix Key Functionalities</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <h3 class="font-semibold text-lg mb-2 text-teal-600">Full Telegram Bot Integration</h3>
+                            <p class="text-sm text-stone-600">Manage trades, receive alerts, and control strategies directly through Telegram.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Strategy Designer</h3>
+                            <p class="text-sm text-stone-600">Includes advanced stop/take‑profit, advanced DCA, and an advanced portfolio bot designer.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <h3 class="font-semibold text-lg mb-2 text-teal-600">Fully Integrated AI Strategies</h3>
+                            <p class="text-sm text-stone-600">Seamlessly incorporate sophisticated, pre-built AI models into your custom trading strategies.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Historical Data</h3>
+                            <p class="text-sm text-stone-600">Access to extensive historical market data for robust backtesting and strategy validation.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center lg:col-span-2">
+                            <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Supported Indicators</h3>
+                            <p class="text-sm text-stone-600">Utilize a wide array of technical indicators, including oscillators, moving averages, candlestick patterns, price patterns, and the processing of both label‑based and numeric functions.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Market Size -->
+                <section id="market-size" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Market Size and Algorithmic Trading Volume Estimation</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-md space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold mb-4 text-center">Algorithmic Trading Volume</h3>
+                            <p class="text-stone-600 mb-6 text-center max-w-4xl mx-auto">Estimating the algorithmic trading volume in the cryptocurrency market is a complex task due to the absence of a central reporting authority and significant data quality issues. The following table provides a data-driven estimate based on an analysis of credible spot trading volumes and logical inferences about algorithmic trading penetration.</p>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                                <div class="table-container">
+                                    <table class="w-full text-left text-sm">
+                                        <thead class="bg-stone-50">
+                                            <tr>
+                                                <th class="p-3 font-semibold">Market</th>
+                                                <th class="p-3 font-semibold text-right">Daily Volume</th>
+                                                <th class="p-3 font-semibold text-right">Estimated Algorithmic %</th>
+                                                <th class="p-3 font-semibold text-right">Estimated Algorithmic Volume</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-stone-200">
+                                            <tr><td class="p-3">Foreign Exchange</td><td class="p-3 text-right">$7.5 Trillion</td><td class="p-3 text-right">~75-80%</td><td class="p-3 text-right">~$6.0 Trillion</td></tr>
+                                            <tr><td class="p-3">Cryptocurrency</td><td class="p-3 text-right">$42B - $87B</td><td class="p-3 text-right">50% - 70% (Estimate)</td><td class="p-3 text-right">$21B - $61B (Estimate)</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <div class="chart-container"><canvas id="algoVolumeChart"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-8">
+                            <h3 class="text-xl font-bold mb-4 text-center">Market Size</h3>
+                             <p class="text-stone-600 mb-6 text-center max-w-4xl mx-auto">The global algorithmic trading market is a subject of analysis by numerous research firms, each employing distinct methodologies, definitions, and data sources. This often results in a wide range of market size valuations and growth forecasts. The table below synthesizes estimates from several prominent industry reports, providing a comparative overview of their findings.</p>
+                            <div class="table-container">
+                                <table class="w-full text-left text-sm">
+                                    <thead class="bg-stone-50">
+                                        <tr>
+                                            <th class="p-3 font-semibold">Source</th>
+                                            <th class="p-3 font-semibold text-right">2024 Size (USD)</th>
+                                            <th class="p-3 font-semibold text-right">2025 Size (USD)</th>
+                                            <th class="p-3 font-semibold text-right">Forecast Horizon</th>
+                                            <th class="p-3 font-semibold text-right">Forecast Size (USD)</th>
+                                            <th class="p-3 font-semibold text-right">CAGR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-stone-200">
+                                        <tr><td class="p-3">Mordor Intelligence</td><td class="p-3 text-right">-</td><td class="p-3 text-right">$18.73 Billion</td><td class="p-3 text-right">2030</td><td class="p-3 text-right">$28.44 Billion</td><td class="p-3 text-right">8.71% (2025-2030)</td></tr>
+                                        <tr><td class="p-3">Research and Markets</td><td class="p-3 text-right">$19.95 Billion</td><td class="p-3 text-right">$22.03 Billion</td><td class="p-3 text-right">2029</td><td class="p-3 text-right">$38.4 Billion</td><td class="p-3 text-right">14.9% (Forecast Period)</td></tr>
+                                        <tr><td class="p-3">Grand View Research</td><td class="p-3 text-right">$21.06 Billion</td><td class="p-3 text-right">$23.48 Billion</td><td class="p-3 text-right">2030</td><td class="p-3 text-right">$42.99 Billion</td><td class="p-3 text-right">12.9% (2025-2030)</td></tr>
+                                        <tr><td class="p-3">Straits Research</td><td class="p-3 text-right">$51.14 Billion</td><td class="p-3 text-right">$57.65 Billion</td><td class="p-3 text-right">2033</td><td class="p-3 text-right">$150.36 Billion</td><td class="p-3 text-right">12.73% (2025-2033)</td></tr>
+                                        <tr><td class="p-3">Market.us</td><td class="p-3 text-right">$13.05 Billion (2023)</td><td class="p-3 text-right">-</td><td class="p-3 text-right">2033</td><td class="p-3 text-right">$35.45 Billion</td><td class="p-3 text-right">10.51% (2024-2033)</td></tr>
+                                        <tr><td class="p-3">Precedence Research (AI Trading Platforms)¹</td><td class="p-3 text-right">$11.26 Billion</td><td class="p-3 text-right">$13.52 Billion</td><td class="p-3 text-right">2034</td><td class="p-3 text-right">$69.95 Billion</td><td class="p-3 text-right">20.04% (2025-2034)</td></tr>
+                                        <tr><td class="p-3">Fortune Business Insights</td><td class="p-3 text-right">$2.36 Billion</td><td class="p-3 text-right">$2.53 Billion</td><td class="p-3 text-right">2032</td><td class="p-3 text-right">$4.06 Billion</td><td class="p-3 text-right">7.0% (2025-2032)</td></tr>
+                                        <tr><td class="p-3">Coherent Market Insights</td><td class="p-3 text-right">-</td><td class="p-3 text-right">$3.28 Billion</td><td class="p-3 text-right">2032</td><td class="p-3 text-right">$6.05 Billion</td><td class="p-3 text-right">9.1% (2025-2032)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                             <p class="text-xs text-stone-500 mt-4">¹This report focuses specifically on the "AI Trading Platform" market, a segment of the broader algorithmic trading industry.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section: How Quantix Marketplace Works -->
+                <section id="how-it-works" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">How Quantix Marketplace Trading Works</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-lg mb-2 text-center text-teal-600">Method 1: Via Exchange Marketplace</h3>
+                            <p class="text-sm text-stone-600">Find Quantix bots directly on the exchange without any direct connection to Quantix, and share profits based on the exchange’s copy‑trading rules.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-lg mb-2 text-center text-teal-600">Method 2: Direct Connection to Quantix</h3>
+                            <p class="text-sm text-stone-600">Connect directly to Quantix using an API/secret key or the exchange’s Fast Connect option (without any withdrawal permission) and run the bots. In this method, the user must pay a monthly bot execution fee and share profits with Quantix.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section: Supported Exchanges -->
+                <section id="supported-exchanges" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Supported Exchanges & Brokers</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-4">Cryptocurrency Exchanges</h3>
+                            <p class="text-sm text-stone-600 mb-4">Initial support for key exchanges selected for high volume, deep liquidity, and robust copy-trading infrastructure.</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm text-stone-700">
+                                <ul class="space-y-2">
+                                    <li>✓ Binance</li>
+                                    <li>✓ Bybit</li>
+                                    <li>✓ OKX</li>
+                                    <li>✓ Bitget</li>
+                                    <li>✓ BingX</li>
+                                    <li>✓ Pionex</li>
+                                </ul>
+                                 <ul class="space-y-2">
+                                    <li>✓ KuCoin</li>
+                                    <li>✓ MEXC</li>
+                                    <li>✓ HTX (Huobi)</li>
+                                    <li>✓ CoinEx</li>
+                                    <li>✓ Gate.io</li>
+                                    <li>✓ Kraken</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-4">Forex Brokers</h3>
+                            <p class="text-sm text-stone-600 mb-4">Integration with any broker supporting the industry-standard MT4 and MT5 platforms, with a focus on these leading 20 brokers.</p>
+                             <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-stone-700">
+                                <ul class="space-y-2">
+                                    <li>✓ Pepperstone</li>
+                                    <li>✓ IC Markets</li>
+                                    <li>✓ XM</li>
+                                    <li>✓ Exness</li>
+                                    <li>✓ AvaTrade</li>
+                                    <li>✓ HotForex (HFM)</li>
+                                    <li>✓ FBS</li>
+                                    <li>✓ FxPro</li>
+                                    <li>✓ OANDA</li>
+                                    <li>✓ Forex.com</li>
+                                </ul>
+                                 <ul class="space-y-2">
+                                    <li>✓ XTB</li>
+                                    <li>✓ RoboForex</li>
+                                    <li>✓ Tickmill</li>
+                                    <li>✓ Admirals</li>
+                                    <li>✓ OctaFX</li>
+                                    <li>✓ InstaForex</li>
+                                    <li>✓ HYCM</li>
+                                    <li>✓ Equiti</li>
+                                    <li>✓ FXTM</li>
+                                    <li>✓ Alpari</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Financials -->
+                <section id="financials" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Financial Projections</h2>
+                    <div class="space-y-12">
+                         <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-4">5-Year Financial Plan</h3>
+                            <div class="table-container">
+                                <table class="w-full text-left text-sm summary-table" id="financial-summary-table">
+                                    <!-- JS will populate this -->
+                                </table>
+                            </div>
+                        </div>
+                         <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-4">Key Performance Indicators (KPIs)</h3>
+                            <div class="table-container">
+                                <table class="w-full text-left text-sm" id="kpi-summary-table">
+                                    <!-- JS will populate this -->
+                                </table>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-8">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-xl font-bold mb-4 text-center">Revenue by Business Unit</h3>
+                                <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-xl font-bold mb-4 text-center">Quarterly Cash Flow & Milestones</h3>
+                                <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Team & Budget -->
+                <section id="team-budget" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Team Growth & Budget</h2>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-4">Refactored 5-Year Operating Expenses</h3>
+                        <div class="table-container">
+                             <table class="w-full text-left text-sm" id="opex-summary-table">
+                                <!-- JS will populate this -->
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Team -->
+                <section id="team" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Quantix Team</h2>
+                    <!-- NOTE: Team images may not display correctly if viewed locally due to Google Drive's security policies. For production, host these images on a proper web server or image hosting service. -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1cn-PyJ72bHT8MSueR_RrhU8Bwu6v29g1" alt="Vahid Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Vahid Shahpari Fard</h3>
+                            <p class="text-sm text-stone-500">CEO & COO</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1BhlD7zIsypyM5vgcup9LeliAuT88_LKS" alt="Roger Goudarzi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Roger Goudarzi</h3>
+                            <p class="text-sm text-stone-500">CTO & Investor</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1oCx8LUBMp8_xdg7fxheXUwa_ycsq9jbL" alt="Ahmadreza Rasekhi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Ahmadreza Rasekhi</h3>
+                            <p class="text-sm text-stone-500">VP of Engineering</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=12SZ1ksGFrsMqgP-f-8gMlLihImvpodCC" alt="Mohammad Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Mohammad Shahpari Fard</h3>
+                            <p class="text-sm text-stone-500">Senior Developer Director</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1benBwwALcRS4vWRIgU-9BT_ve4Y1Px3r" alt="Javad Abazari" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Javad Abazari</h3>
+                            <p class="text-sm text-stone-500">Head of R&D</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1qZyjUwFplI4T1lH237kJNc7A-NGROAm9" alt="Pouria Madandar" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Pouria Madandar</h3>
+                            <p class="text-sm text-stone-500">Head of UI</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1pfUVvp3lBoRXAwh-4GTkeGxSqU7tjmVq" alt="Fatemeh Rasekhi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Fatemeh Rasekhi</h3>
+                            <p class="text-sm text-stone-500">Full Stack Developer</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=18TAFyQmFETGtQt-c4IYVwR4PcfYeJdMd" alt="Amir Ali Omidvar" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Amir Ali Omidvar</h3>
+                            <p class="text-sm text-stone-500">Full Stack Developer</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1J7HOQI7SDGZ6DMI-d6LuePUaPvSID-Gu" alt="Mohammad Rahimpour" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Mohammad Rahimpour</h3>
+                            <p class="text-sm text-stone-500">Head of AI</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1CxblnaoHQEEzwrfX5q8opPV42zcnRmXx" alt="Maryam Zarisfi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Maryam Zarisfi</h3>
+                            <p class="text-sm text-stone-500">Head of Analysis & Bot Factory</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://drive.google.com/uc?id=1enVMknMEWt1FQK_e3flEruBP3p-4Eyw5" alt="Navid Mirpourian" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
+                            <h3 class="font-bold">Navid Mirpourian</h3>
+                            <p class="text-sm text-stone-500">Analyst & Trading Advisor</p>
+                        </div>
+                    </div>
+                </section>
+
+                 <!-- Section: Competition -->
+                <section id="competition" class="scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-8">Validated Competitive Landscape</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-md space-y-8">
+                        <p class="text-stone-600 text-center max-w-4xl mx-auto">Here are the regenerated competitive landscape tables from the previous analysis, which correct and add nuance to the information presented in the pitch deck.</p>
+                        
+                        <div class="flex justify-center border-b border-stone-200">
+                            <button class="tab-btn active flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition" data-tab="crypto-comp">Crypto Competitors</button>
+                            <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600" data-tab="forex-comp">Forex Competitors</button>
+                        </div>
+
+                        <div id="crypto-comp-table" class="table-container">
+                             <table class="w-full text-left text-sm">
+                                <thead class="bg-stone-50">
+                                    <tr>
+                                        <th class="p-3 font-semibold">Feature</th>
+                                        <th class="p-3 font-semibold text-teal-600">Quantix (Proposed)</th>
+                                        <th class="p-3 font-semibold">3Commas</th>
+                                        <th class="p-3 font-semibold">Bitsgap</th>
+                                        <th class="p-3 font-semibold">Cryptohopper</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-200">
+                                    <tr><td class="p-3 font-semibold">Primary Business Model</td><td class="p-3 font-bold text-teal-700">B2C & B2B</td><td class="p-3">B2C Subscription</td><td class="p-3">B2C Subscription</td><td class="p-3">B2C Subscription</td></tr>
+                                    <tr><td class="p-3 font-semibold">Key Products</td><td class="p-3 font-bold text-teal-700">AI Marketplace, IQ, Pro</td><td class="p-3">Bots, Smart Terminal, Portfolio Manager</td><td class="p-3">Bots, Arbitrage, Trading Terminal</td><td class="p-3">Bots, Marketplace, Signals, Social Trading</td></tr>
+                                    <tr><td class="p-3 font-semibold">Target Markets</td><td class="p-3 font-bold text-teal-700">Retail & Institutional</td><td class="p-3">Retail & Pro-sumer</td><td class="p-3">Retail & Pro-sumer</td><td class="p-3">Beginner, Casual, & Algorithmic Traders</td></tr>
+                                    <tr><td class="p-3 font-semibold">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700">Yes (Generative)</td><td class="p-3">Yes (Predictive & Optimizing)¹</td><td class="p-3">Yes (Assistive & Analytical)²</td><td class="p-3">Yes (Learning & Selective)³</td></tr>
+                                    <tr><td class="p-3 font-semibold">Est. Active Users</td><td class="p-3">Pre-launch</td><td class="p-3">~220,000+</td><td class="p-3">~600,000+</td><td class="p-3">~1,000,000+</td></tr>
+                                    <tr><td class="p-3 font-semibold">Est. Annual Revenue</td><td class="p-3">Pre-launch</td><td class="p-3">~$20-30M</td><td class="p-3">~$8.4M</td><td class="p-3">~$15-25M</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="text-xs text-stone-500 mt-4 space-y-1">
+                                <p>¹3Commas uses AI/ML for predictive analytics, portfolio optimization, and automated trading bots.</p>
+                                <p>²Bitsgap uses an "AI Assistant" to analyze data and recommend bot strategies to users.</p>
+                                <p>³Cryptohopper's "Algorithm Intelligence" learns from user-fed strategies to select the optimal one for current market conditions.</p>
+                            </div>
+                        </div>
+
+                        <div id="forex-comp-table" class="table-container hidden">
+                             <table class="w-full text-left text-sm">
+                                <thead class="bg-stone-50">
+                                    <tr>
+                                        <th class="p-3 font-semibold">Feature</th>
+                                        <th class="p-3 font-semibold text-teal-600">Quantix (Proposed)</th>
+                                        <th class="p-3 font-semibold">MT Marketplace</th>
+                                        <th class="p-3 font-semibold">ZuluTrade</th>
+                                        <th class="p-3 font-semibold">Strategy Quant</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-200">
+                                    <tr><td class="p-3 font-semibold">Primary Business Model</td><td class="p-3 font-bold text-teal-700">B2C & B2B</td><td class="p-3">B2C Asset Sales</td><td class="p-3">Copy Trading (Commission/Broker-paid)</td><td class="p-3">B2C Software License</td></tr>
+                                    <tr><td class="p-3 font-semibold">Key Products</td><td class="p-3 font-bold text-teal-700">AI Marketplace, IQ, Pro</td><td class="p-3">EA & Indicator Marketplace</td><td class="p-3">Copy Trading Platform, Social Network</td><td class="p-3">Strategy Builder Software</td></tr>
+                                    <tr><td class="p-3 font-semibold">Target Markets</td><td class="p-3 font-bold text-teal-700">Retail & Institutional</td><td class="p-3">Retail Traders (MT4/5)</td><td class="p-3">Retail Traders</td><td class="p-3">Pro-sumers & Quants</td></tr>
+                                    <tr><td class="p-3 font-semibold">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700">Yes (Generative)</td><td class="p-3">Yes (via 3rd-Party EAs)⁴</td><td class="p-3">Yes (via 3rd-Party Leaders)⁵</td><td class="p-3">Yes (Genetic Programming)⁶</td></tr>
+                                    <tr><td class="p-3 font-semibold">Est. Active Users</td><td class="p-3">Pre-launch</td><td class="p-3">~7,000,000+</td><td class="p-3">~1,000,000+</td><td class="p-3">N/A (Niche)</td></tr>
+                                    <tr><td class="p-3 font-semibold">Est. Annual Revenue</td><td class="p-3">Pre-launch</td><td class="p-3">N/A (Commission)</td><td class="p-3">N/A (Volume-based)</td><td class="p-3">N/A (License-based)</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="text-xs text-stone-500 mt-4 space-y-1">
+                               <p>⁴The platform hosts thousands of Expert Advisors (EAs) marketed with AI, Neural Network, and ML capabilities.</p>
+                               <p>⁵The platform allows users to copy "Leaders" who explicitly offer AI- and ML-driven trading strategies.</p>
+                               <p>⁶Uses evolutionary algorithms, a subfield of AI, to automatically generate and optimize trading strategies from building blocks.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- GLOBAL VARIABLES & CONFIGURATION ---
+            const charts = {}; // Object to store Chart.js instances
+            const START_YEAR = 2025; // Starting year for financial projections
+
+            // --- UTILITY FUNCTIONS ---
+            /**
+             * Formats a number as a currency string (e.g., $1,234,567 or $1.2M).
+             * @param {number} value - The number to format.
+             * @param {boolean} compact - Whether to use compact notation (e.g., M for million).
+             * @returns {string} The formatted currency string.
+             */
+            const formatCurrency = (value, compact = false) => {
+                if (value === 'N/A' || typeof value !== 'number') return 'N/A';
+                const sign = value < 0 ? '-' : '';
+                const absValue = Math.abs(value);
+                if (compact) {
+                    if (absValue >= 1e6) return `${sign}${(absValue / 1e6).toFixed(1)}M`;
+                    if (absValue >= 1e3) return `${sign}${(absValue / 1e3).toFixed(0)}K`;
+                    return `${sign}$${Math.round(absValue)}`;
+                }
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+            };
+
+            /**
+             * Formats a number with commas as thousands separators.
+             * @param {number} value - The number to format.
+             * @returns {string} The formatted number string.
+             */
+            const formatNumber = (value) => {
+                if (typeof value !== 'number') return '0';
+                return Math.round(value).toLocaleString('en-US');
+            };
+
+            // --- DEFAULTS FROM GTM DASHBOARD V16 ---
+            // These objects hold the default parameters for all financial models.
+            const GTM_DEFAULTS_CRYPTO = { market: 'crypto', aumPerUser: 2000, monthlyReturn: 0.03, growthModelType: 's-curve', linearNewCopiersPerPartner: 330, customParams: { growthModel: { 1: { growth: 0.60, churn: 0.04 }, 2: { growth: 0.25, churn: 0.03 }, 3: { growth: 0.12, churn: 0.02 }, 4: { growth: 0.07, churn: 0.02 }, 5: { growth: 0.07, churn: 0.02 } } } };
+            const GTM_DEFAULTS_FOREX = { market: 'forex', aumPerUser: 1500, monthlyReturn: 0.03, growthModelType: 's-curve', linearNewCopiersPerPartner: 200, customParams: { growthModel: { 1: { growth: 0.00, churn: 0.00 }, 2: { growth: 0.60, churn: 0.04 }, 3: { growth: 0.25, churn: 0.03 }, 4: { growth: 0.12, churn: 0.02 }, 5: { growth: 0.07, churn: 0.02 } } } };
+            const IQ_DEFAULTS = { startMonth: 6, costPerFreeTrial: 15, planUptake: { annual: 0.7, monthly: 0.3 }, paidUserDist: { basic: 0.6, pro: 0.3, elite: 0.1 }, newFreeTrialsPerMonth: { 1: 700, 2: 2500, 3: 4500 }, convRate: { 1: 0.10, 2: 0.15, 3: 0.20 }, annualPaidChurn: { 1: 0.35, 2: 0.25, 3: 0.15 } };
+            const PRO_DEFAULTS = { annualChurnRate: 0.05, pricing: { pro: {nre: 0, license: 10000 }, enterprise: { nre: 250000, license: 120000 } }, newDealsPerYear: { pro: [2, 4, 8, 10, 12], enterprise: [1, 2, 3, 4, 5] }, affiliateParams: { adoptionRate: 0.40, avgCopiersPerAffiliate: 150, avgAumPerCopier: 1500, monthlyBotReturn: 0.03, quantixProfitShare: 0.30 }, serverCosts: { pro: 202.40, enterprise: 202.40 } };
+            const PEOPLE_DEFAULTS = { 
+                benefitsAndTaxRate: 0.25, guaranteedSalesBonus: 2500, itPerFTE: 250, commsPerFTE: 2000,
+                travelBudget: { cLevel: 10000, director: 3000, standard: 1500 },
+                recruitingFeeTiers: { cLevel: 0.35, director: 0.30, standard: 0.25 },
+                employees: [
+                    { role: 'CEO', baseSalary: 360000, doh: 1, type: 'cLevel', adjustments:[-0.65,-0.50,-0.40,0.00,0.00] },
+                    { role: 'CFO', baseSalary: 250000, doh: 1, type: 'cLevel', adjustments:[-0.95,-0.90,-0.75,-0.25,0.00] },
+                    { role: 'COO', baseSalary: 225000, doh: 1, type: 'cLevel', adjustments:[-0.72,-0.60,-0.50,-0.25,0.00] },
+                    { role: 'C Inv. O', baseSalary: 225000, doh: 13, type: 'cLevel', adjustments:[-1.00,-1.00,-0.50,-0.25,0.00] },
+                    { role: 'CTO', baseSalary: 250000, doh: 1, type: 'cLevel', adjustments:[-0.45,-0.35,0.00,0.00,1.00] },
+                    { role: 'C Comp. O', baseSalary: 225000, doh: 1, type: 'cLevel', adjustments:[-0.75,-0.60,0.00,0.00,1.00] },
+                    { role: 'VP of Engineering', baseSalary: 175000, doh: 1, type: 'director', adjustments:[-0.75,-0.65,-0.50,0.00,1.00] },
+                    { role: 'Director of Engineering', baseSalary: 145000, doh: 1, type: 'director', adjustments:[-0.75,-0.65,-0.50,0.00,1.00] },
+                    { role: 'VP Customer Success', baseSalary: 225000, doh: 25, type: 'director', adjustments:[-1.00,-1.00,-0.50,-0.30,0.00] },
+                    { role: 'VP of Sales', baseSalary: 175000, doh: 1, type: 'director', adjustments:[-0.65,-0.60,-0.43,-0.40,-0.55], recruitingInstallments: true },
+                    { role: 'Full Stack Engineer', baseSalary: 80000, doh: 1, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 1, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 1, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 13, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 13, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 25, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 25, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 25, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 37, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 37, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 37, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 37, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 49, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 49, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] }, { role: 'Full Stack Engineer', baseSalary: 80000, doh: 49, type: 'standard', adjustments:[-0.75,-0.65,-0.60,0.00,1.00] },
+                    { role: 'R&D', baseSalary: 150000, doh: 1, type: 'standard', adjustments:[-0.65,-0.55,0.00,0.00,0.20] }, { role: 'R&D', baseSalary: 150000, doh: 13, type: 'standard', adjustments:[-0.65,-0.55,0.00,0.00,0.20] }, { role: 'R&D', baseSalary: 150000, doh: 13, type: 'standard', adjustments:[-0.65,-0.55,0.00,0.00,0.20] }, { role: 'R&D', baseSalary: 150000, doh: 25, type: 'standard', adjustments:[-0.65,-0.55,0.00,0.00,0.20] }, { role: 'R&D', baseSalary: 150000, doh: 37, type: 'standard', adjustments:[-0.65,-0.55,0.00,0.00,0.20] }, { role: 'R&D', baseSalary: 150000, doh: 37, type: 'standard', adjustments:[-0.65,-0.55,0.00,0.00,0.20] },
+                    { role: 'Analyst', baseSalary: 40000, doh: 1, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 13, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 25, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 25, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 37, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 37, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 49, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] }, { role: 'Analyst', baseSalary: 40000, doh: 49, type: 'standard', adjustments:[-0.80,-0.75,0.00,0.00,1.00] },
+                    { role: 'Software Test Engineer', baseSalary: 35000, doh: 1, type: 'standard', adjustments:[-0.75,-0.75,0.00,0.00,1.00] }, { role: 'Software Test Engineer', baseSalary: 35000, doh: 13, type: 'standard', adjustments:[-0.75,-0.75,0.00,0.00,1.00] }, { role: 'Software Test Engineer', baseSalary: 35000, doh: 25, type: 'standard', adjustments:[-0.75,-0.75,0.00,0.00,1.00] }, { role: 'Software Test Engineer', baseSalary: 35000, doh: 25, type: 'standard', adjustments:[-0.75,-0.75,0.00,0.00,1.00] }, { role: 'Software Test Engineer', baseSalary: 35000, doh: 37, type: 'standard', adjustments:[-0.75,-0.75,0.00,0.00,1.00] }, { role: 'Software Test Engineer', baseSalary: 35000, doh: 37, type: 'standard', adjustments:[-0.75,-0.75,0.00,0.00,1.00] },
+                    { role: 'Support', baseSalary: 25000, doh: 1, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 1, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 13, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 25, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 25, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 37, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 37, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 49, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 49, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] }, { role: 'Support', baseSalary: 25000, doh: 49, type: 'standard', adjustments:[-0.45,-0.45,0.00,0.00,1.00] },
+                    { role: 'Sales', baseSalary: 135000, doh: 13, type: 'sales', adjustments:[-1.00,-0.60,0.00,0.00,0.00] }, { role: 'Sales', baseSalary: 135000, doh: 13, type: 'sales', adjustments:[-1.00,-0.60,0.00,0.00,0.00] }, { role: 'Sales', baseSalary: 135000, doh: 13, type: 'sales', adjustments:[-1.00,-0.60,0.00,0.00,0.00] }, { role: 'Sales', baseSalary: 135000, doh: 49, type: 'sales', adjustments:[-1.00,-0.60,0.00,0.00,0.00] }, { role: 'Sales', baseSalary: 135000, doh: 49, type: 'sales', adjustments:[-1.00,-0.60,0.00,0.00,0.00] },
+                ],
+            };
+            
+            // Data for the product tabs in "The Solution" section
+            const productData = {
+                marketplace: {
+                    title: "Quantix Marketplace",
+                    description: "Our entry-point B2C product providing fully automated, institutional-grade trading strategies. Users can easily deploy our top-performing bots on their preferred exchanges via copy trading, enabling hands-off portfolio growth.",
+                    model: "10%–30% profit‑sharing fee managed and processed by the exchange."
+                },
+                iq: {
+                    title: "Quantix IQ",
+                    description: "A freemium SaaS platform that is a 'one-touch AI strategy designer.' IQ allows users to build, backtest, and deploy custom trading bots without writing a single line of code. Subscriptions are based on the number of bots a user runs, with a one-month free trial for all users.",
+                    model: "Recurring revenue through tiered monthly and annual subscriptions (Basic, Pro, Elite)."
+                },
+                pro: {
+                    title: "Quantix Pro",
+                    description: "Our flagship B2B product. A comprehensive, no-code, web-based platform for designing, training, and running proprietary AI-powered trading strategies at scale. Aimed at hedge funds, family offices, and financial institutions.",
+                    model: "High-value revenue from annual licenses, affiliate profit sharing, model design, and Non-Recurring Engineering (NRE) costs for deep systems integration."
+                }
+            };
+            
+            // --- DETAILED FINANCIAL CALCULATION MODELS ---
+            // Each function calculates the monthly revenue and costs for a specific business unit.
+            function calculateGTMModel(inputs) {
+                const { market, aumPerUser, monthlyReturn, growthModelType, customParams, linearNewCopiersPerPartner } = inputs;
+                const isCrypto = market === 'crypto';
+                const profitShare = 0.12; const botsPerPartner = 40;
+                const partnerCount = isCrypto ? 15 : 20; const totalBotInvestment = partnerCount * botsPerPartner * 1000;
+                const growthModel = customParams.growthModel;
+                const marketingCosts = isCrypto ? {1:150000,2:150000,3:150000,4:150000,5:150000} : {1:0,2:150000,3:150000,4:150000,5:150000};
+                
+                let partners = []; const rolloutStartYear = isCrypto ? 1 : 2; const partnersPerQuarter = Math.ceil(partnerCount / 4);
+                for (let q = 0; q < 4; q++) { const startMonth = (rolloutStartYear - 1) * 12 + (q * 3) + 1; for (let i = 0; i < partnersPerQuarter; i++) { if (partners.length < partnerCount) partners.push({ startMonth }); } }
+                
+                let monthlyResults = []; let totalCopiers = 0; const copierStartMonth = isCrypto ? 4 : 16;
+                for (let m = 1; m <= 60; m++) {
+                    const maturePartners = partners.filter(p => p.startMonth + 3 <= m).length;
+                    const companyYear = Math.ceil(m/12);
+                    const yearGrowth = growthModel[companyYear] || { growth: 0, churn: 0 };
+                    if (m >= copierStartMonth) {
+                        if (m === copierStartMonth) { totalCopiers = 50; } else {
+                            const prevCopiers = totalCopiers;
+                            const churned = prevCopiers * yearGrowth.churn;
+                            let gained = 0;
+                            if (growthModelType === 'linear') { gained = maturePartners * linearNewCopiersPerPartner; } 
+                            else { gained = prevCopiers * yearGrowth.growth; }
+                            totalCopiers = prevCopiers - churned + gained;
+                        }
+                    }
+                    const activePartners = partners.filter(p => p.startMonth <= m).length; const totalBots = activePartners * botsPerPartner;
+                    const revenueCopiers = totalBots > 0 ? (totalCopiers * ((maturePartners * botsPerPartner) / totalBots)) : 0;
+                    const monthlyGrossRevenue = revenueCopiers * aumPerUser * monthlyReturn * profitShare;
+                    let monthlyTotalCost = (marketingCosts[companyYear] || 0) / 12; if (companyYear === rolloutStartYear) monthlyTotalCost += totalBotInvestment / 12;
+                    monthlyResults.push({ month: m, revenue: monthlyGrossRevenue, cost: monthlyTotalCost });
+                }
+                return { monthly: monthlyResults };
+            }
+
+            function calculateIQModel(params) {
+                const monthlyResults = []; let activeFreeUsers = 0, freeUsersFromLastMonth = 0;
+                const paidUsers = { basic: 0, pro: 0, elite: 0 }, monthlySubscribers = { basic: 0, pro: 0, elite: 0 };
+                const planDetails = { basic: { monthly: 42, annual: 360 }, pro: { monthly: 70, annual: 600 }, elite: { monthly: 210, annual: 1800 } };
+                for (let m = 1; m <= 60; m++) {
+                    if (m < params.startMonth) { monthlyResults.push({ month: m, revenue: 0, cost: 0 }); continue; }
+                    const year = Math.ceil(m / 12); const yearKey = year <= 2 ? year : 3;
+                    const monthlyPaidChurn = 1 - Math.pow(1 - params.annualPaidChurn[yearKey], 1/12);
+                    for(const plan in paidUsers) paidUsers[plan] *= (1 - monthlyPaidChurn); for(const plan in monthlySubscribers) monthlySubscribers[plan] *= (1 - monthlyPaidChurn);
+                    const conversions = freeUsersFromLastMonth * params.convRate[yearKey];
+                    for(const plan in params.paidUserDist){ const newSubs = conversions * params.paidUserDist[plan]; paidUsers[plan] += newSubs; monthlySubscribers[plan] += newSubs * params.planUptake.monthly; }
+                    const newFreeTrials = params.newFreeTrialsPerMonth[yearKey]; activeFreeUsers += newFreeTrials - freeUsersFromLastMonth; freeUsersFromLastMonth = newFreeTrials;
+                    const recurringRevenue = Object.keys(planDetails).reduce((sum, plan) => sum + (monthlySubscribers[plan] * planDetails[plan].monthly), 0);
+                    const newAnnualRevenue = Object.keys(planDetails).reduce((sum, plan) => sum + (conversions * params.paidUserDist[plan] * params.planUptake.annual * planDetails[plan].annual), 0);
+                    monthlyResults.push({ month: m, revenue: recurringRevenue + newAnnualRevenue, cost: newFreeTrials * params.costPerFreeTrial });
+                }
+                return { monthly: monthlyResults };
+            }
+            
+            function calculateProModel(params) {
+                const { pricing, newDealsPerYear, affiliateParams, annualChurnRate, serverCosts } = params;
+                let activePro = [], activeEnterprise = []; const monthlyResults = [];
+                for (let m = 1; m <= 60; m++) {
+                    const yearIndex = Math.floor((m - 1) / 12);
+                    let licenseRevenue = 0;
+                    if (m > 12 && (m-1) % 12 === 0) { activePro = activePro.filter(() => Math.random() > annualChurnRate); activeEnterprise = activeEnterprise.filter(() => Math.random() > annualChurnRate); }
+                    activePro.forEach(c => { if ((m - c.startMonth) > 0 && (m - c.startMonth) % 12 === 0) licenseRevenue += pricing.pro.license; });
+                    activeEnterprise.forEach(c => { if ((m - c.startMonth) > 0 && (m - c.startMonth) % 12 === 0) licenseRevenue += pricing.enterprise.license; });
+                    const proDealsThisYear = newDealsPerYear.pro[yearIndex];
+                    if (proDealsThisYear > 0 && activePro.filter(c=>Math.ceil(c.startMonth/12)-1===yearIndex).length < proDealsThisYear && m>0 && (12/proDealsThisYear>0) && m % Math.floor(12/proDealsThisYear) === 0) { activePro.push({startMonth:m}); licenseRevenue+=pricing.pro.nre+pricing.pro.license; }
+                    const entDealsThisYear = newDealsPerYear.enterprise[yearIndex];
+                    if (entDealsThisYear > 0 && activeEnterprise.filter(c=>Math.ceil(c.startMonth/12)-1===yearIndex).length < entDealsThisYear && m>0 && (12/entDealsThisYear>0) && m % Math.floor(12/entDealsThisYear) === 0) { activeEnterprise.push({startMonth:m}); licenseRevenue+=pricing.enterprise.nre+pricing.enterprise.license; }
+                    const affiliateRevenue = activePro.length * affiliateParams.adoptionRate * affiliateParams.avgCopiersPerAffiliate * affiliateParams.avgAumPerCopier * affiliateParams.monthlyBotReturn * affiliateParams.quantixProfitShare;
+                    const affiliateBotServerCost = (activePro.length * affiliateParams.adoptionRate * 40 / 90) * 110;
+                    const monthlyServerCost = (activePro.length * serverCosts.pro) + (activeEnterprise.length * serverCosts.enterprise) + affiliateBotServerCost;
+                    monthlyResults.push({ m, revenue: licenseRevenue + affiliateRevenue, cost: monthlyServerCost });
+                }
+                return { monthly: monthlyResults };
+            }
+
+            const calculatePeopleAndBudgetModel = (params) => {
+                const monthlyData = Array.from({ length: 60 }, (_, i) => ({ month: i + 1, payroll: 0, benefitsTaxes: 0, recruitingFees: 0, salesBonuses: 0, travel: 0, it: 0, comms: 0, totalOpEx: 0, activeFTE: 0 }));
+                params.employees.forEach(emp => {
+                    if (emp.doh > 1) {
+                        const isSalesOrCLevel = emp.type === 'cLevel' || emp.type === 'sales' || emp.role === 'VP of Sales';
+                        if (isSalesOrCLevel) {
+                            let feePercentage = emp.type === 'cLevel' ? params.recruitingFeeTiers.cLevel : (emp.type === 'director' ? params.recruitingFeeTiers.director : params.recruitingFeeTiers.standard);
+                            const recruitingFee = emp.baseSalary * feePercentage;
+                            if (emp.recruitingInstallments) {
+                                if (emp.doh > 2) monthlyData[emp.doh - 3].recruitingFees += recruitingFee * 0.30;
+                                if (emp.doh > 1) monthlyData[emp.doh - 2].recruitingFees += recruitingFee * 0.30;
+                                monthlyData[emp.doh - 1].recruitingFees += recruitingFee * 0.40;
+                            } else {
+                                monthlyData[emp.doh - 1].recruitingFees += recruitingFee;
+                            }
+                        }
+                    }
+                    for (let m = emp.doh - 1; m < 60; m++) {
+                        const yearIndexForLoop = Math.floor(m / 12);
+                        const loopAdjustedSalary = emp.baseSalary * (1 + emp.adjustments[yearIndexForLoop]);
+                        monthlyData[m].activeFTE++;
+                        monthlyData[m].payroll += loopAdjustedSalary / 12;
+                        if (emp.role === 'Sales' && m < emp.doh - 1 + 6) monthlyData[m].salesBonuses += params.guaranteedSalesBonus;
+                        if (emp.type === 'cLevel') monthlyData[m].travel += params.travelBudget.cLevel / 12;
+                        else if (emp.type === 'director') monthlyData[m].travel += params.travelBudget.director / 12;
+                        else monthlyData[m].travel += params.travelBudget.standard / 12;
+                    }
+                });
+                monthlyData.forEach(month => {
+                    month.benefitsTaxes = month.payroll * params.benefitsAndTaxRate;
+                    month.it = month.activeFTE * (params.itPerFTE / 12);
+                    month.comms = month.activeFTE * (params.commsPerFTE / 12);
+                    month.totalOpEx = month.payroll + month.benefitsTaxes + month.recruitingFees + month.salesBonuses + month.travel + month.it + month.comms;
+                });
+                const yearlyTotals = { totalOpEx: [], fte: [] };
+                for (let y = 0; y < 5; y++) {
+                    const yearData = monthlyData.slice(y * 12, (y + 1) * 12);
+                    yearlyTotals.totalOpEx.push(yearData.reduce((sum, m) => sum + m.totalOpEx, 0));
+                    yearlyTotals.fte.push(yearData[11].activeFTE);
+                }
+                return { monthlyData, yearlyTotals };
+            };
+            
+            /**
+             * Runs all financial models and aggregates the results into a single object.
+             * @returns {object} An object containing yearly summaries, monthly data, and KPIs.
+             */
+            const runAllCalculations = () => {
+                const gtmCryptoData = calculateGTMModel(GTM_DEFAULTS_CRYPTO); 
+                const gtmForexData = calculateGTMModel(GTM_DEFAULTS_FOREX);
+                const iqData = calculateIQModel(IQ_DEFAULTS);
+                const proData = calculateProModel(PRO_DEFAULTS);
+                const peopleData = calculatePeopleAndBudgetModel(PEOPLE_DEFAULTS);
+                
+                const yearlySummary = {
+                    gtmRevenue: [], gtmCosts: [], iqRevenue: [], iqCosts: [], proRevenue: [], proCosts: [],
+                    totalRevenue: [], totalDirectCosts: [], grossProfit: [], opex: [], netIncome: []
+                };
+
+                for (let y = 0; y < 5; y++) {
+                    const yearStart = y * 12;
+                    const yearEnd = yearStart + 12;
+                    
+                    const gtmRev = gtmCryptoData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.revenue, 0) + gtmForexData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.revenue, 0);
+                    const gtmCost = gtmCryptoData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.cost, 0) + gtmForexData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.cost, 0);
+                    const iqRev = iqData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.revenue, 0);
+                    const iqCost = iqData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.cost, 0);
+                    const proRev = proData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.revenue, 0);
+                    const proCost = proData.monthly.slice(yearStart, yearEnd).reduce((s, m) => s + m.cost, 0);
+
+                    yearlySummary.gtmRevenue.push(gtmRev);
+                    yearlySummary.gtmCosts.push(gtmCost);
+                    yearlySummary.iqRevenue.push(iqRev);
+                    yearlySummary.iqCosts.push(iqCost);
+                    yearlySummary.proRevenue.push(proRev);
+                    yearlySummary.proCosts.push(proCost);
+
+                    const totalRev = gtmRev + iqRev + proRev;
+                    const totalCost = gtmCost + iqCost + proCost;
+                    const gp = totalRev - totalCost;
+                    const opEx = peopleData.yearlyTotals.totalOpEx[y];
+                    
+                    yearlySummary.totalRevenue.push(totalRev);
+                    yearlySummary.totalDirectCosts.push(totalCost);
+                    yearlySummary.grossProfit.push(gp);
+                    yearlySummary.opex.push(opEx);
+                    yearlySummary.netIncome.push(gp - opEx);
+                }
+
+                const monthlyNetIncome = Array.from({length: 60}, (_, i) => {
+                    const monthlyTotalRevenue = gtmCryptoData.monthly[i].revenue + gtmForexData.monthly[i].revenue + iqData.monthly[i].revenue + proData.monthly[i].revenue;
+                    const monthlyTotalDirectCost = gtmCryptoData.monthly[i].cost + gtmForexData.monthly[i].cost + iqData.monthly[i].cost + proData.monthly[i].cost;
+                    return monthlyTotalRevenue - monthlyTotalDirectCost - peopleData.monthlyData[i].totalOpEx;
+                });
+                
+                const quarterlyNetIncome = [];
+                for (let i = 0; i < 20; i++) {
+                    const quarterSum = monthlyNetIncome.slice(i * 3, (i + 1) * 3).reduce((a, b) => a + b, 0);
+                    quarterlyNetIncome.push(quarterSum);
+                }
+
+                return {
+                    years: Array.from({ length: 5 }, (_, i) => START_YEAR + i),
+                    yearlySummary,
+                    peopleData,
+                    quarterlyNetIncome,
+                    // Pass through some yearly data for KPI table
+                    iqDataYearly: { mrr: [4200, 63000, 210000, 504000, 966000], paidUsers: [100, 1500, 5000, 12000, 23000] },
+                    gtmDataYearly: { aum: [1000000, 15000000, 45000000, 90000000, 150000000], users: [300, 1500, 4500, 9000, 15000] },
+                    proDataYearly: { totalPro: [2, 6, 14, 24, 36], totalEnterprise: [1, 3, 6, 10, 15] },
+                };
+            };
+            
+            const allData = runAllCalculations();
+
+            // --- RENDER FUNCTIONS ---
+            // These functions take data and update the DOM.
+
+            /**
+             * Renders or updates a Chart.js chart.
+             * @param {string} chartId - The ID of the canvas element.
+             * @param {object} chartConfig - The configuration object for the chart.
+             */
+            const renderChart = (chartId, chartConfig) => {
+                const canvas = document.getElementById(chartId);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+
+                if (charts[chartId]) {
+                    charts[chartId].destroy();
+                }
+                charts[chartId] = new Chart(ctx, chartConfig);
+            };
+
+            const renderFinancialSummaryTable = () => {
+                const table = document.getElementById('financial-summary-table');
+                if (!table) return;
+                const summary = allData.yearlySummary;
+                let html = `<thead><tr><th class="p-3 font-semibold">Income Statement Summary</th>${allData.years.map(y => `<th class="p-3 font-semibold text-right">Y${y - START_YEAR + 1}</th>`).join('')}</tr></thead><tbody>`;
+                
+                const formatRow = (title, data, isSubItem = false, isCost = false) => {
+                    let cells = data.map(d => `<td class="p-3 text-right ${d < 0 ? 'loss' : ''}">${isCost ? '('+formatCurrency(Math.abs(d))+')' : formatCurrency(d)}</td>`).join('');
+                    return `<tr><td class="p-3 font-medium ${isSubItem ? 'sub-item' : ''}">${title}</td>${cells}</tr>`;
+                };
+
+                html += `<tr class="section-header"><td class="p-3" colspan="6">Revenue</td></tr>`;
+                html += formatRow('Marketplace', summary.gtmRevenue, true);
+                html += formatRow('Quantix IQ', summary.iqRevenue, true);
+                html += formatRow('Quantix Pro', summary.proRevenue, true);
+                html += `<tr class="total-row">${formatRow('Total Revenue', summary.totalRevenue)}</tr>`;
+
+                html += `<tr class="section-header"><td class="p-3" colspan="6">Direct Costs</td></tr>`;
+                html += formatRow('Marketplace', summary.gtmCosts, true, true);
+                html += formatRow('Quantix IQ', summary.iqCosts, true, true);
+                html += formatRow('Quantix Pro', summary.proCosts, true, true);
+                html += `<tr class="total-row">${formatRow('Total Direct Costs', summary.totalDirectCosts, false, true)}</tr>`;
+                
+                html += `<tr><td class="p-3 font-bold">Gross Profit</td>${summary.grossProfit.map(d => `<td class="p-3 text-right font-bold ${d < 0 ? 'loss' : 'profit'}">${formatCurrency(d)}</td>`).join('')}</tr>`;
+                html += `<tr class="section-header"><td class="p-3" colspan="6">Operating Expenses</td></tr>`;
+                html += formatRow('Total Operating Expenses', summary.opex, true, true);
+                html += `<tr class="total-row-final"><td class="p-3">Net Income (Loss)</td>${summary.netIncome.map(d => `<td class="p-3 text-right ${d < 0 ? 'loss' : 'profit'}">${formatCurrency(d)}</td>`).join('')}</tr>`;
+
+                table.innerHTML = html + '</tbody>';
+            };
+            
+            const renderKpiTable = () => {
+                const table = document.getElementById('kpi-summary-table');
+                if (!table) return;
+                let html = `<thead class="bg-stone-50"><tr>
+                    <th class="p-3 font-semibold">Metric (End of Year)</th>
+                    ${allData.years.map(y => `<th class="p-3 font-semibold text-right">Y${y - START_YEAR + 1}</th>`).join('')}
+                </tr></thead><tbody class="divide-y divide-stone-200">`;
+
+                const formatRow = (title, data, formatter = formatCurrency) => `<tr><td class="p-3">${title}</td>${data.map(d => `<td class="p-3 text-right">${formatter(d)}</td>`).join('')}</tr>`;
+                
+                html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6">Revenue Drivers</td></tr>`;
+                html += formatRow('Monthly Recurring Revenue (MRR)', allData.iqDataYearly.mrr);
+                html += formatRow('Revenue AUM', allData.gtmDataYearly.aum);
+                html += formatRow('Paid MAU (IQ)', allData.iqDataYearly.paidUsers, formatNumber);
+                html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6">Supporting Metrics</td></tr>`;
+                html += formatRow('# Marketplace Copiers', allData.gtmDataYearly.users, formatNumber);
+                html += formatRow('# Pro Contracts', allData.proDataYearly.totalPro.map((p,i) => p + allData.proDataYearly.totalEnterprise[i]), formatNumber);
+                html += formatRow('# FTE', allData.peopleData.yearlyTotals.fte, formatNumber);
+
+                table.innerHTML = html + '</tbody>';
+            };
+
+            const renderOpexSummaryTable = () => {
+                const table = document.getElementById('opex-summary-table');
+                if (!table) return;
+                const peopleData = allData.peopleData;
+                const opexData = {
+                    salaries: [], benefits: [], recruiting: [], bonuses: [], ga: []
+                };
+
+                for (let y = 0; y < 5; y++) {
+                    const yearData = peopleData.monthlyData.slice(y * 12, (y + 1) * 12);
+                    opexData.salaries.push(yearData.reduce((s, m) => s + m.payroll, 0));
+                    opexData.benefits.push(yearData.reduce((s, m) => s + m.benefitsTaxes, 0));
+                    opexData.recruiting.push(yearData.reduce((s, m) => s + m.recruitingFees, 0));
+                    opexData.bonuses.push(yearData.reduce((s, m) => s + m.salesBonuses, 0));
+                    opexData.ga.push(yearData.reduce((s, m) => s + m.travel + m.it + m.comms, 0));
+                }
+
+                let html = `<thead class="bg-stone-50"><tr>
+                    <th class="p-3 font-semibold">Cost Category</th>
+                    ${allData.years.map(y => `<th class="p-3 font-semibold text-right">Y${y - START_YEAR + 1}</th>`).join('')}
+                </tr></thead><tbody class="divide-y divide-stone-200">`;
+
+                const formatRow = (title, data) => `<tr><td class="p-3">${title}</td>${data.map(d => `<td class="p-3 text-right">${formatCurrency(d)}</td>`).join('')}</tr>`;
+                
+                html += formatRow('Total Salaries', opexData.salaries);
+                html += formatRow('Benefits & Taxes (25%)', opexData.benefits);
+                html += formatRow('Recruiting Fees', opexData.recruiting);
+                html += formatRow('Sales Bonuses', opexData.bonuses);
+                html += formatRow('General & Admin', opexData.ga);
+                html += `<tr class="font-bold bg-stone-50"><td class="p-3">Total Operating Expenses</td>${allData.yearlySummary.opex.map(d => `<td class="p-3 text-right">${formatCurrency(d)}</td>`).join('')}</tr>`;
+
+                table.innerHTML = html + '</tbody>';
+            };
+
+            const renderCharts = () => {
+                const chartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#78716C' } } },
+                    scales: {
+                        x: { ticks: { color: '#78716C' }, grid: { display: false } },
+                        y: { ticks: { color: '#78716C', callback: v => formatCurrency(v, true) }, grid: { color: '#E7E5E4' } }
+                    }
+                };
+
+                renderChart('revenueChart', {
+                    type: 'bar',
+                    data: {
+                        labels: allData.years.map(y => `Y${y - START_YEAR + 1}`),
+                        datasets: [
+                            { label: 'Marketplace', data: allData.yearlySummary.gtmRevenue, backgroundColor: '#14B8A6' },
+                            { label: 'IQ', data: allData.yearlySummary.iqRevenue, backgroundColor: '#F59E0B' },
+                            { label: 'Pro', data: allData.yearlySummary.proRevenue, backgroundColor: '#6366F1' }
+                        ]
+                    },
+                    options: { ...chartOptions, scales: { ...chartOptions.scales, x: { ...chartOptions.scales.x, stacked: true }, y: { ...chartOptions.scales.y, stacked: true } } }
+                });
+                
+                const quarterlyLabels=Array.from({length:20},(_,i)=>`Y${Math.floor(i/4)+1}-Q${i%4+1}`);
+                const milestoneAnnotations={
+                    'crypto_launch':{type:'line',xMin:1,xMax:1,borderColor:'rgba(13, 148, 136,0.5)',borderWidth:2,label:{content:'Crypto Launch',display:true,position:'start',backgroundColor:'rgba(13, 148, 136,0.7)',font:{weight:'bold'}}},
+                    'iq_launch':{type:'line',xMin:2,xMax:2,borderColor:'rgba(245, 158, 11,0.5)',borderWidth:2,label:{content:'IQ Launch',display:true,position:'end',backgroundColor:'rgba(245, 158, 11,0.7)',font:{weight:'bold'}}},
+                    'forex_launch':{type:'line',xMin:4,xMax:4,borderColor:'rgba(13, 148, 136,0.5)',borderWidth:2,label:{content:'Forex Launch',display:true,position:'start',backgroundColor:'rgba(13, 148, 136,0.7)',font:{weight:'bold'}}},
+                };
+
+                renderChart('cashFlowChart', {
+                    type:'line',
+                    data: {
+                        labels: quarterlyLabels,
+                        datasets:[{
+                            label:'Quarterly Net Income',
+                            data: allData.quarterlyNetIncome,
+                            borderColor: '#0D9488',
+                            backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                            fill: true,
+                            tension: 0.1
+                        }]
+                    },
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:false,
+                        plugins:{
+                            title:{display:true,text:'Quarterly Cash Flow & Milestones',color:'#1C1917',font:{size:18, weight:'bold'}},
+                            legend:{display:false},
+                            annotation:{annotations: milestoneAnnotations}
+                        },
+                        scales:{
+                            y:{ticks:{color:'#78716C',callback:v=>formatCurrency(v,true)},grid:{color:'#E7E5E4'}},
+                            x:{ticks:{color:'#78716C'},grid:{color:'#E7E5E4'}}
+                        }
+                    }
+                });
+
+                // FIX: Reverted to donut chart as requested
+                renderChart('algoVolumeChart', {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Foreign Exchange', 'Cryptocurrency'],
+                        datasets: [{
+                            data: [6000, 41], // Data is in Billions. 6000 Billion = 6 Trillion.
+                            backgroundColor: ['#0D9488', '#F59E0B'],
+                            borderColor: '#F5F5F4',
+                            borderWidth: 4,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { color: '#78716C' } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed !== null) {
+                                            const valueInBillions = context.parsed;
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', compactDisplay: 'short' }).format(valueInBillions * 1000000000);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            // --- EVENT LISTENERS & INITIALIZATION ---
+            
+            // Controller for the main product solution tabs
+            const tabButtons = document.querySelectorAll('#solution .tab-btn');
+            const tabContentContainer = document.getElementById('tab-content');
+
+            const renderTabContent = (tabId) => {
+                const content = productData[tabId];
+                if (!content || !tabContentContainer) return;
+                tabContentContainer.innerHTML = `
+                    <div id="tab-${tabId}" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-teal-600 mb-2">${content.title}</h3>
+                            <p class="font-semibold mb-4">For the ${tabId === 'marketplace' ? 'Passive Trader' : tabId === 'iq' ? 'Active Retail Trader' : 'Institutional Client'}</p>
+                            <p class="text-stone-600 mb-4">${content.description}</p>
+                        </div>
+                        <div class="bg-stone-100 rounded-lg p-6 text-center">
+                            <span class="text-5xl">${tabId === 'marketplace' ? '🛒' : tabId === 'iq' ? '💡' : '🏦'}</span>
+                            <h4 class="font-bold mt-4">Business Model</h4>
+                            <p class="text-stone-600">${content.model}</p>
+                        </div>
+                    </div>
+                `;
+            };
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-stone-600', 'border-transparent');
+                    });
+                    button.classList.add('active');
+                    button.classList.remove('text-stone-600', 'border-transparent');
+                    renderTabContent(button.dataset.tab);
+                });
+            });
+            
+            // Controller for the competition section tabs
+            const competitorTabs = document.querySelectorAll('#competition .tab-btn');
+            const cryptoCompTable = document.getElementById('crypto-comp-table');
+            const forexCompTable = document.getElementById('forex-comp-table');
+
+            competitorTabs.forEach(button => {
+                button.addEventListener('click', () => {
+                    competitorTabs.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    if(button.dataset.tab === 'crypto-comp') {
+                        cryptoCompTable.classList.remove('hidden');
+                        forexCompTable.classList.add('hidden');
+                    } else {
+                        cryptoCompTable.classList.add('hidden');
+                        forexCompTable.classList.remove('hidden');
+                    }
+                });
+            });
+
+
+            // --- Navigation Highlighting on Scroll ---
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('#main-nav a');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+
+            // --- Initial Render ---
+            // This function call sequence builds the entire page on load.
+            const y5RevenueEl = document.getElementById('kpi-y5-revenue');
+            if (y5RevenueEl) {
+                const finalRevenue = allData.yearlySummary.totalRevenue[4];
+                y5RevenueEl.textContent = formatCurrency(finalRevenue, true);
+            }
+            
+            renderTabContent('marketplace');
+            renderFinancialSummaryTable();
+            renderKpiTable();
+            renderOpexSummaryTable();
+            renderCharts();
+        });
+    </script>
+</body>
+</html>
