@@ -114,6 +114,13 @@
     </style>
 </head>
 <body class="antialiased">
+    <!-- FIX: Restored password protection script -->
+    <script>
+        var password = prompt("Please enter password:");
+        if (password !== "NicolaRoger") {
+          document.body.innerHTML = "<div style='text-align: center; padding: 4rem;'><h2>Access Denied</h2></div>";
+        }
+    </script>
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
         <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
@@ -144,18 +151,15 @@
                         <h2 class="text-4xl font-bold tracking-tight">An AI Trading Agents Company</h2>
                         <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is democratizing institutional-grade trading for everyone, from retail investors to hedge funds, across both Cryptocurrency and Forex markets.</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <!-- FIX: Updated funding section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center max-w-4xl mx-auto">
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <h3 class="text-base font-semibold text-stone-500">Projected Year 5 Revenue</h3>
                             <p id="kpi-y5-revenue" class="text-4xl font-bold text-teal-600 mt-2">$32.4M</p>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Peak Funding Requirement</h3>
-                            <p id="kpi-peak-funding" class="text-4xl font-bold text-amber-500 mt-2">~$2.2M</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Target Seed Round (w/ Buffer)</h3>
-                            <p id="kpi-seed-round" class="text-4xl font-bold text-teal-600 mt-2">$2.9M</p>
+                            <h3 class="text-base font-semibold text-stone-500">Target Seed Round</h3>
+                            <p id="kpi-seed-round" class="text-4xl font-bold text-teal-600 mt-2">$5M</p>
                         </div>
                     </div>
                 </section>
@@ -218,11 +222,12 @@
                             <h3 class="text-xl font-bold">Phase 1: Cryptocurrency Market Entry</h3>
                             <p class="text-sm text-stone-500 font-semibold mb-4">Year 1 - Mid Year 2</p>
                             <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                <!-- FIX: Updated GTM Phase 1 text -->
                                 <ul class="list-disc list-inside space-y-2 text-stone-600">
-                                    <li><strong>Q2 Launch:</strong> Launch Quantix Marketplace for crypto on top-tier exchanges (Binance, Bybit, OKX).</li>
-                                    <li><strong>Q3 Launch:</strong> Release Quantix IQ (Freemium) to build a user base and community.</li>
+                                    <li><strong>Q3 Launch:</strong> Launch Quantix Marketplace for crypto on top-tier exchanges (Binance, Bybit, OKX).</li>
+                                    <li><strong>Q4 Launch:</strong> Release Quantix IQ (Freemium) to build a user base and community.</li>
                                     <li><strong>Post-Launch:</strong> Initiate an affiliate and influencer-led marketing campaign on social media to build prosumer awareness.</li>
-                                    <li><strong>Throughout:</strong> Begin direct sales of Quantix Pro to family offices and institutions.</li>
+                                    <li><strong>Q4 2025:</strong> Soft launch of direct sales to Quantix Pro for family offices and institutions.</li>
                                 </ul>
                             </div>
                         </div>
@@ -231,10 +236,11 @@
                             <h3 class="text-xl font-bold">Phase 2: Forex Market Expansion</h3>
                             <p class="text-sm text-stone-500 font-semibold mb-4">Late Year 2 - Onward</p>
                             <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                 <!-- FIX: Updated GTM Phase 2 text -->
                                  <ul class="list-disc list-inside space-y-2 text-stone-600">
-                                    <li><strong>Q4 2025 - Q1 2026:</strong> Develop and test MT4/MT5 integration for Forex market entry.</li>
-                                    <li><strong>Q1 2026:</strong> Roll out Marketplace and IQ products to top 20 Forex brokers.</li>
-                                    <li><strong>Q2 2026:</strong> Introduce a retail version of Quantix Pro as a high-tier SaaS offering.</li>
+                                    <li><strong>Q1 2026:</strong> Develop and test MT4/MT5 integration for Forex market entry.</li>
+                                    <li><strong>Q2 2026:</strong> Roll out Marketplace and IQ products to the top 20 Forex brokers.</li>
+                                    <li><strong>Q3 2026:</strong> Introduce a retail version of Quantix Pro as a high-tier SaaS offering.</li>
                                 </ul>
                             </div>
                         </div>
@@ -244,7 +250,6 @@
                 <!-- Section: Roadmap -->
                 <section id="roadmap" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap</h2>
-                    <!-- FIX: Constrained width of roadmap section for better readability on wide screens -->
                     <div class="relative max-w-4xl mx-auto">
                         <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
                         <div class="space-y-12 md:space-y-0">
@@ -273,10 +278,11 @@
                                 <div class="relative md:col-start-1 md:text-right">
                                     <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -right-2"></div>
                                     <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                        <!-- FIX: Updated Roadmap "Going Forward" text -->
                                         <ul class="text-sm text-stone-600 space-y-2 text-left">
-                                            <li>→ Q2 2025: Launch Marketplace for Crypto.</li>
-                                            <li>→ Q3 2025: Release Quantix IQ for Crypto.</li>
-                                            <li>→ Q4 2025: Expand to Forex Market.</li>
+                                            <li>→ Q3 2025: Launch Marketplace for Crypto.</li>
+                                            <li>→ Q4 2025: Release Quantix IQ for Crypto.</li>
+                                            <li>→ Q1 2026: Expand to Forex Market.</li>
                                             <li>→ Q2 2026: Introduce Quantix Pro for retail.</li>
                                         </ul>
                                     </div>
@@ -591,7 +597,7 @@
                                     <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="3Commas">Retail & Pro-sumer</td><td class="p-3" data-label="Bitsgap">Retail & Pro-sumer</td><td class="p-3" data-label="Cryptohopper">Beginner, Casual, & Algorithmic Traders</td></tr>
                                     <tr><td class="p-3 font-semibold" data-label="Feature">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Generative)</td><td class="p-3" data-label="3Commas">Yes (Predictive & Optimizing)¹</td><td class="p-3" data-label="Bitsgap">Yes (Assistive & Analytical)²</td><td class="p-3" data-label="Cryptohopper">Yes (Learning & Selective)³</td></tr>
                                     <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="3Commas">~220,000+</td><td class="p-3" data-label="Bitsgap">~600,000+</td><td class="p-3" data-label="Cryptohopper">~1,000,000+</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="3Commas">~$20-30M</td><td class="p-3" data-label="Bitsgap">~$8.4M</td><td class="p-3" data-label="Cryptohopper">~$15-25M</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~$20-30M</td><td class="p-3" data-label="Bitsgap">~$8.4M</td><td class="p-3" data-label="Cryptohopper">~$15-25M</td></tr>
                                 </tbody>
                             </table>
                             <div class="text-xs text-stone-500 mt-4 space-y-1">
@@ -1078,34 +1084,66 @@
                 });
 
                 renderChart('algoVolumeChart', {
-                    type: 'doughnut',
+                    type: 'bar',
                     data: {
                         labels: ['Foreign Exchange', 'Cryptocurrency'],
                         datasets: [{
-                            data: [6000, 41], // Data is in Billions. 6000 Billion = 6 Trillion.
+                            label: 'Estimated Algorithmic Volume (in Billions USD)',
+                            data: [6000, 41],
                             backgroundColor: ['#0D9488', '#F59E0B'],
-                            borderColor: '#F5F5F4',
-                            borderWidth: 4,
+                            borderColor: ['#0F766E', '#D97706'],
+                            borderWidth: 1
                         }]
                     },
                     options: {
+                        indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { position: 'bottom', labels: { color: '#78716C' } },
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Algorithmic Volume (Logarithmic Scale)',
+                                color: '#1C1917'
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: function(context) {
-                                        let label = context.label || '';
+                                        let label = context.dataset.label || '';
                                         if (label) {
                                             label += ': ';
                                         }
-                                        if (context.parsed !== null) {
-                                            const valueInBillions = context.parsed;
-                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', compactDisplay: 'short' }).format(valueInBillions * 1000000000);
+                                        if (context.parsed.x !== null) {
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', compactDisplay: 'short' }).format(context.parsed.x * 1000000000);
                                         }
                                         return label;
                                     }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'logarithmic',
+                                ticks: {
+                                    color: '#78716C',
+                                    callback: function(value, index, values) {
+                                        if (value === 10000 || value === 1000 || value === 100 || value === 10 || value === 1) {
+                                            return formatCurrency(value * 1000000000, true);
+                                        }
+                                    }
+                                },
+                                grid: {
+                                    color: '#E7E5E4'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#78716C'
+                                },
+                                grid: {
+                                    display: false
                                 }
                             }
                         }
