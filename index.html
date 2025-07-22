@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantix | Interactive Business Report</title>
-    
+    <body class="antialiased">
+    <!-- FIX: Restored password protection script -->
+    <script>
+        var password = prompt("Please enter password:");
+        if (password !== "NicolaRoger") {
+          document.body.innerHTML = "<div style='text-align: center; padding: 4rem;'><h2>Access Denied</h2></div>";
+        }
+    </script>
+    <div class="flex">
     <!-- External Libraries: Tailwind CSS for styling, Chart.js for data visualization -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -113,15 +121,7 @@
         }
     </style>
 </head>
-<body class="antialiased">
-    <!-- FIX: Restored password protection script -->
-    <script>
-        var password = prompt("Please enter password:");
-        if (password !== "NicolaRoger") {
-          document.body.innerHTML = "<div style='text-align: center; padding: 4rem;'><h2>Access Denied</h2></div>";
-        }
-    </script>
-    <div class="flex">
+
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
         <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
             <div class="flex items-center space-x-3 mb-8">
