@@ -251,7 +251,8 @@
                 <!-- Section: Roadmap -->
                 <section id="roadmap" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap</h2>
-                    <div class="relative">
+                    <!-- FIX: Constrained width of roadmap section for better readability on wide screens -->
+                    <div class="relative max-w-4xl mx-auto">
                         <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
                         <div class="space-y-12 md:space-y-0">
                             <!-- Item 1 -->
@@ -948,20 +949,20 @@
                     return `<tr><td class="p-3 font-medium ${isSubItem ? 'sub-item' : ''}" data-label="Metric">${title}</td>${cells}</tr>`;
                 };
 
-                html += `<tr class="section-header"><td class="p-3" colspan="6">Revenue</td></tr>`;
+                html += `<tr class="section-header"><td class="p-3" colspan="6" data-label="Section">Revenue</td></tr>`;
                 html += formatRow('Marketplace', summary.gtmRevenue, true);
                 html += formatRow('Quantix IQ', summary.iqRevenue, true);
                 html += formatRow('Quantix Pro', summary.proRevenue, true);
                 html += `<tr class="total-row">${formatRow('Total Revenue', summary.totalRevenue)}</tr>`;
 
-                html += `<tr class="section-header"><td class="p-3" colspan="6">Direct Costs</td></tr>`;
+                html += `<tr class="section-header"><td class="p-3" colspan="6" data-label="Section">Direct Costs</td></tr>`;
                 html += formatRow('Marketplace', summary.gtmCosts, true, true);
                 html += formatRow('Quantix IQ', summary.iqCosts, true, true);
                 html += formatRow('Quantix Pro', summary.proCosts, true, true);
                 html += `<tr class="total-row">${formatRow('Total Direct Costs', summary.totalDirectCosts, false, true)}</tr>`;
                 
                 html += `<tr><td class="p-3 font-bold" data-label="Metric">Gross Profit</td>${summary.grossProfit.map((d,i) => `<td class="p-3 text-right font-bold ${d < 0 ? 'loss' : 'profit'}" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
-                html += `<tr class="section-header"><td class="p-3" colspan="6">Operating Expenses</td></tr>`;
+                html += `<tr class="section-header"><td class="p-3" colspan="6" data-label="Section">Operating Expenses</td></tr>`;
                 html += formatRow('Total Operating Expenses', summary.opex, true, true);
                 html += `<tr class="total-row-final"><td class="p-3" data-label="Metric">Net Income (Loss)</td>${summary.netIncome.map((d,i) => `<td class="p-3 text-right ${d < 0 ? 'loss' : 'profit'}" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
 
@@ -978,11 +979,11 @@
 
                 const formatRow = (title, data, formatter = formatCurrency) => `<tr><td class="p-3" data-label="Metric">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatter(d)}</td>`).join('')}</tr>`;
                 
-                html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6">Revenue Drivers</td></tr>`;
+                html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6" data-label="Section">Revenue Drivers</td></tr>`;
                 html += formatRow('Monthly Recurring Revenue (MRR)', allData.iqDataYearly.mrr);
                 html += formatRow('Revenue AUM', allData.gtmDataYearly.aum);
                 html += formatRow('Paid MAU (IQ)', allData.iqDataYearly.paidUsers, formatNumber);
-                html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6">Supporting Metrics</td></tr>`;
+                html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6" data-label="Section">Supporting Metrics</td></tr>`;
                 html += formatRow('# Marketplace Copiers', allData.gtmDataYearly.users, formatNumber);
                 html += formatRow('# Pro Contracts', allData.proDataYearly.totalPro.map((p,i) => p + allData.proDataYearly.totalEnterprise[i]), formatNumber);
                 html += formatRow('# FTE', allData.peopleData.yearlyTotals.fte, formatNumber);
