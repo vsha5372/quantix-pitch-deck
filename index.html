@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantix | Interactive Business Report</title>
-    <script>
-    var password = prompt("Please enter password:");
-    if (password !== "NicolaRoger") {
-      document.body.innerHTML = "<h2>Access Denied</h2>";
-    }
-  </script>
+    
     <!-- External Libraries: Tailwind CSS for styling, Chart.js for data visualization -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -80,9 +75,52 @@
         .summary-table .total-row-final td { background-color: var(--bg-card-alt) !important; font-weight: 800 !important; font-size: 1.1rem !important;}
         .summary-table .loss { color: #DC2626; }
         .summary-table .profit { color: #16A34A; }
+
+        /* Responsive Table Styles */
+        @media (max-width: 768px) {
+            .responsive-table thead {
+                display: none;
+            }
+            .responsive-table tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+            .responsive-table td {
+                display: block;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .responsive-table tr:last-child td:last-child {
+                border-bottom: none;
+            }
+            .responsive-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0.75rem;
+                width: 45%;
+                padding-right: 0.75rem;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: var(--text-primary);
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
+    <!-- FIX: Restored password protection script -->
+    <script>
+        var password = prompt("Please enter password:");
+        if (password !== "NicolaRoger") {
+          document.body.innerHTML = "<div style='text-align: center; padding: 4rem;'><h2>Access Denied</h2></div>";
+        }
+    </script>
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
         <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
@@ -105,10 +143,10 @@
             </nav>
         </aside>
 
-        <div class="flex-1 overflow-y-auto">
+        <div id="main-content" class="flex-1 overflow-y-auto h-screen scroll-smooth">
             <main class="p-4 md:p-8">
                 <!-- Section: Executive Summary -->
-                <section id="summary" class="mb-16 scroll-mt-24">
+                <section id="summary" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <div class="text-center mb-10">
                         <h2 class="text-4xl font-bold tracking-tight">An AI Trading Agents Company</h2>
                         <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is democratizing institutional-grade trading for everyone, from retail investors to hedge funds, across both Cryptocurrency and Forex markets.</p>
@@ -130,7 +168,7 @@
                 </section>
 
                 <!-- Section: The Problem -->
-                <section id="problem" class="mb-16 scroll-mt-24">
+                <section id="problem" class="mb-16 scroll-mt-24 min-h-[50vh]">
                      <div class="bg-white p-8 rounded-lg shadow-md">
                         <h2 class="text-3xl font-bold text-center mb-8">The Challenge in Modern Trading</h2>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -164,7 +202,7 @@
                 </section>
 
                 <!-- Section: The Solution -->
-                <section id="solution" class="mb-16 scroll-mt-24">
+                <section id="solution" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-8">The Quantix Three-Tiered Solution</h2>
                     <div class="bg-white rounded-lg shadow-md p-6">
                         <div class="flex justify-center border-b border-stone-200 mb-6">
@@ -179,7 +217,7 @@
                 </section>
 
                 <!-- Section: Go-To-Market Strategy -->
-                <section id="strategy" class="mb-16 scroll-mt-24">
+                <section id="strategy" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-8">Go-To-Market Strategy</h2>
                     <div class="relative pl-4 border-l-2 border-teal-500">
                         <!-- Phase 1 -->
@@ -211,7 +249,7 @@
                 </section>
                 
                 <!-- Section: Roadmap -->
-                <section id="roadmap" class="mb-16 scroll-mt-24">
+                <section id="roadmap" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap</h2>
                     <div class="relative">
                         <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
@@ -237,11 +275,11 @@
                                 </div>
                             </div>
                             <!-- Item 2 -->
-                             <div class="md:grid md:grid-cols-2 md:gap-8 items-center mt-12">
-                                <div class="relative md:text-right">
+                             <div class="md:grid md:grid-cols-2 md:gap-8 items-center mt-8">
+                                <div class="relative md:col-start-1 md:text-right">
                                     <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -right-2"></div>
                                     <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                        <ul class="text-sm text-stone-600 space-y-2">
+                                        <ul class="text-sm text-stone-600 space-y-2 text-left">
                                             <li>→ Q2 2025: Launch Marketplace for Crypto.</li>
                                             <li>→ Q3 2025: Release Quantix IQ for Crypto.</li>
                                             <li>→ Q4 2025: Expand to Forex Market.</li>
@@ -249,7 +287,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                               <div class="flex justify-center md:justify-start mt-4 md:mt-0">
+                               <div class="flex justify-center md:justify-start mt-4 md:mt-0 md:col-start-2">
                                     <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
                                         <h3 class="font-bold text-teal-600">Going Forward</h3>
                                         <p class="text-sm text-stone-500">Upcoming Launches</p>
@@ -261,7 +299,7 @@
                 </section>
 
                 <!-- Section: Quantix Key Functionalities -->
-                <section id="key-functionalities" class="mb-16 scroll-mt-24">
+                <section id="key-functionalities" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-8">Quantix Key Functionalities</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
@@ -296,8 +334,8 @@
                             <p class="text-stone-600 mb-6 text-center max-w-4xl mx-auto">Estimating the algorithmic trading volume in the cryptocurrency market is a complex task due to the absence of a central reporting authority and significant data quality issues. The following table provides a data-driven estimate based on an analysis of credible spot trading volumes and logical inferences about algorithmic trading penetration.</p>
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                                 <div class="table-container">
-                                    <table class="w-full text-left text-sm">
-                                        <thead class="bg-stone-50">
+                                    <table class="w-full text-left text-sm responsive-table">
+                                        <thead>
                                             <tr>
                                                 <th class="p-3 font-semibold">Market</th>
                                                 <th class="p-3 font-semibold text-right">Daily Volume</th>
@@ -306,8 +344,8 @@
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-stone-200">
-                                            <tr><td class="p-3">Foreign Exchange</td><td class="p-3 text-right">$7.5 Trillion</td><td class="p-3 text-right">~75-80%</td><td class="p-3 text-right">~$6.0 Trillion</td></tr>
-                                            <tr><td class="p-3">Cryptocurrency</td><td class="p-3 text-right">$42B - $87B</td><td class="p-3 text-right">50% - 70% (Estimate)</td><td class="p-3 text-right">$21B - $61B (Estimate)</td></tr>
+                                            <tr><td class="p-3" data-label="Market">Foreign Exchange</td><td class="p-3 text-right" data-label="Daily Volume">$7.5 Trillion</td><td class="p-3 text-right" data-label="Estimated Algorithmic %">~75-80%</td><td class="p-3 text-right" data-label="Estimated Algorithmic Volume">~$6.0 Trillion</td></tr>
+                                            <tr><td class="p-3" data-label="Market">Cryptocurrency</td><td class="p-3 text-right" data-label="Daily Volume">$42B - $87B</td><td class="p-3 text-right" data-label="Estimated Algorithmic %">50% - 70% (Estimate)</td><td class="p-3 text-right" data-label="Estimated Algorithmic Volume">$21B - $61B (Estimate)</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -320,8 +358,8 @@
                             <h3 class="text-xl font-bold mb-4 text-center">Market Size</h3>
                              <p class="text-stone-600 mb-6 text-center max-w-4xl mx-auto">The global algorithmic trading market is a subject of analysis by numerous research firms, each employing distinct methodologies, definitions, and data sources. This often results in a wide range of market size valuations and growth forecasts. The table below synthesizes estimates from several prominent industry reports, providing a comparative overview of their findings.</p>
                             <div class="table-container">
-                                <table class="w-full text-left text-sm">
-                                    <thead class="bg-stone-50">
+                                <table class="w-full text-left text-sm responsive-table">
+                                    <thead>
                                         <tr>
                                             <th class="p-3 font-semibold">Source</th>
                                             <th class="p-3 font-semibold text-right">2024 Size (USD)</th>
@@ -332,14 +370,14 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-stone-200">
-                                        <tr><td class="p-3">Mordor Intelligence</td><td class="p-3 text-right">-</td><td class="p-3 text-right">$18.73 Billion</td><td class="p-3 text-right">2030</td><td class="p-3 text-right">$28.44 Billion</td><td class="p-3 text-right">8.71% (2025-2030)</td></tr>
-                                        <tr><td class="p-3">Research and Markets</td><td class="p-3 text-right">$19.95 Billion</td><td class="p-3 text-right">$22.03 Billion</td><td class="p-3 text-right">2029</td><td class="p-3 text-right">$38.4 Billion</td><td class="p-3 text-right">14.9% (Forecast Period)</td></tr>
-                                        <tr><td class="p-3">Grand View Research</td><td class="p-3 text-right">$21.06 Billion</td><td class="p-3 text-right">$23.48 Billion</td><td class="p-3 text-right">2030</td><td class="p-3 text-right">$42.99 Billion</td><td class="p-3 text-right">12.9% (2025-2030)</td></tr>
-                                        <tr><td class="p-3">Straits Research</td><td class="p-3 text-right">$51.14 Billion</td><td class="p-3 text-right">$57.65 Billion</td><td class="p-3 text-right">2033</td><td class="p-3 text-right">$150.36 Billion</td><td class="p-3 text-right">12.73% (2025-2033)</td></tr>
-                                        <tr><td class="p-3">Market.us</td><td class="p-3 text-right">$13.05 Billion (2023)</td><td class="p-3 text-right">-</td><td class="p-3 text-right">2033</td><td class="p-3 text-right">$35.45 Billion</td><td class="p-3 text-right">10.51% (2024-2033)</td></tr>
-                                        <tr><td class="p-3">Precedence Research (AI Trading Platforms)¹</td><td class="p-3 text-right">$11.26 Billion</td><td class="p-3 text-right">$13.52 Billion</td><td class="p-3 text-right">2034</td><td class="p-3 text-right">$69.95 Billion</td><td class="p-3 text-right">20.04% (2025-2034)</td></tr>
-                                        <tr><td class="p-3">Fortune Business Insights</td><td class="p-3 text-right">$2.36 Billion</td><td class="p-3 text-right">$2.53 Billion</td><td class="p-3 text-right">2032</td><td class="p-3 text-right">$4.06 Billion</td><td class="p-3 text-right">7.0% (2025-2032)</td></tr>
-                                        <tr><td class="p-3">Coherent Market Insights</td><td class="p-3 text-right">-</td><td class="p-3 text-right">$3.28 Billion</td><td class="p-3 text-right">2032</td><td class="p-3 text-right">$6.05 Billion</td><td class="p-3 text-right">9.1% (2025-2032)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Mordor Intelligence</td><td class="p-3 text-right" data-label="2024 Size (USD)">-</td><td class="p-3 text-right" data-label="2025 Size (USD)">$18.73 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2030</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$28.44 Billion</td><td class="p-3 text-right" data-label="CAGR">8.71% (2025-2030)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Research and Markets</td><td class="p-3 text-right" data-label="2024 Size (USD)">$19.95 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$22.03 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2029</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$38.4 Billion</td><td class="p-3 text-right" data-label="CAGR">14.9% (Forecast Period)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Grand View Research</td><td class="p-3 text-right" data-label="2024 Size (USD)">$21.06 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$23.48 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2030</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$42.99 Billion</td><td class="p-3 text-right" data-label="CAGR">12.9% (2025-2030)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Straits Research</td><td class="p-3 text-right" data-label="2024 Size (USD)">$51.14 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$57.65 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2033</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$150.36 Billion</td><td class="p-3 text-right" data-label="CAGR">12.73% (2025-2033)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Market.us</td><td class="p-3 text-right" data-label="2024 Size (USD)">$13.05 Billion (2023)</td><td class="p-3 text-right" data-label="2025 Size (USD)">-</td><td class="p-3 text-right" data-label="Forecast Horizon">2033</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$35.45 Billion</td><td class="p-3 text-right" data-label="CAGR">10.51% (2024-2033)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Precedence Research (AI Trading Platforms)¹</td><td class="p-3 text-right" data-label="2024 Size (USD)">$11.26 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$13.52 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2034</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$69.95 Billion</td><td class="p-3 text-right" data-label="CAGR">20.04% (2025-2034)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Fortune Business Insights</td><td class="p-3 text-right" data-label="2024 Size (USD)">$2.36 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$2.53 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2032</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$4.06 Billion</td><td class="p-3 text-right" data-label="CAGR">7.0% (2025-2032)</td></tr>
+                                        <tr><td class="p-3" data-label="Source">Coherent Market Insights</td><td class="p-3 text-right" data-label="2024 Size (USD)">-</td><td class="p-3 text-right" data-label="2025 Size (USD)">$3.28 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2032</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$6.05 Billion</td><td class="p-3 text-right" data-label="CAGR">9.1% (2025-2032)</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -349,7 +387,7 @@
                 </section>
                 
                 <!-- Section: How Quantix Marketplace Works -->
-                <section id="how-it-works" class="mb-16 scroll-mt-24">
+                <section id="how-it-works" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-8">How Quantix Marketplace Trading Works</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -429,7 +467,7 @@
                          <div class="bg-white p-6 rounded-lg shadow-md">
                             <h3 class="text-xl font-bold mb-4">5-Year Financial Plan</h3>
                             <div class="table-container">
-                                <table class="w-full text-left text-sm summary-table" id="financial-summary-table">
+                                <table class="w-full text-left text-sm summary-table responsive-table" id="financial-summary-table">
                                     <!-- JS will populate this -->
                                 </table>
                             </div>
@@ -437,7 +475,7 @@
                          <div class="bg-white p-6 rounded-lg shadow-md">
                             <h3 class="text-xl font-bold mb-4">Key Performance Indicators (KPIs)</h3>
                             <div class="table-container">
-                                <table class="w-full text-left text-sm" id="kpi-summary-table">
+                                <table class="w-full text-left text-sm responsive-table" id="kpi-summary-table">
                                     <!-- JS will populate this -->
                                 </table>
                             </div>
@@ -461,14 +499,14 @@
                      <div class="bg-white p-6 rounded-lg shadow-md">
                         <h3 class="text-xl font-bold mb-4">Refactored 5-Year Operating Expenses</h3>
                         <div class="table-container">
-                             <table class="w-full text-left text-sm" id="opex-summary-table">
+                             <table class="w-full text-left text-sm responsive-table" id="opex-summary-table">
                                 <!-- JS will populate this -->
                             </table>
                         </div>
                     </div>
                 </section>
 
-                <!-- Section: Team -->
+                 <!-- Section: Team -->
                 <section id="team" class="mb-16 scroll-mt-24">
                     <h2 class="text-3xl font-bold text-center mb-8">Quantix Team</h2>
                     <!-- NOTE: Team images may not display correctly if viewed locally due to Google Drive's security policies. For production, host these images on a proper web server or image hosting service. -->
@@ -543,7 +581,7 @@
                         </div>
 
                         <div id="crypto-comp-table" class="table-container">
-                             <table class="w-full text-left text-sm">
+                             <table class="w-full text-left text-sm responsive-table">
                                 <thead class="bg-stone-50">
                                     <tr>
                                         <th class="p-3 font-semibold">Feature</th>
@@ -554,12 +592,12 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-stone-200">
-                                    <tr><td class="p-3 font-semibold">Primary Business Model</td><td class="p-3 font-bold text-teal-700">B2C & B2B</td><td class="p-3">B2C Subscription</td><td class="p-3">B2C Subscription</td><td class="p-3">B2C Subscription</td></tr>
-                                    <tr><td class="p-3 font-semibold">Key Products</td><td class="p-3 font-bold text-teal-700">AI Marketplace, IQ, Pro</td><td class="p-3">Bots, Smart Terminal, Portfolio Manager</td><td class="p-3">Bots, Arbitrage, Trading Terminal</td><td class="p-3">Bots, Marketplace, Signals, Social Trading</td></tr>
-                                    <tr><td class="p-3 font-semibold">Target Markets</td><td class="p-3 font-bold text-teal-700">Retail & Institutional</td><td class="p-3">Retail & Pro-sumer</td><td class="p-3">Retail & Pro-sumer</td><td class="p-3">Beginner, Casual, & Algorithmic Traders</td></tr>
-                                    <tr><td class="p-3 font-semibold">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700">Yes (Generative)</td><td class="p-3">Yes (Predictive & Optimizing)¹</td><td class="p-3">Yes (Assistive & Analytical)²</td><td class="p-3">Yes (Learning & Selective)³</td></tr>
-                                    <tr><td class="p-3 font-semibold">Est. Active Users</td><td class="p-3">Pre-launch</td><td class="p-3">~220,000+</td><td class="p-3">~600,000+</td><td class="p-3">~1,000,000+</td></tr>
-                                    <tr><td class="p-3 font-semibold">Est. Annual Revenue</td><td class="p-3">Pre-launch</td><td class="p-3">~$20-30M</td><td class="p-3">~$8.4M</td><td class="p-3">~$15-25M</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Primary Business Model</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">B2C & B2B</td><td class="p-3" data-label="3Commas">B2C Subscription</td><td class="p-3" data-label="Bitsgap">B2C Subscription</td><td class="p-3" data-label="Cryptohopper">B2C Subscription</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="3Commas">Bots, Smart Terminal, Portfolio Manager</td><td class="p-3" data-label="Bitsgap">Bots, Arbitrage, Trading Terminal</td><td class="p-3" data-label="Cryptohopper">Bots, Marketplace, Signals, Social Trading</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="3Commas">Retail & Pro-sumer</td><td class="p-3" data-label="Bitsgap">Retail & Pro-sumer</td><td class="p-3" data-label="Cryptohopper">Beginner, Casual, & Algorithmic Traders</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Generative)</td><td class="p-3" data-label="3Commas">Yes (Predictive & Optimizing)¹</td><td class="p-3" data-label="Bitsgap">Yes (Assistive & Analytical)²</td><td class="p-3" data-label="Cryptohopper">Yes (Learning & Selective)³</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="3Commas">~220,000+</td><td class="p-3" data-label="Bitsgap">~600,000+</td><td class="p-3" data-label="Cryptohopper">~1,000,000+</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="3Commas">~$20-30M</td><td class="p-3" data-label="Bitsgap">~$8.4M</td><td class="p-3" data-label="Cryptohopper">~$15-25M</td></tr>
                                 </tbody>
                             </table>
                             <div class="text-xs text-stone-500 mt-4 space-y-1">
@@ -570,7 +608,7 @@
                         </div>
 
                         <div id="forex-comp-table" class="table-container hidden">
-                             <table class="w-full text-left text-sm">
+                             <table class="w-full text-left text-sm responsive-table">
                                 <thead class="bg-stone-50">
                                     <tr>
                                         <th class="p-3 font-semibold">Feature</th>
@@ -581,12 +619,12 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-stone-200">
-                                    <tr><td class="p-3 font-semibold">Primary Business Model</td><td class="p-3 font-bold text-teal-700">B2C & B2B</td><td class="p-3">B2C Asset Sales</td><td class="p-3">Copy Trading (Commission/Broker-paid)</td><td class="p-3">B2C Software License</td></tr>
-                                    <tr><td class="p-3 font-semibold">Key Products</td><td class="p-3 font-bold text-teal-700">AI Marketplace, IQ, Pro</td><td class="p-3">EA & Indicator Marketplace</td><td class="p-3">Copy Trading Platform, Social Network</td><td class="p-3">Strategy Builder Software</td></tr>
-                                    <tr><td class="p-3 font-semibold">Target Markets</td><td class="p-3 font-bold text-teal-700">Retail & Institutional</td><td class="p-3">Retail Traders (MT4/5)</td><td class="p-3">Retail Traders</td><td class="p-3">Pro-sumers & Quants</td></tr>
-                                    <tr><td class="p-3 font-semibold">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700">Yes (Generative)</td><td class="p-3">Yes (via 3rd-Party EAs)⁴</td><td class="p-3">Yes (via 3rd-Party Leaders)⁵</td><td class="p-3">Yes (Genetic Programming)⁶</td></tr>
-                                    <tr><td class="p-3 font-semibold">Est. Active Users</td><td class="p-3">Pre-launch</td><td class="p-3">~7,000,000+</td><td class="p-3">~1,000,000+</td><td class="p-3">N/A (Niche)</td></tr>
-                                    <tr><td class="p-3 font-semibold">Est. Annual Revenue</td><td class="p-3">Pre-launch</td><td class="p-3">N/A (Commission)</td><td class="p-3">N/A (Volume-based)</td><td class="p-3">N/A (License-based)</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Primary Business Model</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">B2C & B2B</td><td class="p-3" data-label="MT Marketplace">B2C Asset Sales</td><td class="p-3" data-label="ZuluTrade">Copy Trading (Commission/Broker-paid)</td><td class="p-3" data-label="Strategy Quant">B2C Software License</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="MT Marketplace">EA & Indicator Marketplace</td><td class="p-3" data-label="ZuluTrade">Copy Trading Platform, Social Network</td><td class="p-3" data-label="Strategy Quant">Strategy Builder Software</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="MT Marketplace">Retail Traders (MT4/5)</td><td class="p-3" data-label="ZuluTrade">Retail Traders</td><td class="p-3" data-label="Strategy Quant">Pro-sumers & Quants</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">True AI/ML Capabilities</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Generative)</td><td class="p-3" data-label="MT Marketplace">Yes (via 3rd-Party EAs)⁴</td><td class="p-3" data-label="ZuluTrade">Yes (via 3rd-Party Leaders)⁵</td><td class="p-3" data-label="Strategy Quant">Yes (Genetic Programming)⁶</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="MT Marketplace">~7,000,000+</td><td class="p-3" data-label="ZuluTrade">~1,000,000+</td><td class="p-3" data-label="Strategy Quant">N/A (Niche)</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="MT Marketplace">N/A (Commission)</td><td class="p-3" data-label="ZuluTrade">N/A (Volume-based)</td><td class="p-3" data-label="Strategy Quant">N/A (License-based)</td></tr>
                                 </tbody>
                             </table>
                             <div class="text-xs text-stone-500 mt-4 space-y-1">
@@ -906,8 +944,8 @@
                 let html = `<thead><tr><th class="p-3 font-semibold">Income Statement Summary</th>${allData.years.map(y => `<th class="p-3 font-semibold text-right">Y${y - START_YEAR + 1}</th>`).join('')}</tr></thead><tbody>`;
                 
                 const formatRow = (title, data, isSubItem = false, isCost = false) => {
-                    let cells = data.map(d => `<td class="p-3 text-right ${d < 0 ? 'loss' : ''}">${isCost ? '('+formatCurrency(Math.abs(d))+')' : formatCurrency(d)}</td>`).join('');
-                    return `<tr><td class="p-3 font-medium ${isSubItem ? 'sub-item' : ''}">${title}</td>${cells}</tr>`;
+                    let cells = data.map((d, i) => `<td class="p-3 text-right ${d < 0 ? 'loss' : ''}" data-label="Y${i+1}">${isCost ? '('+formatCurrency(Math.abs(d))+')' : formatCurrency(d)}</td>`).join('');
+                    return `<tr><td class="p-3 font-medium ${isSubItem ? 'sub-item' : ''}" data-label="Metric">${title}</td>${cells}</tr>`;
                 };
 
                 html += `<tr class="section-header"><td class="p-3" colspan="6">Revenue</td></tr>`;
@@ -922,10 +960,10 @@
                 html += formatRow('Quantix Pro', summary.proCosts, true, true);
                 html += `<tr class="total-row">${formatRow('Total Direct Costs', summary.totalDirectCosts, false, true)}</tr>`;
                 
-                html += `<tr><td class="p-3 font-bold">Gross Profit</td>${summary.grossProfit.map(d => `<td class="p-3 text-right font-bold ${d < 0 ? 'loss' : 'profit'}">${formatCurrency(d)}</td>`).join('')}</tr>`;
+                html += `<tr><td class="p-3 font-bold" data-label="Metric">Gross Profit</td>${summary.grossProfit.map((d,i) => `<td class="p-3 text-right font-bold ${d < 0 ? 'loss' : 'profit'}" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
                 html += `<tr class="section-header"><td class="p-3" colspan="6">Operating Expenses</td></tr>`;
                 html += formatRow('Total Operating Expenses', summary.opex, true, true);
-                html += `<tr class="total-row-final"><td class="p-3">Net Income (Loss)</td>${summary.netIncome.map(d => `<td class="p-3 text-right ${d < 0 ? 'loss' : 'profit'}">${formatCurrency(d)}</td>`).join('')}</tr>`;
+                html += `<tr class="total-row-final"><td class="p-3" data-label="Metric">Net Income (Loss)</td>${summary.netIncome.map((d,i) => `<td class="p-3 text-right ${d < 0 ? 'loss' : 'profit'}" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
 
                 table.innerHTML = html + '</tbody>';
             };
@@ -938,7 +976,7 @@
                     ${allData.years.map(y => `<th class="p-3 font-semibold text-right">Y${y - START_YEAR + 1}</th>`).join('')}
                 </tr></thead><tbody class="divide-y divide-stone-200">`;
 
-                const formatRow = (title, data, formatter = formatCurrency) => `<tr><td class="p-3">${title}</td>${data.map(d => `<td class="p-3 text-right">${formatter(d)}</td>`).join('')}</tr>`;
+                const formatRow = (title, data, formatter = formatCurrency) => `<tr><td class="p-3" data-label="Metric">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatter(d)}</td>`).join('')}</tr>`;
                 
                 html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6">Revenue Drivers</td></tr>`;
                 html += formatRow('Monthly Recurring Revenue (MRR)', allData.iqDataYearly.mrr);
@@ -974,14 +1012,14 @@
                     ${allData.years.map(y => `<th class="p-3 font-semibold text-right">Y${y - START_YEAR + 1}</th>`).join('')}
                 </tr></thead><tbody class="divide-y divide-stone-200">`;
 
-                const formatRow = (title, data) => `<tr><td class="p-3">${title}</td>${data.map(d => `<td class="p-3 text-right">${formatCurrency(d)}</td>`).join('')}</tr>`;
+                const formatRow = (title, data) => `<tr><td class="p-3" data-label="Cost Category">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
                 
                 html += formatRow('Total Salaries', opexData.salaries);
                 html += formatRow('Benefits & Taxes (25%)', opexData.benefits);
                 html += formatRow('Recruiting Fees', opexData.recruiting);
                 html += formatRow('Sales Bonuses', opexData.bonuses);
                 html += formatRow('General & Admin', opexData.ga);
-                html += `<tr class="font-bold bg-stone-50"><td class="p-3">Total Operating Expenses</td>${allData.yearlySummary.opex.map(d => `<td class="p-3 text-right">${formatCurrency(d)}</td>`).join('')}</tr>`;
+                html += `<tr class="font-bold bg-stone-50"><td class="p-3" data-label="Cost Category">Total Operating Expenses</td>${allData.yearlySummary.opex.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
 
                 table.innerHTML = html + '</tbody>';
             };
@@ -1045,7 +1083,6 @@
                     }
                 });
 
-                // FIX: Reverted to donut chart as requested
                 renderChart('algoVolumeChart', {
                     type: 'doughnut',
                     data: {
@@ -1142,22 +1179,23 @@
             // --- Navigation Highlighting on Scroll ---
             const sections = document.querySelectorAll('main section');
             const navLinks = document.querySelectorAll('#main-nav a');
+            const mainContent = document.getElementById('main-content');
 
             const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.4
+                root: mainContent,
+                rootMargin: '-40% 0px -40% 0px',
+                threshold: 0
             };
 
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`#main-nav a[href="#${id}"]`);
                     if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        if(navLink) {
+                           navLink.classList.add('active');
+                        }
                     }
                 });
             }, observerOptions);
