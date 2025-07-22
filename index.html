@@ -995,16 +995,16 @@
                 if (!table) return;
                 const peopleData = allData.peopleData;
                 const opexData = {
-                    salaries: [], benefits: [], recruiting: [], bonuses: [], ga: []
+                    salaries: [], benefits: [], ga: []
                 };
 
                 for (let y = 0; y < 5; y++) {
                     const yearData = peopleData.monthlyData.slice(y * 12, (y + 1) * 12);
                     opexData.salaries.push(yearData.reduce((s, m) => s + m.payroll, 0));
                     opexData.benefits.push(yearData.reduce((s, m) => s + m.benefitsTaxes, 0));
-                    opexData.recruiting.push(yearData.reduce((s, m) => s + m.recruitingFees, 0));
-                    opexData.bonuses.push(yearData.reduce((s, m) => s + m.salesBonuses, 0));
-                    opexData.ga.push(yearData.reduce((s, m) => s + m.travel + m.it + m.comms, 0));
+                    // FIX: Combined G&A, recruiting, and bonuses
+                    const combinedGA = yearData.reduce((s, m) => s + m.travel + m.it + m.comms + m.recruitingFees + m.salesBonuses, 0);
+                    opexData.ga.push(combinedGA);
                 }
 
                 let html = `<thead class="bg-stone-50"><tr>
@@ -1015,9 +1015,8 @@
                 const formatRow = (title, data) => `<tr><td class="p-3" data-label="Cost Category">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
                 
                 html += formatRow('Total Salaries', opexData.salaries);
-                html += formatRow('Benefits & Taxes (25%)', opexData.benefits);
-                html += formatRow('Recruiting Fees', opexData.recruiting);
-                html += formatRow('Sales Bonuses', opexData.bonuses);
+                // FIX: Removed "(25%)" from label
+                html += formatRow('Benefits & Taxes', opexData.benefits);
                 html += formatRow('General & Admin', opexData.ga);
                 html += `<tr class="font-bold bg-stone-50"><td class="p-3" data-label="Cost Category">Total Operating Expenses</td>${allData.yearlySummary.opex.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
 
