@@ -111,10 +111,14 @@
                 color: var(--text-primary);
             }
         }
+        /* Why Quantix Tabs */
+        .why-quantix-tab.active {
+            background-color: var(--accent-primary);
+            color: white;
+        }
     </style>
 </head>
 <body class="antialiased">
-    <!-- FIX: Restored password protection script -->
     
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
@@ -135,6 +139,7 @@
                 <a href="#team-budget" class="nav-link p-3 rounded-lg transition text-sm">Budget</a>
                 <a href="#team" class="nav-link p-3 rounded-lg transition text-sm">Team</a>
                 <a href="#competition" class="nav-link p-3 rounded-lg transition text-sm">Competition</a>
+                <a href="#why-quantix" class="nav-link p-3 rounded-lg transition text-sm">Why Quantix</a>
             </nav>
         </aside>
 
@@ -631,6 +636,22 @@
 
                     </div>
                 </section>
+                <!-- NEW SECTION: Why Quantix -->
+                <section id="why-quantix" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-12">Why Quantix? Our Competitive Edge</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-md max-w-6xl mx-auto">
+                        <div id="why-quantix-tabs" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
+                            <button data-tab="ecosystem" class="why-quantix-tab active text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Unified Ecosystem</button>
+                            <button data-tab="ai" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">True Generative AI</button>
+                            <button data-tab="multi-market" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Multi-Market</button>
+                            <button data-tab="security" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Trust & Security</button>
+                            <button data-tab="functionality" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Unique Functionality</button>
+                        </div>
+                        <div id="why-quantix-content" class="p-4 border-t border-stone-200">
+                            <!-- Content will be injected by JS -->
+                        </div>
+                    </div>
+                </section>
             </main>
         </div>
     </div>
@@ -717,6 +738,30 @@
                     title: "Quantix Pro",
                     description: "Our flagship B2B product. A comprehensive, no-code, web-based platform for designing, training, and running proprietary AI-powered trading strategies at scale. Aimed at hedge funds, family offices, and financial institutions.",
                     model: "High-value revenue from annual licenses, affiliate profit sharing, model design, and Non-Recurring Engineering (NRE) costs for deep systems integration."
+                }
+            };
+
+            // Data for the "Why Quantix" section
+            const whyQuantixData = {
+                ecosystem: {
+                    title: "A Unified Ecosystem for All Trader Types",
+                    content: "Most competitors focus on one segment—either retail subscription bots (like 3Commas, Cryptohopper) or high-end institutional tools. Quantix is different because it creates a complete ecosystem where each product feeds into the next, serving passive investors, active retail traders, and institutions within a single, synergistic platform."
+                },
+                ai: {
+                    title: "True Generative AI, Not Just Automation",
+                    content: "Many platforms offer 'bots' that are just automated scripts. Quantix is built on a foundation of true AI and Machine Learning, developed over years of R&D. Our platform helps generate and optimize novel strategies, removing the barrier for users to create sophisticated, data-driven trading models without being quantitative analysts."
+                },
+                'multi-market': {
+                    title: "Multi-Market Dominance from Day One",
+                    content: "The platform is designed from the ground up to support both Cryptocurrency and Forex markets. This dual-market capability allows users to diversify their automated trading across different asset classes from a single, unified interface, which is a significant competitive advantage over siloed competitors."
+                },
+                security: {
+                    title: "Transparency and Security as Core Principles",
+                    content: "Trust is paramount. We build it through proven performance, showcasing bots with extensive, real-time backtest and live performance data. Crucially, Quantix is non-custodial; your capital remains secure on your own exchange account, and you always remain in control."
+                },
+                functionality: {
+                    title: "Unique Bot Functionalities",
+                    content: "Quantix bots offer a superior user experience and advanced capabilities. They are fully integrated with Telegram for on-the-go management, incorporate our generative AI for strategy creation, and seamlessly support both spot and futures markets for comprehensive trading."
                 }
             };
             
@@ -1229,6 +1274,34 @@
             sections.forEach(section => {
                 observer.observe(section);
             });
+
+            // --- Why Quantix Tabs Controller ---
+            const whyQuantixTabsContainer = document.getElementById('why-quantix-tabs');
+            const whyQuantixContentContainer = document.getElementById('why-quantix-content');
+
+            const renderWhyQuantixContent = (tabId) => {
+                const item = whyQuantixData[tabId];
+                if (!item || !whyQuantixContentContainer) return;
+                whyQuantixContentContainer.innerHTML = `
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2 text-teal-600">${item.title}</h3>
+                        <p class="text-sm text-stone-600">${item.content}</p>
+                    </div>
+                `;
+            };
+
+            if (whyQuantixTabsContainer) {
+                whyQuantixTabsContainer.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const tabId = e.target.dataset.tab;
+                        whyQuantixTabsContainer.querySelectorAll('.why-quantix-tab').forEach(tab => tab.classList.remove('active'));
+                        e.target.classList.add('active');
+                        renderWhyQuantixContent(tabId);
+                    }
+                });
+                // Initial render for the first tab
+                renderWhyQuantixContent('ecosystem');
+            }
 
 
             // --- Initial Render ---
