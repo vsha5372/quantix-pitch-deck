@@ -119,7 +119,6 @@
     </style>
 </head>
 <body class="antialiased">
-    
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
         <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
@@ -137,6 +136,7 @@
                 <a href="#market-size" class="nav-link p-3 rounded-lg transition text-sm">Market Size</a>
                 <a href="#financials" class="nav-link p-3 rounded-lg transition text-sm">Financials</a>
                 <a href="#team-budget" class="nav-link p-3 rounded-lg transition text-sm">Budget</a>
+                <a href="#use-of-funds" class="nav-link p-3 rounded-lg transition text-sm">Use of Funds</a>
                 <a href="#team" class="nav-link p-3 rounded-lg transition text-sm">Team</a>
                 <a href="#competition" class="nav-link p-3 rounded-lg transition text-sm">Competition</a>
                 <a href="#why-quantix" class="nav-link p-3 rounded-lg transition text-sm">Why Quantix</a>
@@ -151,7 +151,6 @@
                         <h2 class="text-4xl font-bold tracking-tight">An AI Trading Agents Company</h2>
                         <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is democratizing institutional-grade trading for everyone, from retail investors to hedge funds, across both Cryptocurrency and Forex markets.</p>
                     </div>
-                    <!-- FIX: Updated funding section -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center max-w-4xl mx-auto">
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <h3 class="text-base font-semibold text-stone-500">Projected Year 5 Revenue</h3>
@@ -222,7 +221,6 @@
                             <h3 class="text-xl font-bold">Phase 1: Cryptocurrency Market Entry</h3>
                             <p class="text-sm text-stone-500 font-semibold mb-4">Year 1 - Mid Year 2</p>
                             <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                <!-- FIX: Updated GTM Phase 1 text -->
                                 <ul class="list-disc list-inside space-y-2 text-stone-600">
                                     <li><strong>Q3 Launch:</strong> Launch Quantix Marketplace for crypto on top-tier exchanges (Binance, Bybit, OKX).</li>
                                     <li><strong>Q4 Launch:</strong> Release Quantix IQ (Freemium) to build a user base and community.</li>
@@ -236,7 +234,6 @@
                             <h3 class="text-xl font-bold">Phase 2: Forex Market Expansion</h3>
                             <p class="text-sm text-stone-500 font-semibold mb-4">Late Year 2 - Onward</p>
                             <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                 <!-- FIX: Updated GTM Phase 2 text -->
                                  <ul class="list-disc list-inside space-y-2 text-stone-600">
                                     <li><strong>Q1 2026:</strong> Develop and test MT4/MT5 integration for Forex market entry.</li>
                                     <li><strong>Q2 2026:</strong> Roll out Marketplace and IQ products to the top 20 Forex brokers.</li>
@@ -278,7 +275,6 @@
                                 <div class="relative md:col-start-1 md:text-right">
                                     <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -right-2"></div>
                                     <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                        <!-- FIX: Updated Roadmap "Going Forward" text -->
                                         <ul class="text-sm text-stone-600 space-y-2 text-left">
                                             <li>→ Q3 2025: Launch Marketplace for Crypto.</li>
                                             <li>→ Q4 2025: Release Quantix IQ for Crypto.</li>
@@ -428,7 +424,7 @@
                             </div>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="font-bold text-xl mb-4">Forex Brokers</h3>
+                            <h3 class="text-xl font-bold mb-4">Forex Brokers</h3>
                             <p class="text-sm text-stone-600 mb-4">Integration with any broker supporting the industry-standard MT4 and MT5 platforms, with a focus on these leading 20 brokers.</p>
                              <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-stone-700">
                                 <ul class="space-y-2">
@@ -510,10 +506,65 @@
                     </div>
                 </section>
 
+                <!-- NEW Section: Use of Funds -->
+                <section id="use-of-funds" class="mb-16 scroll-mt-24">
+                    <h2 class="text-3xl font-bold text-center mb-12">Use of Funds</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-md max-w-5xl mx-auto">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold">Seeking $5 Million in Seed Funding</h3>
+                            <p class="text-stone-600 mt-2">To accelerate our go-to-market strategy, expand our team, and scale our platform infrastructure.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div class="chart-container relative h-80 w-80 mx-auto">
+                                <canvas id="useOfFundsChart"></canvas>
+                            </div>
+                            <div>
+                                <ul class="space-y-4">
+                                    <li class="flex items-start">
+                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #312e81;"></div>
+                                        <div>
+                                            <h4 class="font-bold">Team Expansion & Salaries (40% - $2.0M)</h4>
+                                            <p class="text-sm text-stone-600">Recruit top-tier talent in engineering, sales, and customer support to execute our roadmap and support a growing user base.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #4338ca;"></div>
+                                        <div>
+                                            <h4 class="font-bold">Product Development & R&D (25% - $1.25M)</h4>
+                                            <p class="text-sm text-stone-600">Accelerate the development of Quantix IQ, the institutional-grade Pro platform, and the integration with the Forex market.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #6366f1;"></div>
+                                        <div>
+                                            <h4 class="font-bold">Sales & Marketing (18% - $0.9M)</h4>
+                                            <p class="text-sm text-stone-600">Drive user acquisition through targeted digital marketing, influencer partnerships, and building a strong community presence.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #818cf8;"></div>
+                                        <div>
+                                            <h4 class="font-bold">Marketplace Bot Capitalization (12% - $0.6M)</h4>
+                                            <p class="text-sm text-stone-600">Provide the necessary capital to deploy and run our proprietary bots on partner exchanges, showcasing their performance.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #a5b4fc;"></div>
+                                        <div>
+                                            <h4 class="font-bold">Operational & G&A (5% - $0.25M)</h4>
+                                            <p class="text-sm text-stone-600">Cover essential operating costs including legal, IT infrastructure, and administrative overhead.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="text-center text-stone-600 mt-8 font-semibold">This funding provides an estimated 24-month runway to achieve key growth milestones and reach profitability.</p>
+                    </div>
+                </section>
+
                  <!-- Section: Team -->
                 <section id="team" class="mb-16 scroll-mt-24">
                     <h2 class="text-3xl font-bold text-center mb-8">Quantix Team</h2>
-                    <!-- NOTE: Team images may not display correctly if viewed locally due to Google Drive's security policies. For production, host these images on a proper web server or image hosting service. -->
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         <div class="text-center">
                             <img src="Vahid Shahpari Fard.jpg" alt="Vahid Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover">
@@ -668,12 +719,6 @@
             const START_YEAR = 2025; // Starting year for financial projections
 
             // --- UTILITY FUNCTIONS ---
-            /**
-             * Formats a number as a currency string (e.g., $1,234,567 or $1.2M).
-             * @param {number} value - The number to format.
-             * @param {boolean} compact - Whether to use compact notation (e.g., M for million).
-             * @returns {string} The formatted currency string.
-             */
             const formatCurrency = (value, compact = false) => {
                 if (value === 'N/A' || typeof value !== 'number') return 'N/A';
                 const sign = value < 0 ? '-' : '';
@@ -686,18 +731,12 @@
                 return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
             };
 
-            /**
-             * Formats a number with commas as thousands separators.
-             * @param {number} value - The number to format.
-             * @returns {string} The formatted number string.
-             */
             const formatNumber = (value) => {
                 if (typeof value !== 'number') return '0';
                 return Math.round(value).toLocaleString('en-US');
             };
 
             // --- DEFAULTS FROM GTM DASHBOARD V16 ---
-            // These objects hold the default parameters for all financial models.
             const GTM_DEFAULTS_CRYPTO = { market: 'crypto', aumPerUser: 2000, monthlyReturn: 0.03, growthModelType: 's-curve', linearNewCopiersPerPartner: 330, customParams: { growthModel: { 1: { growth: 0.60, churn: 0.04 }, 2: { growth: 0.25, churn: 0.03 }, 3: { growth: 0.12, churn: 0.02 }, 4: { growth: 0.07, churn: 0.02 }, 5: { growth: 0.07, churn: 0.02 } } } };
             const GTM_DEFAULTS_FOREX = { market: 'forex', aumPerUser: 1500, monthlyReturn: 0.03, growthModelType: 's-curve', linearNewCopiersPerPartner: 200, customParams: { growthModel: { 1: { growth: 0.00, churn: 0.00 }, 2: { growth: 0.60, churn: 0.04 }, 3: { growth: 0.25, churn: 0.03 }, 4: { growth: 0.12, churn: 0.02 }, 5: { growth: 0.07, churn: 0.02 } } } };
             const IQ_DEFAULTS = { startMonth: 6, costPerFreeTrial: 15, planUptake: { annual: 0.7, monthly: 0.3 }, paidUserDist: { basic: 0.6, pro: 0.3, elite: 0.1 }, newFreeTrialsPerMonth: { 1: 700, 2: 2500, 3: 4500 }, convRate: { 1: 0.10, 2: 0.15, 3: 0.20 }, annualPaidChurn: { 1: 0.35, 2: 0.25, 3: 0.15 } };
@@ -770,7 +809,6 @@
             };
             
             // --- DETAILED FINANCIAL CALCULATION MODELS ---
-            // Each function calculates the monthly revenue and costs for a specific business unit.
             function calculateGTMModel(inputs) {
                 const { market, aumPerUser, monthlyReturn, growthModelType, customParams, linearNewCopiersPerPartner } = inputs;
                 const isCrypto = market === 'crypto';
@@ -889,10 +927,6 @@
                 return { monthlyData, yearlyTotals };
             };
             
-            /**
-             * Runs all financial models and aggregates the results into a single object.
-             * @returns {object} An object containing yearly summaries, monthly data, and KPIs.
-             */
             const runAllCalculations = () => {
                 const gtmCryptoData = calculateGTMModel(GTM_DEFAULTS_CRYPTO); 
                 const gtmForexData = calculateGTMModel(GTM_DEFAULTS_FOREX);
@@ -972,13 +1006,6 @@
             const allData = runAllCalculations();
 
             // --- RENDER FUNCTIONS ---
-            // These functions take data and update the DOM.
-
-            /**
-             * Renders or updates a Chart.js chart.
-             * @param {string} chartId - The ID of the canvas element.
-             * @param {object} chartConfig - The configuration object for the chart.
-             */
             const renderChart = (chartId, chartConfig) => {
                 const canvas = document.getElementById(chartId);
                 if (!canvas) return;
@@ -1033,7 +1060,6 @@
                 const formatRow = (title, data, formatter = formatCurrency) => `<tr><td class="p-3" data-label="Metric">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatter(d)}</td>`).join('')}</tr>`;
                 
                 html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6" data-label="Section">Revenue Drivers</td></tr>`;
-                // FIX: Changed label for MRR
                 html += formatRow('IQ Monthly Recurring Revenue (MRR)', allData.iqDataYearly.mrr);
                 html += formatRow('Revenue AUM', allData.gtmDataYearly.aum);
                 html += formatRow('Paid MAU (IQ)', allData.iqDataYearly.paidUsers, formatNumber);
@@ -1057,7 +1083,6 @@
                     const yearData = peopleData.monthlyData.slice(y * 12, (y + 1) * 12);
                     opexData.salaries.push(yearData.reduce((s, m) => s + m.payroll, 0));
                     opexData.benefits.push(yearData.reduce((s, m) => s + m.benefitsTaxes, 0));
-                    // FIX: Combined G&A, recruiting, and bonuses
                     const combinedGA = yearData.reduce((s, m) => s + m.travel + m.it + m.comms + m.recruitingFees + m.salesBonuses, 0);
                     opexData.ga.push(combinedGA);
                 }
@@ -1070,7 +1095,6 @@
                 const formatRow = (title, data) => `<tr><td class="p-3" data-label="Cost Category">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
                 
                 html += formatRow('Total Salaries', opexData.salaries);
-                // FIX: Removed "(25%)" from label
                 html += formatRow('Benefits & Taxes', opexData.benefits);
                 html += formatRow('General & Admin', opexData.ga);
                 html += `<tr class="font-bold bg-stone-50"><td class="p-3" data-label="Cost Category">Total Operating Expenses</td>${allData.yearlySummary.opex.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatCurrency(d)}</td>`).join('')}</tr>`;
@@ -1085,15 +1109,7 @@
                     plugins: { legend: { position: 'bottom', labels: { color: '#78716C' } } },
                     scales: {
                         x: { ticks: { color: '#78716C' }, grid: { display: false } },
-                        y: { 
-                            ticks: { color: '#78716C', callback: v => formatCurrency(v, true) }, 
-                            grid: { color: '#E7E5E4' },
-                            title: {
-                                display: true,
-                                text: 'USD',
-                                color: '#78716C'
-                            }
-                        }
+                        y: { ticks: { color: '#78716C', callback: v => formatCurrency(v, true) }, grid: { color: '#E7E5E4' } }
                     }
                 };
 
@@ -1139,7 +1155,7 @@
                             annotation:{annotations: milestoneAnnotations}
                         },
                         scales:{
-                            y:{...chartOptions.scales.y},
+                            y:{ticks:{color:'#78716C',callback:v=>formatCurrency(v,true)},grid:{color:'#E7E5E4'}},
                             x:{ticks:{color:'#78716C'},grid:{color:'#E7E5E4'}}
                         }
                     }
@@ -1212,7 +1228,6 @@
                     }
                 });
 
-                // NEW: Render Run Rate Chart
                 renderChart('runRateChart', {
                     type: 'bar',
                     data: {
@@ -1240,10 +1255,60 @@
                     }
                 });
             };
+            
+            const renderUseOfFundsChart = () => {
+                renderChart('useOfFundsChart', {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            'Team Expansion & Salaries',
+                            'Product Development & R&D',
+                            'Sales & Marketing',
+                            'Marketplace Bot Capitalization',
+                            'Operational & G&A'
+                        ],
+                        datasets: [{
+                            label: 'Use of Funds',
+                            data: [40, 25, 18, 12, 5],
+                            backgroundColor: [
+                                '#312e81', // Indigo-900
+                                '#4338ca', // Indigo-700
+                                '#6366f1', // Indigo-500
+                                '#818cf8', // Indigo-400
+                                '#a5b4fc'  // Indigo-300
+                            ],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed !== null) {
+                                            label += context.parsed + '%';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
 
             // --- EVENT LISTENERS & INITIALIZATION ---
             
-            // Controller for the main product solution tabs
             const tabButtons = document.querySelectorAll('#solution .tab-btn');
             const tabContentContainer = document.getElementById('tab-content');
 
@@ -1258,7 +1323,7 @@
                             <p class="text-stone-600 mb-4">${content.description}</p>
                         </div>
                         <div class="bg-stone-100 rounded-lg p-6 text-center">
-                            <span class="text-5xl">${tabId === 'marketplace' ? '🛒' : tabId === 'iq' ? '💡' : '�'}</span>
+                            <span class="text-5xl">${tabId === 'marketplace' ? '🛒' : tabId === 'iq' ? '💡' : '🏦'}</span>
                             <h4 class="font-bold mt-4">Business Model</h4>
                             <p class="text-stone-600">${content.model}</p>
                         </div>
@@ -1278,7 +1343,6 @@
                 });
             });
             
-            // Controller for the competition section tabs
             const competitorTabs = document.querySelectorAll('#competition .tab-btn');
             const cryptoCompTable = document.getElementById('crypto-comp-table');
             const forexCompTable = document.getElementById('forex-comp-table');
@@ -1297,8 +1361,6 @@
                 });
             });
 
-
-            // --- Navigation Highlighting on Scroll ---
             const sections = document.querySelectorAll('main section');
             const navLinks = document.querySelectorAll('#main-nav a');
             const mainContent = document.getElementById('main-content');
@@ -1326,7 +1388,6 @@
                 observer.observe(section);
             });
 
-            // --- Why Quantix Tabs Controller ---
             const whyQuantixTabsContainer = document.getElementById('why-quantix-tabs');
             const whyQuantixContentContainer = document.getElementById('why-quantix-content');
 
@@ -1350,13 +1411,9 @@
                         renderWhyQuantixContent(tabId);
                     }
                 });
-                // Initial render for the first tab
                 renderWhyQuantixContent('ecosystem');
             }
 
-
-            // --- Initial Render ---
-            // This function call sequence builds the entire page on load.
             const y5RevenueEl = document.getElementById('kpi-y5-revenue');
             if (y5RevenueEl) {
                 const finalRevenue = allData.yearlySummary.totalRevenue[4];
@@ -1368,8 +1425,8 @@
             renderKpiTable();
             renderOpexSummaryTable();
             renderCharts();
+            renderUseOfFundsChart();
         });
     </script>
 </body>
 </html>
-�
