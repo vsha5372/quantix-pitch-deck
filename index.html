@@ -119,7 +119,7 @@
     </style>
 </head>
 <body class="antialiased">
-   
+    
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
         <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
@@ -428,7 +428,7 @@
                             </div>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-bold mb-4">Forex Brokers</h3>
+                            <h3 class="font-bold text-xl mb-4">Forex Brokers</h3>
                             <p class="text-sm text-stone-600 mb-4">Integration with any broker supporting the industry-standard MT4 and MT5 platforms, with a focus on these leading 20 brokers.</p>
                              <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-stone-700">
                                 <ul class="space-y-2">
@@ -1085,7 +1085,15 @@
                     plugins: { legend: { position: 'bottom', labels: { color: '#78716C' } } },
                     scales: {
                         x: { ticks: { color: '#78716C' }, grid: { display: false } },
-                        y: { ticks: { color: '#78716C', callback: v => formatCurrency(v, true) }, grid: { color: '#E7E5E4' } }
+                        y: { 
+                            ticks: { color: '#78716C', callback: v => formatCurrency(v, true) }, 
+                            grid: { color: '#E7E5E4' },
+                            title: {
+                                display: true,
+                                text: 'USD',
+                                color: '#78716C'
+                            }
+                        }
                     }
                 };
 
@@ -1131,7 +1139,7 @@
                             annotation:{annotations: milestoneAnnotations}
                         },
                         scales:{
-                            y:{ticks:{color:'#78716C',callback:v=>formatCurrency(v,true)},grid:{color:'#E7E5E4'}},
+                            y:{...chartOptions.scales.y},
                             x:{ticks:{color:'#78716C'},grid:{color:'#E7E5E4'}}
                         }
                     }
@@ -1250,7 +1258,7 @@
                             <p class="text-stone-600 mb-4">${content.description}</p>
                         </div>
                         <div class="bg-stone-100 rounded-lg p-6 text-center">
-                            <span class="text-5xl">${tabId === 'marketplace' ? '🛒' : tabId === 'iq' ? '💡' : '🏦'}</span>
+                            <span class="text-5xl">${tabId === 'marketplace' ? '🛒' : tabId === 'iq' ? '💡' : '�'}</span>
                             <h4 class="font-bold mt-4">Business Model</h4>
                             <p class="text-stone-600">${content.model}</p>
                         </div>
@@ -1364,3 +1372,4 @@
     </script>
 </body>
 </html>
+�
