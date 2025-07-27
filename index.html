@@ -119,7 +119,7 @@
     </style>
 </head>
 <body class="antialiased">
-    
+   
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
         <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
@@ -489,6 +489,10 @@
                                 <h3 class="text-xl font-bold mb-4 text-center">Quarterly Cash Flow & Milestones</h3>
                                 <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
                             </div>
+                             <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-xl font-bold mb-4 text-center">Annual Revenue Run Rate (EOY)</h3>
+                                <div class="chart-container"><canvas id="runRateChart"></canvas></div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -497,7 +501,7 @@
                 <section id="team-budget" class="mb-16 scroll-mt-24">
                     <h2 class="text-3xl font-bold text-center mb-8">Team Growth & Budget</h2>
                      <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-bold mb-4">Refactored 5-Year Operating Expenses</h3>
+                        <h3 class="text-xl font-bold mb-4">5-Year Operating Expenses</h3>
                         <div class="table-container">
                              <table class="w-full text-left text-sm responsive-table" id="opex-summary-table">
                                 <!-- JS will populate this -->
@@ -901,6 +905,10 @@
                     totalRevenue: [], totalDirectCosts: [], grossProfit: [], opex: [], netIncome: []
                 };
 
+                const monthlyTotalRevenue = Array.from({length: 60}, (_, i) => {
+                    return gtmCryptoData.monthly[i].revenue + gtmForexData.monthly[i].revenue + iqData.monthly[i].revenue + proData.monthly[i].revenue;
+                });
+
                 for (let y = 0; y < 5; y++) {
                     const yearStart = y * 12;
                     const yearEnd = yearStart + 12;
@@ -932,9 +940,8 @@
                 }
 
                 const monthlyNetIncome = Array.from({length: 60}, (_, i) => {
-                    const monthlyTotalRevenue = gtmCryptoData.monthly[i].revenue + gtmForexData.monthly[i].revenue + iqData.monthly[i].revenue + proData.monthly[i].revenue;
                     const monthlyTotalDirectCost = gtmCryptoData.monthly[i].cost + gtmForexData.monthly[i].cost + iqData.monthly[i].cost + proData.monthly[i].cost;
-                    return monthlyTotalRevenue - monthlyTotalDirectCost - peopleData.monthlyData[i].totalOpEx;
+                    return monthlyTotalRevenue[i] - monthlyTotalDirectCost - peopleData.monthlyData[i].totalOpEx;
                 });
                 
                 const quarterlyNetIncome = [];
@@ -943,12 +950,19 @@
                     quarterlyNetIncome.push(quarterSum);
                 }
 
+                const yearlyRunRate = [];
+                for (let y = 0; y < 5; y++) {
+                    const lastQuarterStartMonthIndex = y * 12 + 9;
+                    const lastQuarterRevenue = monthlyTotalRevenue.slice(lastQuarterStartMonthIndex, lastQuarterStartMonthIndex + 3).reduce((a, b) => a + b, 0);
+                    yearlyRunRate.push(lastQuarterRevenue * 4);
+                }
+
                 return {
                     years: Array.from({ length: 5 }, (_, i) => START_YEAR + i),
                     yearlySummary,
                     peopleData,
                     quarterlyNetIncome,
-                    // Pass through some yearly data for KPI table
+                    yearlyRunRate,
                     iqDataYearly: { mrr: [4200, 63000, 210000, 504000, 966000], paidUsers: [100, 1500, 5000, 12000, 23000] },
                     gtmDataYearly: { aum: [1000000, 15000000, 45000000, 90000000, 150000000], users: [300, 1500, 4500, 9000, 15000] },
                     proDataYearly: { totalPro: [2, 6, 14, 24, 36], totalEnterprise: [1, 3, 6, 10, 15] },
@@ -1019,7 +1033,8 @@
                 const formatRow = (title, data, formatter = formatCurrency) => `<tr><td class="p-3" data-label="Metric">${title}</td>${data.map((d,i) => `<td class="p-3 text-right" data-label="Y${i+1}">${formatter(d)}</td>`).join('')}</tr>`;
                 
                 html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6" data-label="Section">Revenue Drivers</td></tr>`;
-                html += formatRow('Monthly Recurring Revenue (MRR)', allData.iqDataYearly.mrr);
+                // FIX: Changed label for MRR
+                html += formatRow('IQ Monthly Recurring Revenue (MRR)', allData.iqDataYearly.mrr);
                 html += formatRow('Revenue AUM', allData.gtmDataYearly.aum);
                 html += formatRow('Paid MAU (IQ)', allData.iqDataYearly.paidUsers, formatNumber);
                 html += `<tr class="bg-stone-100 font-semibold"><td class="p-3" colspan="6" data-label="Section">Supporting Metrics</td></tr>`;
@@ -1184,6 +1199,34 @@
                                 grid: {
                                     display: false
                                 }
+                            }
+                        }
+                    }
+                });
+
+                // NEW: Render Run Rate Chart
+                renderChart('runRateChart', {
+                    type: 'bar',
+                    data: {
+                        labels: allData.years.map(y => `Y${y - START_YEAR + 1}`),
+                        datasets: [{
+                            label: 'Annual Run Rate',
+                            data: allData.yearlyRunRate,
+                            backgroundColor: '#8B5CF6' // Purple
+                        }]
+                    },
+                    options: {
+                        ...chartOptions,
+                        plugins: {
+                            ...chartOptions.plugins,
+                             legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Annual Revenue Run Rate (EOY)',
+                                color: '#1C1917',
+                                font: { size: 18, weight: 'bold' }
                             }
                         }
                     }
