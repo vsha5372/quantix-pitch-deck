@@ -120,6 +120,16 @@
             background-color: var(--accent-primary);
             color: white;
         }
+        /* Functionalities Thumbnails */
+        .thumbnail-item img {
+            background-color: #FAFAF9; /* stone-100 */
+        }
+        .thumbnail-item {
+            border: 2px solid transparent;
+        }
+        .thumbnail-item.active {
+            border-color: var(--accent-primary);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -658,49 +668,16 @@
 
                 <!-- Section: Quantix Key Functionalities -->
                 <section id="key-functionalities" class="mb-16 scroll-mt-24 min-h-[50vh]">
-                    <h2 class="text-3xl font-bold text-center mb-8">Quantix Key Functionalities</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2 text-teal-600">AI-Powered Strategy Creation</h3>
-                                <p class="text-sm text-stone-600">Seamlessly incorporate sophisticated AI models into your custom trading strategies, without writing any code.</p>
-                            </div>
-                            <img src="ai_powered_creation.png" alt="AI-Powered Strategy Creation" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
+                    <h2 class="text-3xl font-bold text-center mb-12">Quantix Key Functionalities</h2>
+                    <div id="functionalities-container" class="max-w-5xl mx-auto">
+                        <!-- Main Display Area -->
+                        <div id="main-functionality-display" class="bg-white p-4 rounded-lg shadow-lg mb-6 relative text-center">
+                            <img id="main-functionality-image" src="" alt="" class="w-full h-96 object-contain rounded-md bg-stone-100">
+                            <h3 id="main-functionality-title" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black bg-opacity-50 text-white text-lg font-semibold px-6 py-2 rounded-full"></h3>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Strategy Designer</h3>
-                                <p class="text-sm text-stone-600">Includes advanced stop/take‑profit, advanced DCA, and a portfolio bot designer.</p>
-                            </div>
-                             <img src="strategy_designer.png" alt="Strategy Designer" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2 text-teal-600">Quantix Bot Advisor (UI GenAI)</h3>
-                                <p class="text-sm text-stone-600">Use our generative AI-powered chat interface to review, compare, and find suitable strategies based on your preferences.</p>
-                            </div>
-                             <img src="quantix_bot_advisor.jpg" alt="Quantix Bot Advisor" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Historical Data</h3>
-                                <p class="text-sm text-stone-600">Access extensive historical market data for robust backtesting and strategy validation.</p>
-                            </div>
-                             <img src="historical_data.png" alt="Historical Data" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2 text-teal-600">Full Telegram Bot Integration</h3>
-                                <p class="text-sm text-stone-600">Manage trades, receive alerts, and control strategies directly through Telegram.</p>
-                            </div>
-                            <img src="telegram.jpg" alt="Telegram Integration" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Supported Indicators</h3>
-                                <p class="text-sm text-stone-600">Utilize a wide array of technical indicators, including oscillators, moving averages, candlestick patterns, and more.</p>
-                            </div>
-                             <img src="supported_indicators.png" alt="Supported Indicators" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
+                        <!-- Thumbnails -->
+                        <div id="functionality-thumbnails" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            <!-- Thumbnails will be generated by JS -->
                         </div>
                     </div>
                 </section>
@@ -1703,8 +1680,8 @@
                 const content = productData[tabId];
                 if (!content || !tabContentContainer) return;
                 tabContentContainer.innerHTML = `
-                    <div id="tab-${tabId}" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div>
+                    <div id="tab-${tabId}" class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                        <div class="md:col-span-3">
                             <h3 class="text-2xl font-bold text-teal-600 mb-2">${content.title}</h3>
                             <p class="font-semibold mb-4">For the ${tabId === 'marketplace' ? 'Passive Trader' : tabId === 'iq' ? 'Active Retail Trader' : 'Institutional Client'}</p>
                             <p class="text-stone-600 mb-4">${content.description}</p>
@@ -1713,8 +1690,8 @@
                                 <p class="text-stone-600 text-sm">${content.model}</p>
                             </div>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-4 flex items-center justify-center">
-                             <img src="${content.image}" alt="${content.title}" class="rounded-lg shadow-lg max-w-full h-auto object-contain" style="max-height: 400px;" onerror="this.onerror=null;this.src='https://placehold.co/800x600/E7E5E4/78716C?text=Image+Not+Found';">
+                        <div class="md:col-span-2 bg-stone-50 rounded-lg p-4 flex items-center justify-center h-[32rem]">
+                             <img src="${content.image}" alt="${content.title}" class="rounded-lg shadow-lg max-w-full h-auto object-contain" style="max-height: 500px;" onerror="this.onerror=null;this.src='https://placehold.co/426x524/E7E5E4/78716C?text=Image+Not+Found';">
                         </div>
                     </div>
                 `;
@@ -1809,6 +1786,49 @@
                 y5RevenueEl.textContent = formatCurrency(finalRevenue, true);
             }
 
+            // --- Functionalities Section Logic ---
+            const functionalitiesData = [
+                { title: "AI-Powered Strategy Creation", image: "ai_powered_creation.png" },
+                { title: "Comprehensive Strategy Designer", image: "strategy_designer.png" },
+                { title: "Quantix Bot Advisor (UI GenAI)", image: "quantix_bot_advisor.jpg" },
+                { title: "Comprehensive Historical Data", image: "historical_data.png" },
+                { title: "Full Telegram Bot Integration", image: "TelegramBot.svg" },
+                { title: "Comprehensive Supported Indicators", image: "supported_indicators.png" }
+            ];
+
+            const renderFunctionalities = (activeIndex = 4) => { // Default to Telegram Integration
+                const mainImage = document.getElementById('main-functionality-image');
+                const mainTitle = document.getElementById('main-functionality-title');
+                const thumbnailsContainer = document.getElementById('functionality-thumbnails');
+
+                if (!mainImage || !mainTitle || !thumbnailsContainer) return;
+
+                // Set main display
+                mainImage.src = functionalitiesData[activeIndex].image;
+                mainImage.alt = functionalitiesData[activeIndex].title;
+                mainTitle.textContent = functionalitiesData[activeIndex].title;
+
+                // Render thumbnails
+                thumbnailsContainer.innerHTML = functionalitiesData.map((func, index) => `
+                    <div class="thumbnail-item p-2 rounded-lg cursor-pointer transition ${index === activeIndex ? 'active bg-stone-200' : 'bg-white shadow-md'}" data-index="${index}">
+                        <img src="${func.image}" alt="${func.title}" class="w-full h-24 object-contain rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/200x150/FAFAF9/78716C?text=Image';">
+                    </div>
+                `).join('');
+            };
+
+            const functionalitiesContainer = document.getElementById('functionalities-container');
+            if (functionalitiesContainer) {
+                const thumbnails = functionalitiesContainer.querySelector('#functionality-thumbnails');
+                thumbnails.addEventListener('click', (e) => {
+                    const item = e.target.closest('.thumbnail-item');
+                    if (item) {
+                        const index = parseInt(item.dataset.index);
+                        renderFunctionalities(index);
+                    }
+                });
+            }
+
+            renderFunctionalities(); // Initial render
             renderTabContent('marketplace');
             renderFinancialSummaryTable();
             renderKpiTable();
