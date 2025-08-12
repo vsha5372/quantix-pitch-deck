@@ -671,7 +671,7 @@
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <h3 class="font-semibold text-lg mb-2 text-teal-600">Quantix Bot Advisor (UI GenAI)</h3>
                             <p class="text-sm text-stone-600">Use our generative AI-powered chat interface to review, compare, and find suitable strategies based on your preferences.</p>
-                             <img src="bot_advisor.jpg" alt="Quantix Bot Advisor" class="mt-4 rounded-lg shadow-inner mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
+                             <img src="quantix_bot_advisor.png" alt="Quantix Bot Advisor" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Historical Data</h3>
@@ -680,7 +680,7 @@
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <h3 class="font-semibold text-lg mb-2 text-teal-600">Full Telegram Bot Integration</h3>
                             <p class="text-sm text-stone-600">Manage trades, receive alerts, and control strategies directly through Telegram.</p>
-                            <img src="telegram.jpg" alt="Telegram Integration" class="mt-4 rounded-lg shadow-inner mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
+                            <img src="telegram_integration.png" alt="Telegram Integration" class="mt-4 rounded-lg shadow-inner mx-auto w-full h-48 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FAFAF9/78716C?text=Image+Not+Found';">
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <h3 class="font-semibold text-lg mb-2 text-teal-600">Comprehensive Supported Indicators</h3>
@@ -1139,19 +1139,19 @@
                     title: "Quantix Marketplace",
                     description: "Our entry-point B2C product providing fully automated, institutional-grade trading strategies. Users can easily deploy our top-performing bots on their preferred exchanges via copy trading, enabling hands-off portfolio growth.",
                     model: "10%–30% profit‑sharing fee managed and processed by the exchange.",
-                    image: "marketplace.jpg"
+                    image: "marketplace.png"
                 },
                 iq: {
                     title: "Quantix IQ",
                     description: "A freemium SaaS platform that is a 'one-touch AI strategy designer.' IQ allows users to build, backtest, and deploy custom trading bots without writing a single line of code. Subscriptions are based on the number of bots a user runs, with a one-month free trial for all users.",
                     model: "Recurring revenue through tiered monthly and annual subscriptions (Basic, Pro, Elite).",
-                    image: "iq.jpg"
+                    image: "quantix_iq.png"
                 },
                 pro: {
                     title: "Quantix Pro",
                     description: "Our flagship B2B product. A comprehensive, no-code, web-based platform for designing, training, and running proprietary AI-powered trading strategies at scale. Aimed at hedge funds, family offices, and financial institutions.",
                     model: "High-value revenue from annual licenses, affiliate profit sharing, model design, and Non-Recurring Engineering (NRE) costs for deep systems integration.",
-                    image: "telegram.jpg"
+                    image: "quantix_pro.png"
                 }
             };
 
@@ -1697,8 +1697,8 @@
                                 <p class="text-stone-600 text-sm">${content.model}</p>
                             </div>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-4">
-                             <img src="${content.image}" alt="${content.title}" class="rounded-lg shadow-lg w-full h-auto object-cover" onerror="this.onerror=null;this.src='https://placehold.co/800x600/E7E5E4/78716C?text=Image+Not+Found';">
+                        <div class="bg-stone-50 rounded-lg p-4 h-96 flex items-center justify-center">
+                             <img src="${content.image}" alt="${content.title}" class="rounded-lg shadow-lg max-w-full max-h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/800x600/E7E5E4/78716C?text=Image+Not+Found';">
                         </div>
                     </div>
                 `;
