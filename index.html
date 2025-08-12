@@ -671,8 +671,8 @@
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Key Functionalities</h2>
                     <div id="functionalities-container" class="max-w-5xl mx-auto">
                         <!-- Main Display Area -->
-                        <div id="main-functionality-display" class="bg-white p-4 rounded-lg shadow-lg mb-4 text-center">
-                            <img id="main-functionality-image" src="" alt="" class="w-full h-96 object-contain rounded-md bg-stone-100">
+                        <div id="main-functionality-display" class="bg-white p-4 rounded-lg shadow-lg mb-4 text-center max-w-md mx-auto">
+                            <img id="main-functionality-image" src="" alt="" class="w-full h-[34rem] object-contain rounded-md bg-stone-100">
                         </div>
                         <div id="main-functionality-text" class="text-center mb-6 px-4">
                            <h3 id="main-functionality-title" class="text-xl font-bold text-teal-600 mb-2"></h3>
@@ -1015,7 +1015,7 @@
                                     <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="3Commas">Bots, Smart Terminal, Portfolio Manager</td><td class="p-3" data-label="Bitsgap">Bots, Arbitrage, Trading Terminal</td><td class="p-3" data-label="Cryptohopper">Bots, Marketplace, Signals, Social Trading</td></tr>
                                     <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="Commas">Retail & Pro-sumer</td><td class="p-3" data-label="Bitsgap">Retail & Pro-sumer</td><td class="p-3" data-label="Cryptohopper">Beginner, Casual, & Algorithmic Traders</td></tr>
                                     <tr><td class="p-3 font-semibold" data-label="Feature">AI in Strategy Creation</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Core Feature)</td><td class="p-3" data-label="3Commas">Yes (Predictive & Optimizing)¹</td><td class="p-3" data-label="Bitsgap">Yes (Assistive & Analytical)²</td><td class="p-3" data-label="Cryptohopper">Yes (Learning & Selective)³</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="3Commas">~220,000+</td><td class="p-3" data-label="Bitsgap">~600,000+</td><td class="p-3" data-label="Cryptohopper">~1,000,000+</td></tr>
+                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~220,000+</td><td class="p-3" data-label="Bitsgap">~600,000+</td><td class="p-3" data-label="Cryptohopper">~1,000,000+</td></tr>
                                     <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~$20-30M</td><td class="p-3" data-label="Bitsgap">~$8.4M</td><td class="p-3" data-label="Cryptohopper">~$15-25M</td></tr>
                                 </tbody>
                             </table>
@@ -1693,8 +1693,8 @@
                                 <p class="text-stone-600 text-sm">${content.model}</p>
                             </div>
                         </div>
-                        <div class="md:col-span-2 bg-stone-50 rounded-lg p-4 flex items-center justify-center h-[32rem]">
-                             <img src="${content.image}" alt="${content.title}" class="rounded-lg shadow-lg max-w-full h-auto object-contain" style="max-height: 500px;" onerror="this.onerror=null;this.src='https://placehold.co/426x524/E7E5E4/78716C?text=Image+Not+Found';">
+                        <div class="md:col-span-2 bg-stone-50 rounded-lg p-4 flex items-center justify-center h-[34rem]">
+                             <img src="${content.image}" alt="${content.title}" class="rounded-lg shadow-lg max-w-full h-auto object-contain" style="max-height: 524px;" onerror="this.onerror=null;this.src='https://placehold.co/426x524/E7E5E4/78716C?text=Image+Not+Found';">
                         </div>
                     </div>
                 `;
@@ -1791,12 +1791,12 @@
 
             // --- Functionalities Section Logic ---
             const functionalitiesData = [
-                { title: "AI-Powered Strategy Creation", image: "ai_powered_creation.png", description: "Seamlessly incorporate sophisticated AI models into your custom trading strategies, without writing any code." },
-                { title: "Comprehensive Strategy Designer", image: "strategy_designer.png", description: "Includes advanced stop/take‑profit, advanced DCA, and a portfolio bot designer." },
+                { title: "AI-Powered Strategy Creation", image: "ai_strategy.jpg", description: "Seamlessly incorporate sophisticated AI models into your custom trading strategies, without writing any code." },
+                { title: "Comprehensive Strategy Designer", image: "strategy_designer.jpg", description: "Includes advanced stop/take‑profit, advanced DCA, and a portfolio bot designer." },
                 { title: "Quantix Bot Advisor (UI GenAI)", image: "bot_advisor.jpg", description: "Use our generative AI-powered chat interface to review, compare, and find suitable strategies based on your preferences." },
                 { title: "Comprehensive Historical Data", image: "historic_data.png", description: "Access extensive historical market data for robust backtesting and strategy validation." },
                 { title: "Full Telegram Bot Integration", image: "telegram.jpg", description: "Manage trades, receive alerts, and control strategies directly through Telegram." },
-                { title: "Comprehensive Supported Indicators", image: "supported_indicators.png", description: "Utilize a wide array of technical indicators, including oscillators, moving averages, candlestick patterns, and more." }
+                { title: "Comprehensive Supported Indicators", image: "indicator.jpg", description: "Utilize a wide array of technical indicators, including oscillators, moving averages, candlestick patterns, and more." }
             ];
 
             const renderFunctionalities = (activeIndex = 4) => { // Default to Telegram Integration
@@ -1816,7 +1816,7 @@
                 // Render thumbnails
                 thumbnailsContainer.innerHTML = functionalitiesData.map((func, index) => `
                     <div class="thumbnail-item p-2 rounded-lg cursor-pointer transition ${index === activeIndex ? 'active bg-stone-200' : 'bg-white shadow-md'}" data-index="${index}">
-                        <img src="${func.image}" alt="${func.title}" class="w-full h-24 object-contain rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/200x150/FAFAF9/78716C?text=Image';">
+                        <img src="${func.image}" alt="${func.title}" class="w-full h-32 object-contain rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/200x150/FAFAF9/78716C?text=Image';">
                     </div>
                 `).join('');
             };
