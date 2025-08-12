@@ -666,7 +666,7 @@
                     </div>
                 </section>
 
-                <!-- Section: Quantix Key Functionalities -->
+                                <!-- Section: Quantix Key Functionalities -->
                 <section id="key-functionalities" class="mb-16 scroll-mt-24 min-h-[50vh]">
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Key Functionalities</h2>
                     <div id="functionalities-container" class="max-w-5xl mx-auto">
@@ -1786,6 +1786,7 @@
                 y5RevenueEl.textContent = formatCurrency(finalRevenue, true);
             }
 
+
             // --- Functionalities Section Logic ---
             const functionalitiesData = [
                 { title: "AI-Powered Strategy Creation", image: "ai_powered_creation.png" },
@@ -1828,6 +1829,8 @@
                 });
             }
 
+
+            // Initial call to render the gallery
             renderFunctionalities(); // Initial render
             renderTabContent('marketplace');
             renderFinancialSummaryTable();
