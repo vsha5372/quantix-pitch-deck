@@ -130,19 +130,29 @@
         .thumbnail-item.active {
             border-color: var(--accent-primary);
         }
-        /* Summary View Modal */
-        .summary-modal {
+        /* Summary & Settings Modals */
+        .modal-backdrop {
             background-color: rgba(0, 0, 0, 0.5);
         }
-        .hidden-by-summary {
+        .hidden-by-summary, .hidden-by-focus {
             display: none !important;
+        }
+        /* Top Menu Layout */
+        .top-menu-layout #side-menu {
+            display: none;
+        }
+        .top-menu-layout #top-menu {
+            display: flex;
+        }
+        .top-menu-layout #main-content {
+            height: calc(100vh - 4rem); /* Adjust based on top menu height */
         }
     </style>
 </head>
 <body class="antialiased">
-    <div class="flex">
+    <div id="app-container" class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
-        <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:flex flex-col">
+        <aside id="side-menu" class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:flex flex-col">
             <div class="flex items-center space-x-3 mb-8">
                 <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl">Q</div>
                 <h1 class="text-2xl font-bold text-stone-800">Quantix</h1>
@@ -163,321 +173,533 @@
                 <a href="#competition" class="nav-link p-3 rounded-lg transition text-sm">Competition</a>
                 <a href="#why-quantix" class="nav-link p-3 rounded-lg transition text-sm">Why Quantix</a>
             </nav>
-            <div class="mt-auto pt-4 border-t border-stone-200">
+            <div class="mt-auto pt-4 border-t border-stone-200 space-y-2">
+                 <div id="external-links-container" class="space-y-2">
+                    <a id="bots-link" href="https://bot-comparison.quantix.finance/" target="_blank" class="block w-full text-sm font-semibold py-2 px-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition text-center">Quantix Bots</a>
+                    <a id="financing-link" href="https://vsha5372.github.io/Quantix-Financing/" target="_blank" class="block w-full text-sm font-semibold py-2 px-4 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition text-center">Quantix Financing</a>
+                </div>
                 <div class="flex flex-col space-y-2">
-                    <button id="summary-view-btn" class="w-full text-sm font-semibold py-2 px-4 rounded-lg bg-teal-50 text-teal-700 hover:bg-teal-100 transition">Summary View</button>
                     <button id="full-view-btn" class="w-full text-sm font-semibold py-2 px-4 rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">Full Presentation</button>
                 </div>
             </div>
         </aside>
 
-        <div id="main-content" class="flex-1 overflow-y-auto h-screen scroll-smooth">
-            <main class="p-4 md:p-8">
-                <!-- Section: Executive Summary -->
-                <section id="summary" class="summary-toggleable mb-16 scroll-mt-24 min-h-[70vh] flex flex-col justify-center" data-id="summary" data-title="Summary">
-                    <div class="text-center mb-10">
-                        <h2 class="text-4xl font-bold tracking-tight">The first no-code platform that lets anyone build institutional-grade AI trading strategies.</h2>
-                        <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is the <span class="font-bold text-teal-600">ChatGPT of AI trading</span> — making institutional-grade strategy creation accessible to everyone in minutes, not months.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center max-w-6xl mx-auto">
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Seed Ask</h3>
-                            <p class="text-4xl font-bold text-teal-600 mt-2">$5M</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Projected Y5 Revenue</h3>
-                            <p id="kpi-y5-revenue" class="text-4xl font-bold text-teal-600 mt-2">$55.7M</p>
-                        </div>
-                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Market Opportunity</h3>
-                            <p class="text-4xl font-bold text-teal-600 mt-2">$69B</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Target Market</h3>
-                            <p class="text-4xl font-bold text-teal-600 mt-2">Crypto & Forex</p>
-                        </div>
-                    </div>
-                </section>
+        <div class="flex-1 flex flex-col relative">
+             <!-- Top Menu (hidden by default) -->
+            <header id="top-menu" class="hidden bg-white border-b border-stone-200 p-2 h-16 flex-shrink-0 items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl">Q</div>
+                    <h1 class="text-2xl font-bold text-stone-800">Quantix</h1>
+                </div>
+                <nav id="top-main-nav" class="flex items-center space-x-1 overflow-x-auto">
+                     <!-- Top nav links will be cloned here -->
+                </nav>
+                 <div id="top-external-links-container" class="flex items-center space-x-2 ml-auto pl-4">
+                     <!-- Top external links will be cloned here -->
+                 </div>
+            </header>
 
-                <!-- Section: The Problem -->
-                <section id="problem" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh] flex items-center" data-id="problem" data-title="The Problem">
-                     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl mx-auto">
-                        <h2 class="text-3xl font-bold text-center mb-4">We put Wall Street power in Main Street hands</h2>
-                        <p class="text-lg text-stone-600 text-center mb-8 max-w-3xl mx-auto">An estimated 95% of retail traders fail. They're at a massive disadvantage because they can't access, build, or afford the sophisticated trading tools that institutions use to dominate the markets.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                            <div class="bg-stone-100 p-4 rounded-lg">
-                                <h3 class="font-semibold text-lg mb-2">The Coding Barrier</h3>
-                                <p class="text-sm text-stone-600">Building a trading bot requires deep programming and quantitative skills, shutting out most people.</p>
+            <!-- Floating Settings Button -->
+            <div class="fixed top-4 right-4 z-40">
+                 <button id="settings-btn" class="p-2 rounded-full bg-white shadow-lg hover:bg-stone-100 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="main-content" class="flex-1 overflow-y-auto h-screen scroll-smooth">
+                <main class="p-4 md:p-8">
+                    <!-- Section: Executive Summary -->
+                    <section id="summary" class="summary-toggleable mb-16 scroll-mt-24 min-h-[70vh] flex flex-col justify-center" data-id="summary" data-title="Summary">
+                        <div class="text-center mb-10">
+                            <h2 class="text-4xl font-bold tracking-tight">The first no-code platform that lets anyone build institutional-grade AI trading strategies.</h2>
+                            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is the <span class="font-bold text-teal-600">ChatGPT of AI trading</span> — making institutional-grade strategy creation accessible to everyone in minutes, not months.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center max-w-6xl mx-auto">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-base font-semibold text-stone-500">Seed Ask</h3>
+                                <p class="text-4xl font-bold text-teal-600 mt-2">$5M</p>
                             </div>
-                            <div class="bg-stone-100 p-4 rounded-lg">
-                                <h3 class="font-semibold text-lg mb-2">Prohibitive Costs</h3>
-                                <p class="text-sm text-stone-600">Institutional platforms cost tens of thousands per year, while retail "bots" are often ineffective scripts.</p>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-base font-semibold text-stone-500">Projected Y5 Revenue</h3>
+                                <p id="kpi-y5-revenue" class="text-4xl font-bold text-teal-600 mt-2">$55.7M</p>
                             </div>
-                             <div class="bg-stone-100 p-4 rounded-lg">
-                                <h3 class="font-semibold text-lg mb-2">Lack of True AI</h3>
-                                <p class="text-sm text-stone-600">Most available tools are simple automation, not machine learning (ML) AI that can learn, adapt, and create novel strategies.</p>
+                             <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-base font-semibold text-stone-500">Market Opportunity</h3>
+                                <p class="text-4xl font-bold text-teal-600 mt-2">$69B</p>
                             </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section: The Solution -->
-                <section id="solution" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="solution" data-title="Our Solution">
-                    <h2 class="text-3xl font-bold text-center mb-8">Our Solution: Quantix IQ</h2>
-                    <p class="text-center text-lg text-stone-600 max-w-3xl mx-auto mb-10">We solve this problem by giving retail traders the power of institutional AI, without the complexity or cost.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
-                            <h3 class="font-semibold text-lg mb-2">No Coding Required</h3>
-                            <p class="text-sm text-stone-600">Build sophisticated strategies with our intuitive, visual, no-code platform.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
-                            <h3 class="font-semibold text-lg mb-2">Institutional-Grade AI</h3>
-                            <p class="text-sm text-stone-600">Leverage our proprietary AI for strategy creation, backtesting, and optimization.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
-                            <h3 class="font-semibold text-lg mb-2">Affordable Pricing</h3>
-                            <p class="text-sm text-stone-600">Our freemium model makes powerful tools accessible to everyone.</p>
-                        </div>
-                         <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
-                            <h3 class="font-semibold text-lg mb-2">Proven Strategies</h3>
-                            <p class="text-sm text-stone-600">Access a marketplace of pre-built, high-performance bots.</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <div class="flex justify-center border-b border-stone-200 mb-6">
-                            <button class="tab-btn active flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition border-b-2" data-tab="marketplace">Marketplace</button>
-                            <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600 border-b-2 border-transparent" data-tab="iq">IQ</button>
-                            <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600 border-b-2 border-transparent" data-tab="pro">Pro</button>
-                        </div>
-                        <div id="tab-content">
-                            <!-- Content will be injected by JS -->
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section: Go-To-Market Strategy -->
-                <section id="strategy" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="strategy" data-title="Go-To-Market Strategy">
-                    <h2 class="text-3xl font-bold text-center mb-8">Go-To-Market Strategy</h2>
-                    <div class="relative pl-4 border-l-2 border-teal-500">
-                        <!-- Phase 1 -->
-                        <div class="mb-10 pl-8 relative timeline-item">
-                            <h3 class="text-xl font-bold">Phase 1: Cryptocurrency Market Entry</h3>
-                            <p class="text-sm text-stone-500 font-semibold mb-4">Year 1 - Mid Year 2</p>
-                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                <ul class="list-disc list-inside space-y-2 text-stone-600">
-                                    <li><strong>Q3 Launch:</strong> Launch Quantix Marketplace for crypto on top-tier exchanges (Binance, Bybit, OKX).</li>
-                                    <li><strong>Q4 Launch:</strong> Release Quantix IQ (Freemium) to build a user base and community.</li>
-                                    <li><strong>Post-Launch:</strong> Initiate an affiliate and influencer-led marketing campaign on social media to build prosumer awareness.</li>
-                                    <li><strong>Q4 2025:</strong> Soft launch of direct sales to Quantix Pro for family offices and institutions.</li>
-                                </ul>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-base font-semibold text-stone-500">Target Market</h3>
+                                <p class="text-4xl font-bold text-teal-600 mt-2">Crypto & Forex</p>
                             </div>
                         </div>
-                        <!-- Phase 2 -->
-                        <div class="pl-8 relative timeline-item">
-                            <h3 class="text-xl font-bold">Phase 2: Forex Market Expansion</h3>
-                            <p class="text-sm text-stone-500 font-semibold mb-4">Late Year 2 - Onward</p>
-                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                 <ul class="list-disc list-inside space-y-2 text-stone-600">
-                                    <li><strong>Q1 2026:</strong> Develop and test MT4/MT5 integration for Forex market entry.</li>
-                                    <li><strong>Q2 2026:</strong> Roll out Marketplace and IQ products to the top 20 Forex brokers.</li>
-                                    <li><strong>Q3 2026:</strong> Introduce a retail version of Quantix Pro as a high-tier SaaS offering.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
 
-                <!-- Section: Roadmap -->
-                <section id="roadmap" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="roadmap" data-title="Roadmap Summary">
-                    <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap Summary</h2>
-                    <div class="relative max-w-4xl mx-auto">
-                        <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
-                        <div class="space-y-12 md:space-y-0">
-                            <!-- Item 1 -->
-                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
-                                <div class="flex justify-center md:justify-end mb-4 md:mb-0">
-                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
-                                        <h3 class="font-bold text-teal-600">To Date</h3>
-                                        <p class="text-sm text-stone-500">Completed Milestones</p>
-                                    </div>
+                    <!-- Section: The Problem -->
+                    <section id="problem" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh] flex items-center" data-id="problem" data-title="The Problem">
+                         <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl mx-auto">
+                            <h2 class="text-3xl font-bold text-center mb-4">We put Wall Street power in Main Street hands</h2>
+                            <p class="text-lg text-stone-600 text-center mb-8 max-w-3xl mx-auto">An estimated 95% of retail traders fail. They're at a massive disadvantage because they can't access, build, or afford the sophisticated trading tools that institutions use to dominate the markets.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                                <div class="bg-stone-100 p-4 rounded-lg">
+                                    <h3 class="font-semibold text-lg mb-2">The Coding Barrier</h3>
+                                    <p class="text-sm text-stone-600">Building a trading bot requires deep programming and quantitative skills, shutting out most people.</p>
                                 </div>
-                                <div class="relative">
-                                    <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -left-2"></div>
-                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                        <ul class="text-sm text-stone-600 space-y-2">
-                                            <li>✓ Q2 2020: Founders meet, research begins.</li>
-                                            <li>✓ 2022-2023: ML & Deep Learning R&D.</li>
-                                            <li>✓ Q1 2024: Legal entity formed in Oman.</li>
-                                            <li>✓ Q4 2024: Marketplace & Pro initial releases.</li>
-                                        </ul>
-                                    </div>
+                                <div class="bg-stone-100 p-4 rounded-lg">
+                                    <h3 class="font-semibold text-lg mb-2">Prohibitive Costs</h3>
+                                    <p class="text-sm text-stone-600">Institutional platforms cost tens of thousands per year, while retail "bots" are often ineffective scripts.</p>
                                 </div>
-                            </div>
-                            <!-- Item 2 -->
-                             <div class="md:grid md:grid-cols-2 md:gap-8 items-center mt-8">
-                                <div class="relative md:col-start-1 md:text-right">
-                                    <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -right-2"></div>
-                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                        <ul class="text-sm text-stone-600 space-y-2 text-left">
-                                            <li>→ Q3 2025: Launch Marketplace for Crypto.</li>
-                                            <li>→ Q1 2026: Release Quantix IQ for Crypto.</li>
-                                            <li>→ Q3 2026: Expand to Forex Market.</li>
-                                            <li>→ Q3 2026: Introduce Quantix Pro for retail.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                               <div class="flex justify-center md:justify-start mt-4 md:mt-0 md:col-start-2">
-                                    <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
-                                        <h3 class="font-bold text-teal-600">Going Forward</h3>
-                                        <p class="text-sm text-stone-500">Upcoming Launches</p>
-                                    </div>
+                                 <div class="bg-stone-100 p-4 rounded-lg">
+                                    <h3 class="font-semibold text-lg mb-2">Lack of True AI</h3>
+                                    <p class="text-sm text-stone-600">Most available tools are simple automation, not machine learning (ML) AI that can learn, adapt, and create novel strategies.</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <!-- NEW Section: Roadmap Diagram -->
-                <section id="roadmap-diagram" class="summary-toggleable mb-16 scroll-mt-24" data-id="roadmap-diagram" data-title="Roadmap Diagram">
-                    <div class="flex justify-between items-center mb-8">
-                        <h2 class="text-3xl font-bold text-center text-gray-800">Detailed 2-Year Roadmap</h2>
-                        <div id="roadmap-style-selector" class="flex items-center space-x-2 bg-white p-1 rounded-lg shadow">
-                             <button data-style="vertical" class="roadmap-style-btn active text-sm font-semibold py-2 px-4 rounded-md transition">Timeline</button>
-                             <button data-style="gantt" class="roadmap-style-btn text-sm font-semibold py-2 px-4 rounded-md transition">Gantt</button>
+                    <!-- Section: The Solution -->
+                    <section id="solution" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="solution" data-title="Our Solution">
+                        <h2 class="text-3xl font-bold text-center mb-8">Our Solution: Quantix IQ</h2>
+                        <p class="text-center text-lg text-stone-600 max-w-3xl mx-auto mb-10">We solve this problem by giving retail traders the power of institutional AI, without the complexity or cost.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                            <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
+                                <h3 class="font-semibold text-lg mb-2">No Coding Required</h3>
+                                <p class="text-sm text-stone-600">Build sophisticated strategies with our intuitive, visual, no-code platform.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
+                                <h3 class="font-semibold text-lg mb-2">Institutional-Grade AI</h3>
+                                <p class="text-sm text-stone-600">Leverage our proprietary AI for strategy creation, backtesting, and optimization.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
+                                <h3 class="font-semibold text-lg mb-2">Affordable Pricing</h3>
+                                <p class="text-sm text-stone-600">Our freemium model makes powerful tools accessible to everyone.</p>
+                            </div>
+                             <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
+                                <h3 class="font-semibold text-lg mb-2">Proven Strategies</h3>
+                                <p class="text-sm text-stone-600">Access a marketplace of pre-built, high-performance bots.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div id="roadmap-vertical-view">
-                        <!-- Year 1 -->
-                        <div>
-                            <h3 class="text-2xl font-bold text-center text-teal-600 mb-8">Year 1: Q3 2025 - Q2 2026</h3>
-                            <div class="relative max-w-4xl mx-auto">
-                                <!-- Timeline Line -->
-                                <div class="absolute w-1 bg-teal-200 h-full left-1/2 transform -translate-x-1/2"></div>
-                                <!-- Quarters -->
-                                <div class="space-y-12">
-                                    <!-- Q3 2025 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div class="sm:text-right sm:pr-8">
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q3 2025</p>
-                                                <h4 class="font-bold text-lg">Foundation &amp; Launch</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <div class="flex justify-center border-b border-stone-200 mb-6">
+                                <button class="tab-btn active flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition border-b-2" data-tab="marketplace">Marketplace</button>
+                                <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600 border-b-2 border-transparent" data-tab="iq">IQ</button>
+                                <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600 border-b-2 border-transparent" data-tab="pro">Pro</button>
+                            </div>
+                            <div id="tab-content">
+                                <!-- Content will be injected by JS -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section: Go-To-Market Strategy -->
+                    <section id="strategy" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="strategy" data-title="Go-To-Market Strategy">
+                        <h2 class="text-3xl font-bold text-center mb-8">Go-To-Market Strategy</h2>
+                        <div class="relative pl-4 border-l-2 border-teal-500">
+                            <!-- Phase 1 -->
+                            <div class="mb-10 pl-8 relative timeline-item">
+                                <h3 class="text-xl font-bold">Phase 1: Cryptocurrency Market Entry</h3>
+                                <p class="text-sm text-stone-500 font-semibold mb-4">Year 1 - Mid Year 2</p>
+                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                    <ul class="list-disc list-inside space-y-2 text-stone-600">
+                                        <li><strong>Q3 Launch:</strong> Launch Quantix Marketplace for crypto on top-tier exchanges (Binance, Bybit, OKX).</li>
+                                        <li><strong>Q4 Launch:</strong> Release Quantix IQ (Freemium) to build a user base and community.</li>
+                                        <li><strong>Post-Launch:</strong> Initiate an affiliate and influencer-led marketing campaign on social media to build prosumer awareness.</li>
+                                        <li><strong>Q4 2025:</strong> Soft launch of direct sales to Quantix Pro for family offices and institutions.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Phase 2 -->
+                            <div class="pl-8 relative timeline-item">
+                                <h3 class="text-xl font-bold">Phase 2: Forex Market Expansion</h3>
+                                <p class="text-sm text-stone-500 font-semibold mb-4">Late Year 2 - Onward</p>
+                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                     <ul class="list-disc list-inside space-y-2 text-stone-600">
+                                        <li><strong>Q1 2026:</strong> Develop and test MT4/MT5 integration for Forex market entry.</li>
+                                        <li><strong>Q2 2026:</strong> Roll out Marketplace and IQ products to the top 20 Forex brokers.</li>
+                                        <li><strong>Q3 2026:</strong> Introduce a retail version of Quantix Pro as a high-tier SaaS offering.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section: Roadmap -->
+                    <section id="roadmap" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="roadmap" data-title="Roadmap Summary">
+                        <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap Summary</h2>
+                        <div class="relative max-w-4xl mx-auto">
+                            <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
+                            <div class="space-y-12 md:space-y-0">
+                                <!-- Item 1 -->
+                                <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
+                                    <div class="flex justify-center md:justify-end mb-4 md:mb-0">
+                                        <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
+                                            <h3 class="font-bold text-teal-600">To Date</h3>
+                                            <p class="text-sm text-stone-500">Completed Milestones</p>
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -left-2"></div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                            <ul class="text-sm text-stone-600 space-y-2">
+                                                <li>✓ Q2 2020: Founders meet, research begins.</li>
+                                                <li>✓ 2022-2023: ML & Deep Learning R&D.</li>
+                                                <li>✓ Q1 2024: Legal entity formed in Oman.</li>
+                                                <li>✓ Q4 2024: Marketplace & Pro initial releases.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Item 2 -->
+                                 <div class="md:grid md:grid-cols-2 md:gap-8 items-center mt-8">
+                                    <div class="relative md:col-start-1 md:text-right">
+                                        <div class="hidden md:block w-4 h-4 bg-teal-500 rounded-full absolute top-1/2 -mt-2 -right-2"></div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                            <ul class="text-sm text-stone-600 space-y-2 text-left">
+                                                <li>→ Q3 2025: Launch Marketplace for Crypto.</li>
+                                                <li>→ Q1 2026: Release Quantix IQ for Crypto.</li>
+                                                <li>→ Q3 2026: Expand to Forex Market.</li>
+                                                <li>→ Q3 2026: Introduce Quantix Pro for retail.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                   <div class="flex justify-center md:justify-start mt-4 md:mt-0 md:col-start-2">
+                                        <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200 text-center">
+                                            <h3 class="font-bold text-teal-600">Going Forward</h3>
+                                            <p class="text-sm text-stone-500">Upcoming Launches</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- NEW Section: Roadmap Diagram -->
+                    <section id="roadmap-diagram" class="summary-toggleable mb-16 scroll-mt-24" data-id="roadmap-diagram" data-title="Roadmap Diagram">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-3xl font-bold text-center text-gray-800">Detailed 2-Year Roadmap</h2>
+                            <div id="roadmap-style-selector" class="flex items-center space-x-2 bg-white p-1 rounded-lg shadow">
+                                 <button data-style="vertical" class="roadmap-style-btn active text-sm font-semibold py-2 px-4 rounded-md transition">Timeline</button>
+                                 <button data-style="gantt" class="roadmap-style-btn text-sm font-semibold py-2 px-4 rounded-md transition">Gantt</button>
+                            </div>
+                        </div>
+
+                        <div id="roadmap-vertical-view">
+                            <!-- Year 1 -->
+                            <div>
+                                <h3 class="text-2xl font-bold text-center text-teal-600 mb-8">Year 1: Q3 2025 - Q2 2026</h3>
+                                <div class="relative max-w-4xl mx-auto">
+                                    <!-- Timeline Line -->
+                                    <div class="absolute w-1 bg-teal-200 h-full left-1/2 transform -translate-x-1/2"></div>
+                                    <!-- Quarters -->
+                                    <div class="space-y-12">
+                                        <!-- Q3 2025 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div class="sm:text-right sm:pr-8">
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q3 2025</p>
+                                                    <h4 class="font-bold text-lg">Foundation &amp; Launch</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                                        <li>Launch Marketplace: Binance, Bybit, OKX</li>
+                                                        <li>Offer Quantix Pro to institutions</li>
+                                                        <li>Begin hiring initial sales team</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                        <!-- Q4 2025 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div></div>
+                                            <div>
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q4 2025</p>
+                                                    <h4 class="font-bold text-lg">Crypto Expansion & Team Growth</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside">
+                                                        <li>Integrate: Bitget, BingX, Pionex</li>
+                                                        <li>Hire Support & Admin staff</li>
+                                                        <li>Secure first institutional Pro customers</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Q1 2026 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div class="sm:text-right sm:pr-8">
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q1 2026</p>
+                                                    <h4 class="font-bold text-lg">Quantix IQ Launch</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                                        <li>Launch Quantix IQ for Crypto (Freemium)</li>
+                                                        <li>Integrate: KuCoin, MEXC, HTX</li>
+                                                        <li>Finalize sales team hiring</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                        <!-- Q2 2026 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div></div>
+                                            <div>
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q2 2026</p>
+                                                    <h4 class="font-bold text-lg">Complete Crypto & Begin Forex</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside">
+                                                        <li>Integrate: CoinEx, Gate.io, Kraken (15 total)</li>
+                                                        <li>Begin MT4/MT5 integration for Forex</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Year 2 -->
+                            <div class="mt-16">
+                                <h3 class="text-2xl font-bold text-center text-teal-600 mb-8">Year 2: Q3 2026 - Q2 2027</h3>
+                                 <div class="relative max-w-4xl mx-auto">
+                                    <!-- Timeline Line -->
+                                    <div class="absolute w-1 bg-teal-200 h-full left-1/2 transform -translate-x-1/2"></div>
+                                    <!-- Quarters -->
+                                    <div class="space-y-12">
+                                        <!-- Q3 2026 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div class="sm:text-right sm:pr-8">
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q3 2026</p>
+                                                    <h4 class="font-bold text-lg">Forex Market Entry</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                                        <li>Launch Marketplace & IQ for Forex</li>
+                                                        <li>Integrate with top 5 brokers</li>
+                                                        <li>Introduce Quantix Pro for retail</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                        <!-- Q4 2026 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div></div>
+                                            <div>
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q4 2026</p>
+                                                    <h4 class="font-bold text-lg">Forex Expansion</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside">
+                                                        <li>Integrate with next 5 brokers</li>
+                                                        <li>Scale institutional sales efforts</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Q1 2027 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div class="sm:text-right sm:pr-8">
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q1 2027</p>
+                                                    <h4 class="font-bold text-lg">Scaling Operations</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                                        <li>Integrate with next 5 brokers</li>
+                                                        <li>Expand engineering team</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                        <!-- Q2 2027 -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
+                                            <div></div>
+                                            <div>
+                                                <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
+                                                    <p class="font-bold text-stone-500">Q2 2027</p>
+                                                    <h4 class="font-bold text-lg">Full Market Coverage</h4>
+                                                    <ul class="text-sm text-stone-600 list-disc list-inside">
+                                                        <li>Complete all 20 target broker integrations</li>
+                                                        <li>Analyze user data to optimize funnels</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="roadmap-gantt-view" class="hidden">
+                             <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-200">
+                                <!-- Desktop View: Horizontal Gantt Chart -->
+                                <div class="hidden md:block">
+                                    <!-- Year 1 Header -->
+                                    <div class="grid grid-cols-12 gap-2 text-center text-sm font-bold mb-4">
+                                        <div class="col-span-2 text-left">Workstream</div>
+                                        <div class="col-span-10 grid grid-cols-8">
+                                            <div class="col-span-2">Q3 '25</div>
+                                            <div class="col-span-2">Q4 '25</div>
+                                            <div class="col-span-2">Q1 '26</div>
+                                            <div class="col-span-2">Q2 '26</div>
+                                        </div>
+                                    </div>
+                                    <!-- Timeline Grid -->
+                                    <div class="grid grid-cols-12 gap-2 text-center text-xs text-gray-400 border-b-2 border-gray-200 pb-2 mb-4">
+                                        <div class="col-span-2"></div>
+                                        <div class="col-span-10 grid grid-cols-8">
+                                            <div class="border-r"></div><div class="border-r"></div>
+                                            <div class="border-r"></div><div class="border-r"></div>
+                                            <div class="border-r"></div><div class="border-r"></div>
+                                            <div class="border-r"></div><div></div>
+                                        </div>
+                                    </div>
+                                    <!-- Year 1 Rows -->
+                                    <div class="space-y-3 mb-8">
+                                        <h3 class="col-span-12 font-bold text-lg text-rose-700">Year 1</h3>
+                                        <!-- Marketplace -->
+                                        <div class="grid grid-cols-12 gap-2 items-center">
+                                            <div class="col-span-2 font-semibold text-sm text-right pr-2">Marketplace</div>
+                                            <div class="col-span-10 h-8 relative">
+                                                <div class="absolute h-full bg-rose-500 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 100%; left: 0;">Crypto Exchange Integration (15 Exchanges)</div>
+                                            </div>
+                                        </div>
+                                        <!-- Quantix IQ -->
+                                        <div class="grid grid-cols-12 gap-2 items-center">
+                                            <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix IQ</div>
+                                            <div class="col-span-10 h-8 relative">
+                                                <div class="absolute h-full bg-sky-500 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 50%; left: 50%;">Launch & Scale Crypto IQ</div>
+                                            </div>
+                                        </div>
+                                        <!-- Quantix Pro -->
+                                        <div class="grid grid-cols-12 gap-2 items-center">
+                                            <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix Pro</div>
+                                            <div class="col-span-10 h-8 relative">
+                                                <div class="absolute h-full bg-emerald-500 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 50%; left: 0;">Institutional Rollout</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <!-- Year 2 Header -->
+                                    <div class="grid grid-cols-12 gap-2 text-center text-sm font-bold mb-4 mt-8">
+                                        <div class="col-span-2 text-left"></div>
+                                        <div class="col-span-10 grid grid-cols-8">
+                                            <div class="col-span-2">Q3 '26</div>
+                                            <div class="col-span-2">Q4 '26</div>
+                                            <div class="col-span-2">Q1 '27</div>
+                                            <div class="col-span-2">Q2 '27</div>
+                                        </div>
+                                    </div>
+                                     <!-- Timeline Grid -->
+                                    <div class="grid grid-cols-12 gap-2 text-center text-xs text-gray-400 border-b-2 border-gray-200 pb-2 mb-4">
+                                        <div class="col-span-2"></div>
+                                        <div class="col-span-10 grid grid-cols-8">
+                                            <div class="border-r"></div><div class="border-r"></div>
+                                            <div class="border-r"></div><div class="border-r"></div>
+                                            <div class="border-r"></div><div class="border-r"></div>
+                                            <div class="border-r"></div><div></div>
+                                        </div>
+                                    </div>
+                                     <!-- Year 2 Rows -->
+                                    <div class="space-y-3">
+                                        <h3 class="col-span-12 font-bold text-lg text-rose-700">Year 2</h3>
+                                        <!-- Marketplace -->
+                                        <div class="grid grid-cols-12 gap-2 items-center">
+                                            <div class="col-span-2 font-semibold text-sm text-right pr-2">Marketplace</div>
+                                            <div class="col-span-10 h-8 relative">
+                                                 <div class="absolute h-full bg-rose-400 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 100%; left: 0;">Forex Broker Integration (20 Brokers)</div>
+                                            </div>
+                                        </div>
+                                        <!-- Quantix IQ -->
+                                        <div class="grid grid-cols-12 gap-2 items-center">
+                                            <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix IQ</div>
+                                            <div class="col-span-10 h-8 relative">
+                                                 <div class="absolute h-full bg-sky-400 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 25%; left: 0;">Launch Forex IQ</div>
+                                            </div>
+                                        </div>
+                                        <!-- Quantix Pro -->
+                                        <div class="grid grid-cols-12 gap-2 items-center">
+                                            <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix Pro</div>
+                                            <div class="col-span-10 h-8 relative">
+                                                 <div class="absolute h-full bg-emerald-400 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 25%; left: 0;">Launch Retail Pro</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mobile View: Stacked List -->
+                                <div class="md:hidden space-y-8">
+                                    <!-- Year 1 -->
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-center text-gray-700 my-4">Year 1</h3>
+                                        <div class="space-y-6">
+                                            <!-- Q3 2025 -->
+                                            <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q3 2025: Foundation &amp; Launch</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Launch Marketplace: Binance, Bybit, OKX</li>
-                                                    <li>Offer Quantix Pro to institutions</li>
+                                                    <li>Offer Quantix Pro to Institutions</li>
                                                     <li>Begin hiring initial sales team</li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                    <!-- Q4 2025 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div></div>
-                                        <div>
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q4 2025</p>
-                                                <h4 class="font-bold text-lg">Crypto Expansion & Team Growth</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside">
+                                            <!-- Q4 2025 -->
+                                             <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q4 2025: Crypto Expansion & Team Growth</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Integrate: Bitget, BingX, Pionex</li>
                                                     <li>Hire Support & Admin staff</li>
                                                     <li>Secure first institutional Pro customers</li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <!-- Q1 2026 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div class="sm:text-right sm:pr-8">
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q1 2026</p>
-                                                <h4 class="font-bold text-lg">Quantix IQ Launch</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                            <!-- Q1 2026 -->
+                                             <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q1 2026: Quantix IQ Launch</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Launch Quantix IQ for Crypto (Freemium)</li>
                                                     <li>Integrate: KuCoin, MEXC, HTX</li>
                                                     <li>Finalize sales team hiring</li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                    <!-- Q2 2026 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div></div>
-                                        <div>
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q2 2026</p>
-                                                <h4 class="font-bold text-lg">Complete Crypto & Begin Forex</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside">
+                                            <!-- Q2 2026 -->
+                                             <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q2 2026: Complete Crypto & Begin Forex</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Integrate: CoinEx, Gate.io, Kraken (15 total)</li>
                                                     <li>Begin MT4/MT5 integration for Forex</li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Year 2 -->
-                        <div class="mt-16">
-                            <h3 class="text-2xl font-bold text-center text-teal-600 mb-8">Year 2: Q3 2026 - Q2 2027</h3>
-                             <div class="relative max-w-4xl mx-auto">
-                                <!-- Timeline Line -->
-                                <div class="absolute w-1 bg-teal-200 h-full left-1/2 transform -translate-x-1/2"></div>
-                                <!-- Quarters -->
-                                <div class="space-y-12">
-                                    <!-- Q3 2026 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div class="sm:text-right sm:pr-8">
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q3 2026</p>
-                                                <h4 class="font-bold text-lg">Forex Market Entry</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                     <!-- Year 2 -->
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-center text-gray-700 my-4">Year 2</h3>
+                                        <div class="space-y-6">
+                                            <!-- Q3 2026 -->
+                                            <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q3 2026: Forex Market Entry</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Launch Marketplace & IQ for Forex</li>
                                                     <li>Integrate with top 5 brokers</li>
                                                     <li>Introduce Quantix Pro for retail</li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                    <!-- Q4 2026 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div></div>
-                                        <div>
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q4 2026</p>
-                                                <h4 class="font-bold text-lg">Forex Expansion</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside">
+                                            <!-- Q4 2026 -->
+                                             <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q4 2026: Forex Expansion</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Integrate with next 5 brokers</li>
                                                     <li>Scale institutional sales efforts</li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <!-- Q1 2027 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div class="sm:text-right sm:pr-8">
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q1 2027</p>
-                                                <h4 class="font-bold text-lg">Scaling Operations</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside sm:text-right">
+                                            <!-- Q1 2027 -->
+                                             <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q1 2027: Scaling Operations</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Integrate with next 5 brokers</li>
                                                     <li>Expand engineering team</li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                    <!-- Q2 2027 -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 items-start">
-                                        <div></div>
-                                        <div>
-                                            <div class="bg-white p-4 rounded-lg shadow-md border border-stone-200">
-                                                <p class="font-bold text-stone-500">Q2 2027</p>
-                                                <h4 class="font-bold text-lg">Full Market Coverage</h4>
-                                                <ul class="text-sm text-stone-600 list-disc list-inside">
+                                            <!-- Q2 2027 -->
+                                             <div class="bg-gray-50 p-4 rounded-lg shadow">
+                                                <p class="font-bold text-rose-600">Q2 2027: Full Market Coverage</p>
+                                                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
                                                     <li>Complete all 20 target broker integrations</li>
                                                     <li>Analyze user data to optimize funnels</li>
                                                 </ul>
@@ -487,561 +709,378 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <div id="roadmap-gantt-view" class="hidden">
-                         <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-200">
-                            <!-- Desktop View: Horizontal Gantt Chart -->
-                            <div class="hidden md:block">
-                                <!-- Year 1 Header -->
-                                <div class="grid grid-cols-12 gap-2 text-center text-sm font-bold mb-4">
-                                    <div class="col-span-2 text-left">Workstream</div>
-                                    <div class="col-span-10 grid grid-cols-8">
-                                        <div class="col-span-2">Q3 '25</div>
-                                        <div class="col-span-2">Q4 '25</div>
-                                        <div class="col-span-2">Q1 '26</div>
-                                        <div class="col-span-2">Q2 '26</div>
-                                    </div>
-                                </div>
-                                <!-- Timeline Grid -->
-                                <div class="grid grid-cols-12 gap-2 text-center text-xs text-gray-400 border-b-2 border-gray-200 pb-2 mb-4">
-                                    <div class="col-span-2"></div>
-                                    <div class="col-span-10 grid grid-cols-8">
-                                        <div class="border-r"></div><div class="border-r"></div>
-                                        <div class="border-r"></div><div class="border-r"></div>
-                                        <div class="border-r"></div><div class="border-r"></div>
-                                        <div class="border-r"></div><div></div>
-                                    </div>
-                                </div>
-                                <!-- Year 1 Rows -->
-                                <div class="space-y-3 mb-8">
-                                    <h3 class="col-span-12 font-bold text-lg text-rose-700">Year 1</h3>
-                                    <!-- Marketplace -->
-                                    <div class="grid grid-cols-12 gap-2 items-center">
-                                        <div class="col-span-2 font-semibold text-sm text-right pr-2">Marketplace</div>
-                                        <div class="col-span-10 h-8 relative">
-                                            <div class="absolute h-full bg-rose-500 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 100%; left: 0;">Crypto Exchange Integration (15 Exchanges)</div>
-                                        </div>
-                                    </div>
-                                    <!-- Quantix IQ -->
-                                    <div class="grid grid-cols-12 gap-2 items-center">
-                                        <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix IQ</div>
-                                        <div class="col-span-10 h-8 relative">
-                                            <div class="absolute h-full bg-sky-500 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 50%; left: 50%;">Launch & Scale Crypto IQ</div>
-                                        </div>
-                                    </div>
-                                    <!-- Quantix Pro -->
-                                    <div class="grid grid-cols-12 gap-2 items-center">
-                                        <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix Pro</div>
-                                        <div class="col-span-10 h-8 relative">
-                                            <div class="absolute h-full bg-emerald-500 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 50%; left: 0;">Institutional Rollout</div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <!-- Section: Quantix Key Functionalities -->
+                    <section id="key-functionalities" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="key-functionalities" data-title="Key Functionalities">
+                        <h2 class="text-3xl font-bold text-center mb-12">Quantix Key Functionalities</h2>
+                        <div id="functionalities-container" class="max-w-5xl mx-auto">
+                            <!-- Main Display Area -->
+                            <div id="main-functionality-display" class="bg-white p-4 rounded-lg shadow-lg mb-4 text-center max-w-md mx-auto">
+                                <img id="main-functionality-image" src="" alt="" class="w-full h-[34rem] object-contain rounded-md bg-stone-100">
+                            </div>
+                            <div id="main-functionality-text" class="text-center mb-6 px-4">
+                               <h3 id="main-functionality-title" class="text-xl font-bold text-teal-600 mb-2"></h3>
+                               <p id="main-functionality-description" class="text-stone-600 max-w-2xl mx-auto"></p>
+                            </div>
+                            <!-- Thumbnails -->
+                            <div id="functionality-thumbnails" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                                <!-- Thumbnails will be generated by JS -->
+                            </div>
+                        </div>
+                    </section>
 
-                                 <!-- Year 2 Header -->
-                                <div class="grid grid-cols-12 gap-2 text-center text-sm font-bold mb-4 mt-8">
-                                    <div class="col-span-2 text-left"></div>
-                                    <div class="col-span-10 grid grid-cols-8">
-                                        <div class="col-span-2">Q3 '26</div>
-                                        <div class="col-span-2">Q4 '26</div>
-                                        <div class="col-span-2">Q1 '27</div>
-                                        <div class="col-span-2">Q2 '27</div>
-                                    </div>
-                                </div>
-                                 <!-- Timeline Grid -->
-                                <div class="grid grid-cols-12 gap-2 text-center text-xs text-gray-400 border-b-2 border-gray-200 pb-2 mb-4">
-                                    <div class="col-span-2"></div>
-                                    <div class="col-span-10 grid grid-cols-8">
-                                        <div class="border-r"></div><div class="border-r"></div>
-                                        <div class="border-r"></div><div class="border-r"></div>
-                                        <div class="border-r"></div><div class="border-r"></div>
-                                        <div class="border-r"></div><div></div>
-                                    </div>
-                                </div>
-                                 <!-- Year 2 Rows -->
-                                <div class="space-y-3">
-                                    <h3 class="col-span-12 font-bold text-lg text-rose-700">Year 2</h3>
-                                    <!-- Marketplace -->
-                                    <div class="grid grid-cols-12 gap-2 items-center">
-                                        <div class="col-span-2 font-semibold text-sm text-right pr-2">Marketplace</div>
-                                        <div class="col-span-10 h-8 relative">
-                                             <div class="absolute h-full bg-rose-400 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 100%; left: 0;">Forex Broker Integration (20 Brokers)</div>
-                                        </div>
-                                    </div>
-                                    <!-- Quantix IQ -->
-                                    <div class="grid grid-cols-12 gap-2 items-center">
-                                        <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix IQ</div>
-                                        <div class="col-span-10 h-8 relative">
-                                             <div class="absolute h-full bg-sky-400 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 25%; left: 0;">Launch Forex IQ</div>
-                                        </div>
-                                    </div>
-                                    <!-- Quantix Pro -->
-                                    <div class="grid grid-cols-12 gap-2 items-center">
-                                        <div class="col-span-2 font-semibold text-sm text-right pr-2">Quantix Pro</div>
-                                        <div class="col-span-10 h-8 relative">
-                                             <div class="absolute h-full bg-emerald-400 rounded-md flex items-center px-2 text-white text-xs font-semibold" style="width: 25%; left: 0;">Launch Retail Pro</div>
-                                        </div>
-                                    </div>
+                    <!-- Section: Market Size -->
+                    <section id="market-size" class="summary-toggleable mb-16 scroll-mt-24" data-id="market-size" data-title="Market Size">
+                        <h2 class="text-3xl font-bold text-center mb-8">A Massive, Underserved Market</h2>
+                        <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8 text-center">
+                             <p class="text-lg text-stone-600 mx-auto">The market is at a perfect inflection point. The AI boom is creating unprecedented demand for intelligent tools, just as a new generation of retail investors seeks sophisticated ways to manage their own capital.</p>
+                            <div class="bg-teal-50 p-6 rounded-lg border border-teal-200">
+                                 <h3 class="text-xl font-bold text-teal-800">AI Trading Platform Market</h3>
+                                <p class="text-6xl font-bold text-teal-600 my-4">$69.95 Billion</p>
+                                 <p class="text-stone-600 font-semibold">Projected market size by 2034, growing at a 20.04% CAGR.</p>
+                                 <p class="text-xs text-stone-500 mt-2">Source: Precedence Research</p>
+                            </div>
+                             <p class="text-lg text-stone-600 mx-auto">Quantix is perfectly positioned to capture this market by providing the accessible, powerful AI tools that retail traders are actively seeking.</p>
+                        </div>
+                    </section>
+
+                    <!-- Section: How Quantix Marketplace Works -->
+                    <section id="how-it-works" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="how-it-works" data-title="How It Works">
+                        <h2 class="text-3xl font-bold text-center mb-8">How Quantix Marketplace Works</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="font-semibold text-lg mb-2 text-center text-teal-600">Method 1: Via Exchange Marketplace</h3>
+                                <p class="text-sm text-stone-600">Find Quantix bots directly on the exchange without any direct connection to Quantix, and share profits based on the exchange’s copy‑trading rules.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="font-semibold text-lg mb-2 text-center text-teal-600">Method 2: Direct Connection to Quantix</h3>
+                                <p class="text-sm text-stone-600">Connect directly to Quantix using an API/secret key or the exchange’s Fast Connect option (without any withdrawal permission) and run the bots. In this method, the user must pay a monthly bot execution fee and share profits with Quantix.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section: Supported Exchanges -->
+                    <section id="supported-exchanges" class="summary-toggleable mb-16 scroll-mt-24" data-id="supported-exchanges" data-title="Supported Exchanges">
+                        <h2 class="text-3xl font-bold text-center mb-8">Supported Exchanges & Brokers</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-xl font-bold mb-4">Cryptocurrency Exchanges</h3>
+                                <p class="text-sm text-stone-600 mb-4">Initial support for key exchanges selected for high volume, deep liquidity, and robust copy-trading infrastructure.</p>
+                                <div class="grid grid-cols-2 gap-4 text-sm text-stone-700">
+                                    <ul class="space-y-2">
+                                        <li>✓ Binance</li>
+                                        <li>✓ Bybit</li>
+                                        <li>✓ OKX</li>
+                                        <li>✓ Bitget</li>
+                                        <li>✓ BingX</li>
+                                        <li>✓ Pionex</li>
+                                    </ul>
+                                     <ul class="space-y-2">
+                                        <li>✓ KuCoin</li>
+                                        <li>✓ MEXC</li>
+                                        <li>✓ HTX (Huobi)</li>
+                                        <li>✓ CoinEx</li>
+                                        <li>✓ Gate.io</li>
+                                        <li>✓ Kraken</li>
+                                    </ul>
                                 </div>
                             </div>
-
-                            <!-- Mobile View: Stacked List -->
-                            <div class="md:hidden space-y-8">
-                                <!-- Year 1 -->
-                                <div>
-                                    <h3 class="text-2xl font-bold text-center text-gray-700 my-4">Year 1</h3>
-                                    <div class="space-y-6">
-                                        <!-- Q3 2025 -->
-                                        <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q3 2025: Foundation &amp; Launch</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Launch Marketplace: Binance, Bybit, OKX</li>
-                                                <li>Offer Quantix Pro to Institutions</li>
-                                                <li>Begin hiring initial sales team</li>
-                                            </ul>
-                                        </div>
-                                        <!-- Q4 2025 -->
-                                         <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q4 2025: Crypto Expansion & Team Growth</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Integrate: Bitget, BingX, Pionex</li>
-                                                <li>Hire Support & Admin staff</li>
-                                                <li>Secure first institutional Pro customers</li>
-                                            </ul>
-                                        </div>
-                                        <!-- Q1 2026 -->
-                                         <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q1 2026: Quantix IQ Launch</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Launch Quantix IQ for Crypto (Freemium)</li>
-                                                <li>Integrate: KuCoin, MEXC, HTX</li>
-                                                <li>Finalize sales team hiring</li>
-                                            </ul>
-                                        </div>
-                                        <!-- Q2 2026 -->
-                                         <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q2 2026: Complete Crypto & Begin Forex</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Integrate: CoinEx, Gate.io, Kraken (15 total)</li>
-                                                <li>Begin MT4/MT5 integration for Forex</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <!-- Year 2 -->
-                                <div>
-                                    <h3 class="text-2xl font-bold text-center text-gray-700 my-4">Year 2</h3>
-                                    <div class="space-y-6">
-                                        <!-- Q3 2026 -->
-                                        <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q3 2026: Forex Market Entry</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Launch Marketplace & IQ for Forex</li>
-                                                <li>Integrate with top 5 brokers</li>
-                                                <li>Introduce Quantix Pro for retail</li>
-                                            </ul>
-                                        </div>
-                                        <!-- Q4 2026 -->
-                                         <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q4 2026: Forex Expansion</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Integrate with next 5 brokers</li>
-                                                <li>Scale institutional sales efforts</li>
-                                            </ul>
-                                        </div>
-                                        <!-- Q1 2027 -->
-                                         <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q1 2027: Scaling Operations</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Integrate with next 5 brokers</li>
-                                                <li>Expand engineering team</li>
-                                            </ul>
-                                        </div>
-                                        <!-- Q2 2027 -->
-                                         <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                            <p class="font-bold text-rose-600">Q2 2027: Full Market Coverage</p>
-                                            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-                                                <li>Complete all 20 target broker integrations</li>
-                                                <li>Analyze user data to optimize funnels</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h3 class="text-xl font-bold mb-4">Forex Brokers</h3>
+                                <p class="text-sm text-stone-600 mb-4">Integration with any broker supporting the industry-standard MT4 and MT5 platforms, with a focus on these leading 20 brokers.</p>
+                                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-stone-700">
+                                    <ul class="space-y-2">
+                                        <li>✓ Pepperstone</li>
+                                        <li>✓ IC Markets</li>
+                                        <li>✓ XM</li>
+                                        <li>✓ Exness</li>
+                                        <li>✓ AvaTrade</li>
+                                        <li>✓ HotForex (HFM)</li>
+                                        <li>✓ FBS</li>
+                                        <li>✓ FxPro</li>
+                                        <li>✓ OANDA</li>
+                                        <li>✓ Forex.com</li>
+                                    </ul>
+                                     <ul class="space-y-2">
+                                        <li>✓ XTB</li>
+                                        <li>✓ RoboForex</li>
+                                        <li>✓ Tickmill</li>
+                                        <li>✓ Admirals</li>
+                                        <li>✓ OctaFX</li>
+                                        <li>✓ InstaForex</li>
+                                        <li>✓ HYCM</li>
+                                        <li>✓ Equiti</li>
+                                        <li>✓ FXTM</li>
+                                        <li>✓ Alpari</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <!-- Section: Quantix Key Functionalities -->
-                <section id="key-functionalities" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="key-functionalities" data-title="Key Functionalities">
-                    <h2 class="text-3xl font-bold text-center mb-12">Quantix Key Functionalities</h2>
-                    <div id="functionalities-container" class="max-w-5xl mx-auto">
-                        <!-- Main Display Area -->
-                        <div id="main-functionality-display" class="bg-white p-4 rounded-lg shadow-lg mb-4 text-center max-w-md mx-auto">
-                            <img id="main-functionality-image" src="" alt="" class="w-full h-[34rem] object-contain rounded-md bg-stone-100">
-                        </div>
-                        <div id="main-functionality-text" class="text-center mb-6 px-4">
-                           <h3 id="main-functionality-title" class="text-xl font-bold text-teal-600 mb-2"></h3>
-                           <p id="main-functionality-description" class="text-stone-600 max-w-2xl mx-auto"></p>
-                        </div>
-                        <!-- Thumbnails -->
-                        <div id="functionality-thumbnails" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                            <!-- Thumbnails will be generated by JS -->
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section: Market Size -->
-                <section id="market-size" class="summary-toggleable mb-16 scroll-mt-24" data-id="market-size" data-title="Market Size">
-                    <h2 class="text-3xl font-bold text-center mb-8">A Massive, Underserved Market</h2>
-                    <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8 text-center">
-                         <p class="text-lg text-stone-600 mx-auto">The market is at a perfect inflection point. The AI boom is creating unprecedented demand for intelligent tools, just as a new generation of retail investors seeks sophisticated ways to manage their own capital.</p>
-                        <div class="bg-teal-50 p-6 rounded-lg border border-teal-200">
-                             <h3 class="text-xl font-bold text-teal-800">AI Trading Platform Market</h3>
-                            <p class="text-6xl font-bold text-teal-600 my-4">$69.95 Billion</p>
-                             <p class="text-stone-600 font-semibold">Projected market size by 2034, growing at a 20.04% CAGR.</p>
-                             <p class="text-xs text-stone-500 mt-2">Source: Precedence Research</p>
-                        </div>
-                         <p class="text-lg text-stone-600 mx-auto">Quantix is perfectly positioned to capture this market by providing the accessible, powerful AI tools that retail traders are actively seeking.</p>
-                    </div>
-                </section>
-
-                <!-- Section: How Quantix Marketplace Works -->
-                <section id="how-it-works" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="how-it-works" data-title="How It Works">
-                    <h2 class="text-3xl font-bold text-center mb-8">How Quantix Marketplace Works</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-lg mb-2 text-center text-teal-600">Method 1: Via Exchange Marketplace</h3>
-                            <p class="text-sm text-stone-600">Find Quantix bots directly on the exchange without any direct connection to Quantix, and share profits based on the exchange’s copy‑trading rules.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-lg mb-2 text-center text-teal-600">Method 2: Direct Connection to Quantix</h3>
-                            <p class="text-sm text-stone-600">Connect directly to Quantix using an API/secret key or the exchange’s Fast Connect option (without any withdrawal permission) and run the bots. In this method, the user must pay a monthly bot execution fee and share profits with Quantix.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section: Supported Exchanges -->
-                <section id="supported-exchanges" class="summary-toggleable mb-16 scroll-mt-24" data-id="supported-exchanges" data-title="Supported Exchanges">
-                    <h2 class="text-3xl font-bold text-center mb-8">Supported Exchanges & Brokers</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-bold mb-4">Cryptocurrency Exchanges</h3>
-                            <p class="text-sm text-stone-600 mb-4">Initial support for key exchanges selected for high volume, deep liquidity, and robust copy-trading infrastructure.</p>
-                            <div class="grid grid-cols-2 gap-4 text-sm text-stone-700">
-                                <ul class="space-y-2">
-                                    <li>✓ Binance</li>
-                                    <li>✓ Bybit</li>
-                                    <li>✓ OKX</li>
-                                    <li>✓ Bitget</li>
-                                    <li>✓ BingX</li>
-                                    <li>✓ Pionex</li>
-                                </ul>
-                                 <ul class="space-y-2">
-                                    <li>✓ KuCoin</li>
-                                    <li>✓ MEXC</li>
-                                    <li>✓ HTX (Huobi)</li>
-                                    <li>✓ CoinEx</li>
-                                    <li>✓ Gate.io</li>
-                                    <li>✓ Kraken</li>
-                                </ul>
+                    <!-- Section: Financials -->
+                    <section id="financials" class="summary-toggleable mb-16 scroll-mt-24" data-id="financials" data-title="Financials">
+                        <h2 class="text-3xl font-bold text-center mb-8">Financial Projections</h2>
+                        <div class="space-y-12">
+                             <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-financial-summary" data-title="Table: 5-Year Financial Plan">
+                                <h3 class="text-xl font-bold mb-4">5-Year Financial Plan</h3>
+                                <div class="table-container">
+                                    <table class="w-full text-left text-sm summary-table responsive-table" id="financial-summary-table">
+                                        <!-- JS will populate this -->
+                                    </table>
+                                </div>
+                            </div>
+                             <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-kpi-summary" data-title="Table: Key Performance Indicators">
+                                <h3 class="text-xl font-bold mb-4">Key Performance Indicators (KPIs)</h3>
+                                <div class="table-container">
+                                    <table class="w-full text-left text-sm responsive-table" id="kpi-summary-table">
+                                        <!-- JS will populate this -->
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 gap-8">
+                                <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-revenue" data-title="Chart: Revenue by Business Unit">
+                                    <h3 class="text-xl font-bold mb-4 text-center">Revenue by Business Unit</h3>
+                                    <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+                                </div>
+                                <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-cashflow" data-title="Chart: Quarterly Cash Flow">
+                                    <h3 class="text-xl font-bold mb-4 text-center">Quarterly Cash Flow & Milestones</h3>
+                                    <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
+                                </div>
+                                 <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-runrate" data-title="Chart: Annual Revenue Run Rate">
+                                    <h3 class="text-xl font-bold mb-4 text-center">Annual Revenue Run Rate (EOY)</h3>
+                                    <div class="chart-container"><canvas id="runRateChart"></canvas></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-bold mb-4">Forex Brokers</h3>
-                            <p class="text-sm text-stone-600 mb-4">Integration with any broker supporting the industry-standard MT4 and MT5 platforms, with a focus on these leading 20 brokers.</p>
-                             <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-stone-700">
-                                <ul class="space-y-2">
-                                    <li>✓ Pepperstone</li>
-                                    <li>✓ IC Markets</li>
-                                    <li>✓ XM</li>
-                                    <li>✓ Exness</li>
-                                    <li>✓ AvaTrade</li>
-                                    <li>✓ HotForex (HFM)</li>
-                                    <li>✓ FBS</li>
-                                    <li>✓ FxPro</li>
-                                    <li>✓ OANDA</li>
-                                    <li>✓ Forex.com</li>
-                                </ul>
-                                 <ul class="space-y-2">
-                                    <li>✓ XTB</li>
-                                    <li>✓ RoboForex</li>
-                                    <li>✓ Tickmill</li>
-                                    <li>✓ Admirals</li>
-                                    <li>✓ OctaFX</li>
-                                    <li>✓ InstaForex</li>
-                                    <li>✓ HYCM</li>
-                                    <li>✓ Equiti</li>
-                                    <li>✓ FXTM</li>
-                                    <li>✓ Alpari</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
 
-                <!-- Section: Financials -->
-                <section id="financials" class="summary-toggleable mb-16 scroll-mt-24" data-id="financials" data-title="Financials">
-                    <h2 class="text-3xl font-bold text-center mb-8">Financial Projections</h2>
-                    <div class="space-y-12">
-                         <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-financial-summary" data-title="Table: 5-Year Financial Plan">
-                            <h3 class="text-xl font-bold mb-4">5-Year Financial Plan</h3>
+                    <!-- Section: Team & Budget -->
+                    <section id="team-budget" class="summary-toggleable mb-16 scroll-mt-24" data-id="team-budget" data-title="Team & Budget">
+                        <h2 class="text-3xl font-bold text-center mb-8">Team Growth & Budget</h2>
+                         <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-opex" data-title="Table: 5-Year Operating Expenses">
+                            <h3 class="text-xl font-bold mb-4">5-Year Operating Expenses</h3>
                             <div class="table-container">
-                                <table class="w-full text-left text-sm summary-table responsive-table" id="financial-summary-table">
+                                 <table class="w-full text-left text-sm responsive-table" id="opex-summary-table">
                                     <!-- JS will populate this -->
                                 </table>
                             </div>
                         </div>
-                         <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-kpi-summary" data-title="Table: Key Performance Indicators">
-                            <h3 class="text-xl font-bold mb-4">Key Performance Indicators (KPIs)</h3>
-                            <div class="table-container">
-                                <table class="w-full text-left text-sm responsive-table" id="kpi-summary-table">
-                                    <!-- JS will populate this -->
+                    </section>
+
+                    <!-- NEW Section: Use of Funds -->
+                    <section id="use-of-funds" class="summary-toggleable mb-16 scroll-mt-24" data-id="use-of-funds" data-title="Use of Funds">
+                        <h2 class="text-3xl font-bold text-center mb-12">Use of Funds</h2>
+                        <div class="bg-white p-8 rounded-lg shadow-md max-w-5xl mx-auto">
+                            <div class="text-center mb-8">
+                                <h3 class="text-2xl font-bold">Seeking $5 Million in Seed Funding</h3>
+                                <p class="text-stone-600 mt-2">To accelerate our go-to-market strategy, expand our team, and scale our platform infrastructure.</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                <div class="chart-container relative h-80 w-80 mx-auto summary-toggleable" data-id="chart-use-of-funds" data-title="Chart: Use of Funds">
+                                    <canvas id="useOfFundsChart"></canvas>
+                                </div>
+                                <div>
+                                    <ul class="space-y-4">
+                                        <li class="flex items-start">
+                                            <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #312e81;"></div>
+                                            <div>
+                                                <h4 class="font-bold">Team Expansion & Salaries (33% - $1.65M)</h4>
+                                                <p class="text-sm text-stone-600">Recruit top-tier talent in engineering, sales, and customer support to execute our roadmap and support a growing user base.</p>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #4338ca;"></div>
+                                            <div>
+                                                <h4 class="font-bold">Product Development & R&D (20% - $1.0M)</h4>
+                                                <p class="text-sm text-stone-600">Accelerate the development of Quantix IQ, the institutional-grade Pro platform, and the integration with the Forex market.</p>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #6366f1;"></div>
+                                            <div>
+                                                <h4 class="font-bold">Sales & Marketing (15% - $0.75M)</h4>
+                                                <p class="text-sm text-stone-600">Drive user acquisition through targeted digital marketing, influencer partnerships, and building a strong community presence.</p>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #818cf8;"></div>
+                                            <div>
+                                                <h4 class="font-bold">Marketplace Bot Capitalization (28% - $1.4M)</h4>
+                                                <p class="text-sm text-stone-600">Provide the necessary capital to deploy and run our proprietary bots on Crypto ($0.6M) and Forex ($0.8M) partner exchanges.</p>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #a5b4fc;"></div>
+                                            <div>
+                                                <h4 class="font-bold">Operational & G&A (4% - $0.2M)</h4>
+                                                <p class="text-sm text-stone-600">Cover essential operating costs including legal, IT infrastructure, and administrative overhead.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="text-center text-stone-600 mt-8 font-semibold">This funding provides an estimated 24-month runway to achieve key growth milestones and reach profitability.</p>
+                        </div>
+                    </section>
+
+                     <!-- Section: Team -->
+                    <section id="team" class="summary-toggleable mb-16 scroll-mt-24" data-id="team" data-title="Team">
+                        <h2 class="text-3xl font-bold text-center mb-8">Quantix Team</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                            <div class="text-center">
+                                <img src="Vahid Shahpari Fard.jpg" alt="Vahid Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Vahid Shahpari Fard</h3>
+                                <p class="text-sm text-stone-500">CEO & COO</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Roger Goudarzi.jpg" alt="Roger Goudarzi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Roger Goudarzi</h3>
+                                <p class="text-sm text-stone-500">CTO & Investor</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Ahmadreza Rasekhi.jpeg" alt="Ahmadreza Rasekhi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Ahmadreza Rasekhi</h3>
+                                <p class="text-sm text-stone-500">VP of Engineering</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Mohammad Shahpari Fard.jpg" alt="Mohammad Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Mohammad Shahpari Fard</h3>
+                                <p class="text-sm text-stone-500">Senior Developer Director</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Javad Abazari.jpg" alt="Javad Abazari" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Javad Abazari</h3>
+                                <p class="text-sm text-stone-500">Head of R&D</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Pouria Madan Dar.jpg" alt="Pouria Madandar" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Pouria Madandar</h3>
+                                <p class="text-sm text-stone-500">Head of UI</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Fatemeh Rasekhi.png" alt="Fatemeh Rasekhi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Fatemeh Rasekhi</h3>
+                                <p class="text-sm text-stone-500">Full Stack Developer</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Amir Ali Omidvar.jpg" alt="Amir Ali Omidvar" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Amir Ali Omidvar</h3>
+                                <p class="text-sm text-stone-500">Full Stack Developer</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Mohammad Rahim Pour.jpg" alt="Mohammad Rahimpour" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Mohammad Rahimpour</h3>
+                                <p class="text-sm text-stone-500">Head of AI</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Maryam Zarisfi.jpg" alt="Maryam Zarisfi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Maryam Zarisfi</h3>
+                                <p class="text-sm text-stone-500">Head of Analysis & Bot Factory</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="Navid Mirpourian.png" alt="Navid Mirpourian" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
+                                <h3 class="font-bold">Navid Mirpourian</h3>
+                                <p class="text-sm text-stone-500">Analyst & Trading Advisor</p>
+                            </div>
+                        </div>
+                    </section>
+
+                     <!-- Section: Competition -->
+                    <section id="competition" class="summary-toggleable mb-16 scroll-mt-24" data-id="competition" data-title="Competition">
+                        <h2 class="text-3xl font-bold text-center mb-8">Validated Competitive Landscape</h2>
+                        <div class="bg-white p-6 rounded-lg shadow-md space-y-8">
+                            <p class="text-stone-600 text-center max-w-4xl mx-auto">Here are the regenerated competitive landscape tables from the previous analysis, which correct and add nuance to the information presented in the pitch deck.</p>
+
+                            <div class="flex justify-center border-b border-stone-200">
+                                <button class="tab-btn active flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition" data-tab="crypto-comp">Crypto Competitors</button>
+                                <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600" data-tab="forex-comp">Forex Competitors</button>
+                            </div>
+
+                            <div id="crypto-comp-table" class="table-container">
+                                 <table class="w-full text-left text-sm responsive-table">
+                                    <thead class="bg-stone-50">
+                                        <tr>
+                                            <th class="p-3 font-semibold">Feature</th>
+                                            <th class="p-3 font-semibold text-teal-600">Quantix (Proposed)</th>
+                                            <th class="p-3 font-semibold">3Commas</th>
+                                            <th class="p-3 font-semibold">Bitsgap</th>
+                                            <th class="p-3 font-semibold">Cryptohopper</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-stone-200">
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Primary Business Model</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">B2C & B2B</td><td class="p-3" data-label="3Commas">B2C Subscription</td><td class="p-3" data-label="Bitsgap">B2C Subscription</td><td class="p-3" data-label="Cryptohopper">B2C Subscription</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="3Commas">Bots, Smart Terminal, Portfolio Manager</td><td class="p-3" data-label="Bitsgap">Bots, Arbitrage, Trading Terminal</td><td class="p-3" data-label="Cryptohopper">Bots, Marketplace, Signals, Social Trading</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="Commas">Retail & Pro-sumer</td><td class="p-3" data-label="Bitsgap">Retail & Pro-sumer</td><td class="p-3" data-label="Cryptohopper">Beginner, Casual, & Algorithmic Traders</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">AI in Strategy Creation</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Core Feature)</td><td class="p-3" data-label="3Commas">Yes (Predictive & Optimizing)¹</td><td class="p-3" data-label="Bitsgap">Yes (Assistive & Analytical)²</td><td class="p-3" data-label="Cryptohopper">Yes (Learning & Selective)³</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~220,000+</td><td class="p-3" data-label="Bitsgap">~600,000+</td><td class="p-3" data-label="Cryptohopper">~1,000,000+</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~$20-30M</td><td class="p-3" data-label="Bitsgap">~$8.4M</td><td class="p-3" data-label="Cryptohopper">~$15-25M</td></tr>
+                                    </tbody>
                                 </table>
+                                <div class="text-xs text-stone-500 mt-4 space-y-1">
+                                    <p>¹3Commas uses AI/ML for predictive analytics, portfolio optimization, and automated trading bots.</p>
+                                    <p>²Bitsgap uses an "AI Assistant" to analyze data and recommend bot strategies to users.</p>
+                                    <p>³Cryptohopper's "Algorithm Intelligence" learns from user-fed strategies to select the optimal one for current market conditions.</p>
+                                </div>
+                            </div>
+
+                            <div id="forex-comp-table" class="table-container hidden">
+                                 <table class="w-full text-left text-sm responsive-table">
+                                    <thead class="bg-stone-50">
+                                        <tr>
+                                            <th class="p-3 font-semibold">Feature</th>
+                                            <th class="p-3 font-semibold text-teal-600">Quantix (Proposed)</th>
+                                            <th class="p-3 font-semibold">MT Marketplace</th>
+                                            <th class="p-3 font-semibold">ZuluTrade</th>
+                                            <th class="p-3 font-semibold">Strategy Quant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-stone-200">
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Primary Business Model</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">B2C & B2B</td><td class="p-3" data-label="MT Marketplace">B2C Asset Sales</td><td class="p-3" data-label="ZuluTrade">Copy Trading (Commission/Broker-paid)</td><td class="p-3" data-label="Strategy Quant">B2C Software License</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="MT Marketplace">EA & Indicator Marketplace</td><td class="p-3" data-label="ZuluTrade">Copy Trading Platform, Social Network</td><td class="p-3" data-label="Strategy Quant">Strategy Builder Software</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="MT Marketplace">Retail Traders (MT4/5)</td><td class="p-3" data-label="ZuluTrade">Retail Traders</td><td class="p-3" data-label="Strategy Quant">Pro-sumers & Quants</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">AI in Strategy Creation</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Core Feature)</td><td class="p-3" data-label="MT Marketplace">Yes (via 3rd-Party EAs)⁴</td><td class="p-3" data-label="ZuluTrade">Yes (via 3rd-Party Leaders)⁵</td><td class="p-3" data-label="Strategy Quant">Yes (Genetic Programming)⁶</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="MT Marketplace">~7,000,000+</td><td class="p-3" data-label="ZuluTrade">~1,000,000+</td><td class="p-3" data-label="Strategy Quant">N/A (Niche)</td></tr>
+                                        <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="MT Marketplace">N/A (Commission)</td><td class="p-3" data-label="ZuluTrade">N/A (Volume-based)</td><td class="p-3" data-label="Strategy Quant">N/A (License-based)</td></tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-xs text-stone-500 mt-4 space-y-1">
+                                   <p>⁴The platform hosts thousands of Expert Advisors (EAs) marketed with AI, Neural Network, and ML capabilities.</p>
+                                   <p>⁵The platform allows users to copy "Leaders" who explicitly offer AI- and ML-driven trading strategies.</p>
+                                   <p>⁶Uses evolutionary algorithms, a subfield of AI, to automatically generate and optimize trading strategies from building blocks.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                    <!-- NEW SECTION: Why Quantix -->
+                    <section id="why-quantix" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="why-quantix" data-title="Why Quantix">
+                        <h2 class="text-3xl font-bold text-center mb-12">Why Quantix? Our Competitive Edge</h2>
+                        <div class="bg-white p-6 rounded-lg shadow-md max-w-6xl mx-auto">
+                            <div id="why-quantix-tabs" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
+                                <button data-tab="ecosystem" class="why-quantix-tab active text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Unified Ecosystem</button>
+                                <button data-tab="ai" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Proprietary Strategy AI</button>
+                                <button data-tab="multi-market" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Multi-Market</button>
+                                <button data-tab="security" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Trust & Security</button>
+                                <button data-tab="functionality" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Unique Functionality</button>
+                            </div>
+                            <div id="why-quantix-content" class="p-4 border-t border-stone-200">
+                                <!-- Content will be injected by JS -->
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 gap-8">
-                            <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-revenue" data-title="Chart: Revenue by Business Unit">
-                                <h3 class="text-xl font-bold mb-4 text-center">Revenue by Business Unit</h3>
-                                <div class="chart-container"><canvas id="revenueChart"></canvas></div>
-                            </div>
-                            <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-cashflow" data-title="Chart: Quarterly Cash Flow">
-                                <h3 class="text-xl font-bold mb-4 text-center">Quarterly Cash Flow & Milestones</h3>
-                                <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
-                            </div>
-                             <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-runrate" data-title="Chart: Annual Revenue Run Rate">
-                                <h3 class="text-xl font-bold mb-4 text-center">Annual Revenue Run Rate (EOY)</h3>
-                                <div class="chart-container"><canvas id="runRateChart"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section: Team & Budget -->
-                <section id="team-budget" class="summary-toggleable mb-16 scroll-mt-24" data-id="team-budget" data-title="Team & Budget">
-                    <h2 class="text-3xl font-bold text-center mb-8">Team Growth & Budget</h2>
-                     <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-opex" data-title="Table: 5-Year Operating Expenses">
-                        <h3 class="text-xl font-bold mb-4">5-Year Operating Expenses</h3>
-                        <div class="table-container">
-                             <table class="w-full text-left text-sm responsive-table" id="opex-summary-table">
-                                <!-- JS will populate this -->
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- NEW Section: Use of Funds -->
-                <section id="use-of-funds" class="summary-toggleable mb-16 scroll-mt-24" data-id="use-of-funds" data-title="Use of Funds">
-                    <h2 class="text-3xl font-bold text-center mb-12">Use of Funds</h2>
-                    <div class="bg-white p-8 rounded-lg shadow-md max-w-5xl mx-auto">
-                        <div class="text-center mb-8">
-                            <h3 class="text-2xl font-bold">Seeking $5 Million in Seed Funding</h3>
-                            <p class="text-stone-600 mt-2">To accelerate our go-to-market strategy, expand our team, and scale our platform infrastructure.</p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                            <div class="chart-container relative h-80 w-80 mx-auto summary-toggleable" data-id="chart-use-of-funds" data-title="Chart: Use of Funds">
-                                <canvas id="useOfFundsChart"></canvas>
-                            </div>
-                            <div>
-                                <ul class="space-y-4">
-                                    <li class="flex items-start">
-                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #312e81;"></div>
-                                        <div>
-                                            <h4 class="font-bold">Team Expansion & Salaries (33% - $1.65M)</h4>
-                                            <p class="text-sm text-stone-600">Recruit top-tier talent in engineering, sales, and customer support to execute our roadmap and support a growing user base.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #4338ca;"></div>
-                                        <div>
-                                            <h4 class="font-bold">Product Development & R&D (20% - $1.0M)</h4>
-                                            <p class="text-sm text-stone-600">Accelerate the development of Quantix IQ, the institutional-grade Pro platform, and the integration with the Forex market.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #6366f1;"></div>
-                                        <div>
-                                            <h4 class="font-bold">Sales & Marketing (15% - $0.75M)</h4>
-                                            <p class="text-sm text-stone-600">Drive user acquisition through targeted digital marketing, influencer partnerships, and building a strong community presence.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #818cf8;"></div>
-                                        <div>
-                                            <h4 class="font-bold">Marketplace Bot Capitalization (28% - $1.4M)</h4>
-                                            <p class="text-sm text-stone-600">Provide the necessary capital to deploy and run our proprietary bots on Crypto ($0.6M) and Forex ($0.8M) partner exchanges.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="w-4 h-4 rounded-full mt-1 mr-3" style="background-color: #a5b4fc;"></div>
-                                        <div>
-                                            <h4 class="font-bold">Operational & G&A (4% - $0.2M)</h4>
-                                            <p class="text-sm text-stone-600">Cover essential operating costs including legal, IT infrastructure, and administrative overhead.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p class="text-center text-stone-600 mt-8 font-semibold">This funding provides an estimated 24-month runway to achieve key growth milestones and reach profitability.</p>
-                    </div>
-                </section>
-
-                 <!-- Section: Team -->
-                <section id="team" class="summary-toggleable mb-16 scroll-mt-24" data-id="team" data-title="Team">
-                    <h2 class="text-3xl font-bold text-center mb-8">Quantix Team</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                        <div class="text-center">
-                            <img src="Vahid Shahpari Fard.jpg" alt="Vahid Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Vahid Shahpari Fard</h3>
-                            <p class="text-sm text-stone-500">CEO & COO</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Roger Goudarzi.jpg" alt="Roger Goudarzi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Roger Goudarzi</h3>
-                            <p class="text-sm text-stone-500">CTO & Investor</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Ahmadreza Rasekhi.jpeg" alt="Ahmadreza Rasekhi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Ahmadreza Rasekhi</h3>
-                            <p class="text-sm text-stone-500">VP of Engineering</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Mohammad Shahpari Fard.jpg" alt="Mohammad Shahpari Fard" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Mohammad Shahpari Fard</h3>
-                            <p class="text-sm text-stone-500">Senior Developer Director</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Javad Abazari.jpg" alt="Javad Abazari" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Javad Abazari</h3>
-                            <p class="text-sm text-stone-500">Head of R&D</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Pouria Madan Dar.jpg" alt="Pouria Madandar" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Pouria Madandar</h3>
-                            <p class="text-sm text-stone-500">Head of UI</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Fatemeh Rasekhi.png" alt="Fatemeh Rasekhi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Fatemeh Rasekhi</h3>
-                            <p class="text-sm text-stone-500">Full Stack Developer</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Amir Ali Omidvar.jpg" alt="Amir Ali Omidvar" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Amir Ali Omidvar</h3>
-                            <p class="text-sm text-stone-500">Full Stack Developer</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Mohammad Rahim Pour.jpg" alt="Mohammad Rahimpour" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Mohammad Rahimpour</h3>
-                            <p class="text-sm text-stone-500">Head of AI</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Maryam Zarisfi.jpg" alt="Maryam Zarisfi" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Maryam Zarisfi</h3>
-                            <p class="text-sm text-stone-500">Head of Analysis & Bot Factory</p>
-                        </div>
-                        <div class="text-center">
-                            <img src="Navid Mirpourian.png" alt="Navid Mirpourian" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/E7E5E4/78716C?text=Photo';">
-                            <h3 class="font-bold">Navid Mirpourian</h3>
-                            <p class="text-sm text-stone-500">Analyst & Trading Advisor</p>
-                        </div>
-                    </div>
-                </section>
-
-                 <!-- Section: Competition -->
-                <section id="competition" class="summary-toggleable mb-16 scroll-mt-24" data-id="competition" data-title="Competition">
-                    <h2 class="text-3xl font-bold text-center mb-8">Validated Competitive Landscape</h2>
-                    <div class="bg-white p-6 rounded-lg shadow-md space-y-8">
-                        <p class="text-stone-600 text-center max-w-4xl mx-auto">Here are the regenerated competitive landscape tables from the previous analysis, which correct and add nuance to the information presented in the pitch deck.</p>
-
-                        <div class="flex justify-center border-b border-stone-200">
-                            <button class="tab-btn active flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition" data-tab="crypto-comp">Crypto Competitors</button>
-                            <button class="tab-btn flex-1 md:flex-none text-sm md:text-base font-semibold py-3 px-6 rounded-t-lg transition text-stone-600" data-tab="forex-comp">Forex Competitors</button>
-                        </div>
-
-                        <div id="crypto-comp-table" class="table-container">
-                             <table class="w-full text-left text-sm responsive-table">
-                                <thead class="bg-stone-50">
-                                    <tr>
-                                        <th class="p-3 font-semibold">Feature</th>
-                                        <th class="p-3 font-semibold text-teal-600">Quantix (Proposed)</th>
-                                        <th class="p-3 font-semibold">3Commas</th>
-                                        <th class="p-3 font-semibold">Bitsgap</th>
-                                        <th class="p-3 font-semibold">Cryptohopper</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-stone-200">
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Primary Business Model</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">B2C & B2B</td><td class="p-3" data-label="3Commas">B2C Subscription</td><td class="p-3" data-label="Bitsgap">B2C Subscription</td><td class="p-3" data-label="Cryptohopper">B2C Subscription</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="3Commas">Bots, Smart Terminal, Portfolio Manager</td><td class="p-3" data-label="Bitsgap">Bots, Arbitrage, Trading Terminal</td><td class="p-3" data-label="Cryptohopper">Bots, Marketplace, Signals, Social Trading</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="Commas">Retail & Pro-sumer</td><td class="p-3" data-label="Bitsgap">Retail & Pro-sumer</td><td class="p-3" data-label="Cryptohopper">Beginner, Casual, & Algorithmic Traders</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">AI in Strategy Creation</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Core Feature)</td><td class="p-3" data-label="3Commas">Yes (Predictive & Optimizing)¹</td><td class="p-3" data-label="Bitsgap">Yes (Assistive & Analytical)²</td><td class="p-3" data-label="Cryptohopper">Yes (Learning & Selective)³</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~220,000+</td><td class="p-3" data-label="Bitsgap">~600,000+</td><td class="p-3" data-label="Cryptohopper">~1,000,000+</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="Commas">~$20-30M</td><td class="p-3" data-label="Bitsgap">~$8.4M</td><td class="p-3" data-label="Cryptohopper">~$15-25M</td></tr>
-                                </tbody>
-                            </table>
-                            <div class="text-xs text-stone-500 mt-4 space-y-1">
-                                <p>¹3Commas uses AI/ML for predictive analytics, portfolio optimization, and automated trading bots.</p>
-                                <p>²Bitsgap uses an "AI Assistant" to analyze data and recommend bot strategies to users.</p>
-                                <p>³Cryptohopper's "Algorithm Intelligence" learns from user-fed strategies to select the optimal one for current market conditions.</p>
-                            </div>
-                        </div>
-
-                        <div id="forex-comp-table" class="table-container hidden">
-                             <table class="w-full text-left text-sm responsive-table">
-                                <thead class="bg-stone-50">
-                                    <tr>
-                                        <th class="p-3 font-semibold">Feature</th>
-                                        <th class="p-3 font-semibold text-teal-600">Quantix (Proposed)</th>
-                                        <th class="p-3 font-semibold">MT Marketplace</th>
-                                        <th class="p-3 font-semibold">ZuluTrade</th>
-                                        <th class="p-3 font-semibold">Strategy Quant</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-stone-200">
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Primary Business Model</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">B2C & B2B</td><td class="p-3" data-label="MT Marketplace">B2C Asset Sales</td><td class="p-3" data-label="ZuluTrade">Copy Trading (Commission/Broker-paid)</td><td class="p-3" data-label="Strategy Quant">B2C Software License</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Key Products</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">AI Marketplace, IQ, Pro</td><td class="p-3" data-label="MT Marketplace">EA & Indicator Marketplace</td><td class="p-3" data-label="ZuluTrade">Copy Trading Platform, Social Network</td><td class="p-3" data-label="Strategy Quant">Strategy Builder Software</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Target Markets</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Retail & Institutional</td><td class="p-3" data-label="MT Marketplace">Retail Traders (MT4/5)</td><td class="p-3" data-label="ZuluTrade">Retail Traders</td><td class="p-3" data-label="Strategy Quant">Pro-sumers & Quants</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">AI in Strategy Creation</td><td class="p-3 font-bold text-teal-700" data-label="Quantix (Proposed)">Yes (Core Feature)</td><td class="p-3" data-label="MT Marketplace">Yes (via 3rd-Party EAs)⁴</td><td class="p-3" data-label="ZuluTrade">Yes (via 3rd-Party Leaders)⁵</td><td class="p-3" data-label="Strategy Quant">Yes (Genetic Programming)⁶</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Active Users</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="MT Marketplace">~7,000,000+</td><td class="p-3" data-label="ZuluTrade">~1,000,000+</td><td class="p-3" data-label="Strategy Quant">N/A (Niche)</td></tr>
-                                    <tr><td class="p-3 font-semibold" data-label="Feature">Est. Annual Revenue</td><td class="p-3" data-label="Quantix (Proposed)">Pre-launch</td><td class="p-3" data-label="MT Marketplace">N/A (Commission)</td><td class="p-3" data-label="ZuluTrade">N/A (Volume-based)</td><td class="p-3" data-label="Strategy Quant">N/A (License-based)</td></tr>
-                                </tbody>
-                            </table>
-                            <div class="text-xs text-stone-500 mt-4 space-y-1">
-                               <p>⁴The platform hosts thousands of Expert Advisors (EAs) marketed with AI, Neural Network, and ML capabilities.</p>
-                               <p>⁵The platform allows users to copy "Leaders" who explicitly offer AI- and ML-driven trading strategies.</p>
-                               <p>⁶Uses evolutionary algorithms, a subfield of AI, to automatically generate and optimize trading strategies from building blocks.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-                <!-- NEW SECTION: Why Quantix -->
-                <section id="why-quantix" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="why-quantix" data-title="Why Quantix">
-                    <h2 class="text-3xl font-bold text-center mb-12">Why Quantix? Our Competitive Edge</h2>
-                    <div class="bg-white p-6 rounded-lg shadow-md max-w-6xl mx-auto">
-                        <div id="why-quantix-tabs" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
-                            <button data-tab="ecosystem" class="why-quantix-tab active text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Unified Ecosystem</button>
-                            <button data-tab="ai" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Proprietary Strategy AI</button>
-                            <button data-tab="multi-market" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Multi-Market</button>
-                            <button data-tab="security" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Trust & Security</button>
-                            <button data-tab="functionality" class="why-quantix-tab text-sm md:text-base font-semibold py-2 px-4 rounded-full transition bg-stone-100 text-stone-700">Unique Functionality</button>
-                        </div>
-                        <div id="why-quantix-content" class="p-4 border-t border-stone-200">
-                            <!-- Content will be injected by JS -->
-                        </div>
-                    </div>
-                </section>
-            </main>
+                    </section>
+                </main>
+            </div>
         </div>
     </div>
 
     <!-- Summary View Modal -->
-    <div id="summary-modal" class="summary-modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div id="summary-modal" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-4 border-b border-stone-200">
                 <h3 class="text-xl font-bold">Customize Summary View</h3>
-                <button id="close-summary-modal" class="text-stone-500 hover:text-stone-800">&times;</button>
+                <button id="close-summary-modal" class="text-stone-500 hover:text-stone-800 text-2xl">&times;</button>
             </div>
             <div id="summary-options" class="p-6 overflow-y-auto">
                 <!-- Checkboxes will be generated here by JS -->
@@ -1049,6 +1088,70 @@
             <div class="p-4 mt-auto border-t border-stone-200 flex justify-end space-x-3">
                 <button id="cancel-summary" class="text-sm font-semibold py-2 px-4 rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">Cancel</button>
                 <button id="apply-summary" class="text-sm font-semibold py-2 px-4 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Apply Summary</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b border-stone-200">
+                <h3 class="text-xl font-bold">Presentation Settings</h3>
+                <button id="close-settings-modal" class="text-stone-500 hover:text-stone-800 text-2xl">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-6">
+                <!-- Navigation Mode -->
+                <div>
+                    <h4 class="font-bold text-lg mb-2">Navigation Mode</h4>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="navMode" value="scrolling" class="form-radio text-teal-600">
+                            <span>Scrolling Mode</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="navMode" value="single-section" class="form-radio text-teal-600">
+                            <span>Single-Section Mode</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Menu Position -->
+                <div>
+                    <h4 class="font-bold text-lg mb-2">Menu Position</h4>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="menuPosition" value="side" class="form-radio text-teal-600">
+                            <span>Side Menu</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="menuPosition" value="top" class="form-radio text-teal-600">
+                            <span>Top Menu</span>
+                        </label>
+                    </div>
+                </div>
+                 <!-- External Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-2">External Links</h4>
+                    <div class="space-y-2">
+                         <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="setting-show-bots-link" class="form-checkbox h-5 w-5 text-teal-600 rounded">
+                            <span class="text-stone-700">Show Quantix Bots Link</span>
+                        </label>
+                         <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="setting-show-financing-link" class="form-checkbox h-5 w-5 text-teal-600 rounded">
+                            <span class="text-stone-700">Show Quantix Financing Link</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Summary Options -->
+                <div>
+                    <h4 class="font-bold text-lg mb-2">Summary Options</h4>
+                    <p class="text-sm text-stone-600 mb-2">Configure which sections, charts, and tables are visible in "Summary View".</p>
+                    <button id="configure-summary-btn" class="text-sm font-semibold py-2 px-4 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Configure Summary</button>
+                </div>
+            </div>
+            <div class="p-4 mt-auto border-t border-stone-200 flex justify-end space-x-3">
+                <button id="cancel-settings" class="text-sm font-semibold py-2 px-4 rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">Cancel</button>
+                <button id="save-settings" class="text-sm font-semibold py-2 px-4 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Save Settings</button>
             </div>
         </div>
     </div>
@@ -1712,29 +1815,8 @@
             const sections = document.querySelectorAll('main section');
             const navLinks = document.querySelectorAll('#main-nav a');
             const mainContent = document.getElementById('main-content');
-
-            const observerOptions = {
-                root: mainContent,
-                rootMargin: '-50% 0px -50% 0px',
-                threshold: 0
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const id = entry.target.getAttribute('id');
-                    const navLink = document.querySelector(`#main-nav a[href="#${id}"]`);
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => link.classList.remove('active'));
-                        if(navLink) {
-                           navLink.classList.add('active');
-                        }
-                    }
-                });
-            }, observerOptions);
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            const mainNav = document.getElementById('main-nav');
+            let navObserver;
 
             const whyQuantixTabsContainer = document.getElementById('why-quantix-tabs');
             const whyQuantixContentContainer = document.getElementById('why-quantix-content');
@@ -1812,16 +1894,23 @@
                 });
             }
 
-            // --- Summary View Logic ---
+            // --- Summary View & Settings Logic ---
             const summaryModal = document.getElementById('summary-modal');
             const summaryOptionsContainer = document.getElementById('summary-options');
-            const summaryViewBtn = document.getElementById('summary-view-btn');
             const fullViewBtn = document.getElementById('full-view-btn');
             const closeModalBtn = document.getElementById('close-summary-modal');
             const cancelBtn = document.getElementById('cancel-summary');
             const applyBtn = document.getElementById('apply-summary');
             const allToggleableElements = document.querySelectorAll('.summary-toggleable');
-            const STORAGE_KEY = 'quantixSummaryViewSelection';
+            const SUMMARY_STORAGE_KEY = 'quantixSummaryViewSelection';
+
+            const settingsModal = document.getElementById('settings-modal');
+            const settingsBtn = document.getElementById('settings-btn');
+            const closeSettingsModalBtn = document.getElementById('close-settings-modal');
+            const cancelSettingsBtn = document.getElementById('cancel-settings');
+            const saveSettingsBtn = document.getElementById('save-settings');
+            const configureSummaryBtn = document.getElementById('configure-summary-btn');
+            const SETTINGS_STORAGE_KEY = 'quantixGlobalSettings';
 
             const populateSettingsModal = () => {
                 let html = '<div class="space-y-4">';
@@ -1847,12 +1936,12 @@
                     el.classList.toggle('hidden-by-summary', !isVisible);
                 });
 
-                navLinks.forEach(link => {
+                document.querySelectorAll('#main-nav a, #top-main-nav a').forEach(link => {
                     const sectionId = link.getAttribute('href').substring(1);
                     const section = document.getElementById(sectionId);
-                    if (section && section.classList.contains('summary-toggleable')) {
-                        const isVisible = selection.includes(sectionId);
-                        link.style.display = isVisible ? '' : 'none';
+                    if (section) {
+                         const isVisible = selection.includes(sectionId);
+                         link.classList.toggle('hidden-by-summary', !isVisible);
                     }
                 });
 
@@ -1861,43 +1950,165 @@
 
             const showFullView = () => {
                 allToggleableElements.forEach(el => {
-                    el.classList.remove('hidden-by-summary');
+                    el.classList.remove('hidden-by-summary', 'hidden-by-focus');
                 });
-                 navLinks.forEach(link => {
-                    link.style.display = '';
+                 document.querySelectorAll('#main-nav a, #top-main-nav a').forEach(link => {
+                    link.classList.remove('hidden-by-summary');
                 });
-                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(SUMMARY_STORAGE_KEY);
+                mainContent.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            const saveSettings = () => {
+            const saveSummarySettings = () => {
                 const selectedIds = [];
                 summaryOptionsContainer.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
                     selectedIds.push(checkbox.dataset.targetId);
                 });
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedIds));
+                localStorage.setItem(SUMMARY_STORAGE_KEY, JSON.stringify(selectedIds));
                 applySummaryView(selectedIds);
             };
 
-            const loadSettings = () => {
-                const savedSelection = localStorage.getItem(STORAGE_KEY);
+            const loadSummarySettings = () => {
+                const savedSelection = localStorage.getItem(SUMMARY_STORAGE_KEY);
                 if (savedSelection) {
                     applySummaryView(JSON.parse(savedSelection));
                 }
             };
 
-            summaryViewBtn.addEventListener('click', () => {
+            const applyGlobalSettings = (settings) => {
+                // Navigation Mode
+                document.body.dataset.navMode = settings.navigationMode;
+                if (settings.navigationMode === 'scrolling') {
+                    if (navObserver) navObserver.disconnect();
+                    sections.forEach(s => s.classList.remove('hidden-by-focus'));
+                    setupScrollObserver();
+                } else {
+                    if (navObserver) navObserver.disconnect();
+                }
+
+                // Menu Position
+                document.getElementById('app-container').classList.toggle('top-menu-layout', settings.menuPosition === 'top');
+
+                // External Links
+                document.getElementById('bots-link').style.display = settings.showBotsLink ? '' : 'none';
+                document.getElementById('financing-link').style.display = settings.showFinancingLink ? '' : 'none';
+                document.getElementById('top-bots-link').style.display = settings.showBotsLink ? '' : 'none';
+                document.getElementById('top-financing-link').style.display = settings.showFinancingLink ? '' : 'none';
+            };
+
+            const saveGlobalSettings = () => {
+                const settings = {
+                    navigationMode: document.querySelector('input[name="navMode"]:checked').value,
+                    menuPosition: document.querySelector('input[name="menuPosition"]:checked').value,
+                    showBotsLink: document.getElementById('setting-show-bots-link').checked,
+                    showFinancingLink: document.getElementById('setting-show-financing-link').checked,
+                };
+                localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+                applyGlobalSettings(settings);
+                settingsModal.classList.add('hidden');
+            };
+
+            const loadGlobalSettings = () => {
+                const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
+                const defaultSettings = {
+                    navigationMode: 'scrolling',
+                    menuPosition: 'side',
+                    showBotsLink: true,
+                    showFinancingLink: true,
+                };
+                const settings = saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+
+                // Update modal inputs before applying
+                document.querySelector(`input[name="navMode"][value="${settings.navigationMode}"]`).checked = true;
+                document.querySelector(`input[name="menuPosition"][value="${settings.menuPosition}"]`).checked = true;
+                document.getElementById('setting-show-bots-link').checked = settings.showBotsLink;
+                document.getElementById('setting-show-financing-link').checked = settings.showFinancingLink;
+
+                applyGlobalSettings(settings);
+            };
+
+            const setupScrollObserver = () => {
+                const observerOptions = { root: mainContent, rootMargin: '-50% 0px -50% 0px', threshold: 0 };
+                navObserver = new IntersectionObserver((entries) => {
+                    if (document.body.dataset.navMode !== 'scrolling') return;
+                    entries.forEach(entry => {
+                        const id = entry.target.getAttribute('id');
+                        const navLink = document.querySelector(`#main-nav a[href="#${id}"]`);
+                        if (entry.isIntersecting) {
+                            navLinks.forEach(link => link.classList.remove('active'));
+                            if(navLink) navLink.classList.add('active');
+                        }
+                    });
+                }, observerOptions);
+                sections.forEach(section => navObserver.observe(section));
+            };
+
+            const handleNavClick = (e) => {
+                const link = e.target.closest('a');
+                if (!link) return;
+                e.preventDefault();
+
+                const targetId = link.getAttribute('href').substring(1);
+
+                if (document.body.dataset.navMode === 'single-section') {
+                    sections.forEach(section => {
+                        section.classList.toggle('hidden-by-focus', section.id !== targetId);
+                    });
+                    mainContent.scrollTop = 0;
+                } else {
+                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                }
+
+                document.querySelectorAll('#main-nav a, #top-main-nav a').forEach(navLink => {
+                    navLink.classList.toggle('active', navLink.getAttribute('href') === `#${targetId}`);
+                });
+            };
+
+            mainNav.addEventListener('click', handleNavClick);
+            document.getElementById('top-main-nav').addEventListener('click', handleNavClick);
+
+            fullViewBtn.addEventListener('click', showFullView);
+            closeModalBtn.addEventListener('click', () => summaryModal.classList.add('hidden'));
+            cancelBtn.addEventListener('click', () => summaryModal.classList.add('hidden'));
+            applyBtn.addEventListener('click', saveSummarySettings);
+
+            settingsBtn.addEventListener('click', () => {
+                settingsModal.classList.remove('hidden');
+                settingsModal.classList.add('flex');
+            });
+
+            closeSettingsModalBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
+            cancelSettingsBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
+            saveSettingsBtn.addEventListener('click', saveGlobalSettings);
+
+            configureSummaryBtn.addEventListener('click', () => {
+                settingsModal.classList.add('hidden');
                 populateSettingsModal();
                 summaryModal.classList.remove('hidden');
                 summaryModal.classList.add('flex');
             });
 
-            fullViewBtn.addEventListener('click', showFullView);
-            closeModalBtn.addEventListener('click', () => summaryModal.classList.add('hidden'));
-            cancelBtn.addEventListener('click', () => summaryModal.classList.add('hidden'));
-            applyBtn.addEventListener('click', saveSettings);
+            // Clone nav for top menu
+            const topNavContainer = document.getElementById('top-main-nav');
+            navLinks.forEach(link => {
+                const clone = link.cloneNode(true);
+                clone.classList.add('p-2', 'text-xs');
+                topNavContainer.appendChild(clone);
+            });
+
+            // Clone external links for top menu
+            const topExternalLinksContainer = document.getElementById('top-external-links-container');
+            document.querySelectorAll('#external-links-container a').forEach(link => {
+                const clone = link.cloneNode(true);
+                clone.id = `top-${link.id}`;
+                clone.classList.add('text-xs', 'px-3', 'py-1');
+                topExternalLinksContainer.appendChild(clone);
+            });
+
 
             // Initial Load
-            loadSettings();
+            loadGlobalSettings();
+            loadSummarySettings();
             renderFunctionalities();
             renderTabContent('marketplace');
             renderFinancialSummaryTable();
