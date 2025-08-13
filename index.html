@@ -1843,18 +1843,28 @@
 
             const applySummaryView = (selection) => {
                 allToggleableElements.forEach(el => {
-                    if (selection.includes(el.dataset.id)) {
-                        el.classList.remove('hidden-by-summary');
-                    } else {
-                        el.classList.add('hidden-by-summary');
+                    const isVisible = selection.includes(el.dataset.id);
+                    el.classList.toggle('hidden-by-summary', !isVisible);
+                });
+
+                navLinks.forEach(link => {
+                    const sectionId = link.getAttribute('href').substring(1);
+                    const section = document.getElementById(sectionId);
+                    if (section && section.classList.contains('summary-toggleable')) {
+                        const isVisible = selection.includes(sectionId);
+                        link.style.display = isVisible ? '' : 'none';
                     }
                 });
+
                 summaryModal.classList.add('hidden');
             };
 
             const showFullView = () => {
                 allToggleableElements.forEach(el => {
                     el.classList.remove('hidden-by-summary');
+                });
+                 navLinks.forEach(link => {
+                    link.style.display = '';
                 });
                 localStorage.removeItem(STORAGE_KEY);
             };
