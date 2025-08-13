@@ -161,10 +161,10 @@
         <div id="main-content" class="flex-1 overflow-y-auto h-screen scroll-smooth">
             <main class="p-4 md:p-8">
                 <!-- Section: Executive Summary -->
-                <section id="summary" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="summary" class="mb-16 scroll-mt-24 min-h-[70vh] flex flex-col justify-center">
                     <div class="text-center mb-10">
                         <h2 class="text-4xl font-bold tracking-tight">The first no-code platform that lets anyone build institutional-grade AI trading strategies.</h2>
-                        <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is democratizing institutional-grade trading for everyone, from retail investors to hedge funds, across both Cryptocurrency and Forex markets.</p>
+                        <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is the <span class="font-bold text-teal-600">ChatGPT of AI trading</span> — making institutional-grade strategy creation accessible to everyone in minutes, not months.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center max-w-6xl mx-auto">
                         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -175,9 +175,9 @@
                             <h3 class="text-base font-semibold text-stone-500">Projected Y5 Revenue</h3>
                             <p id="kpi-y5-revenue" class="text-4xl font-bold text-teal-600 mt-2">$55.7M</p>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-base font-semibold text-stone-500">Breakeven Year</h3>
-                            <p class="text-4xl font-bold text-teal-600 mt-2">Year 2</p>
+                         <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-base font-semibold text-stone-500">Market Opportunity</h3>
+                            <p class="text-4xl font-bold text-teal-600 mt-2">$69B</p>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <h3 class="text-base font-semibold text-stone-500">Target Market</h3>
@@ -187,28 +187,22 @@
                 </section>
 
                 <!-- Section: The Problem -->
-                <section id="problem" class="mb-16 scroll-mt-24 min-h-[50vh]">
-                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <div class="text-center">
-                            <h2 class="text-3xl font-bold mb-4">The Trading Trap</h2>
-                            <p class="text-6xl font-bold text-red-600 mb-4">95%</p>
-                            <p class="text-xl text-stone-700 max-w-3xl mx-auto">of retail traders ultimately fail. This isn't due to a lack of effort, but a lack of access.</p>
-                        </div>
-                        <div class="mt-10 border-t border-stone-200 pt-8">
-                            <p class="text-center text-lg font-semibold text-stone-800">They can't access or afford the institutional-grade AI trading tools that professionals use to win.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 text-center">
-                                <div>
-                                    <h3 class="font-semibold text-lg mb-2">The Coding Barrier</h3>
-                                    <p class="text-sm text-stone-600">Building effective trading bots requires deep programming knowledge, shutting out most traders.</p>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-lg mb-2">Prohibitive Costs</h3>
-                                    <p class="text-sm text-stone-600">Institutional tools, data, and infrastructure can cost tens of thousands of dollars per year.</p>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-lg mb-2">Lack of Transparency</h3>
-                                    <p class="text-sm text-stone-600">Existing retail bots are often "black boxes," leaving traders unsure of the strategy or its risks.</p>
-                                </div>
+                <section id="problem" class="mb-16 scroll-mt-24 min-h-[50vh] flex items-center">
+                     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl mx-auto">
+                        <h2 class="text-3xl font-bold text-center mb-4">We put Wall Street power in Main Street hands</h2>
+                        <p class="text-lg text-stone-600 text-center mb-8 max-w-3xl mx-auto">An estimated 95% of retail traders fail. They're at a massive disadvantage because they can't access, build, or afford the sophisticated trading tools that institutions use to dominate the markets.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                            <div class="bg-stone-100 p-4 rounded-lg">
+                                <h3 class="font-semibold text-lg mb-2">The Coding Barrier</h3>
+                                <p class="text-sm text-stone-600">Building a trading bot requires deep programming and quantitative skills, shutting out most people.</p>
+                            </div>
+                            <div class="bg-stone-100 p-4 rounded-lg">
+                                <h3 class="font-semibold text-lg mb-2">Prohibitive Costs</h3>
+                                <p class="text-sm text-stone-600">Institutional platforms cost tens of thousands per year, while retail "bots" are often ineffective scripts.</p>
+                            </div>
+                             <div class="bg-stone-100 p-4 rounded-lg">
+                                <h3 class="font-semibold text-lg mb-2">Lack of True AI</h3>
+                                <p class="text-sm text-stone-600">Most available tools are simple automation, not machine learning (ML) AI that can learn, adapt, and create novel strategies.</p>
                             </div>
                         </div>
                     </div>
@@ -687,62 +681,16 @@
 
                 <!-- Section: Market Size -->
                 <section id="market-size" class="mb-16 scroll-mt-24">
-                    <h2 class="text-3xl font-bold text-center mb-8">Market Size and Algorithmic Trading Volume Estimation</h2>
-                    <div class="bg-white p-6 rounded-lg shadow-md space-y-8">
-                        <div>
-                            <h3 class="text-xl font-bold mb-4 text-center">Algorithmic Trading Volume</h3>
-                            <p class="text-stone-600 mb-6 text-center max-w-4xl mx-auto">Estimating the algorithmic trading volume in the cryptocurrency market is a complex task due to the absence of a central reporting authority and significant data quality issues. The following table provides a data-driven estimate based on an analysis of credible spot trading volumes and logical inferences about algorithmic trading penetration.</p>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                                <div class="table-container">
-                                    <table class="w-full text-left text-sm responsive-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="p-3 font-semibold">Market</th>
-                                                <th class="p-3 font-semibold text-right">Daily Volume</th>
-                                                <th class="p-3 font-semibold text-right">Estimated Algorithmic %</th>
-                                                <th class="p-3 font-semibold text-right">Estimated Algorithmic Volume</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-stone-200">
-                                            <tr><td class="p-3" data-label="Market">Foreign Exchange</td><td class="p-3 text-right" data-label="Daily Volume">$7.5 Trillion</td><td class="p-3 text-right" data-label="Estimated Algorithmic %">~75-80%</td><td class="p-3 text-right" data-label="Estimated Algorithmic Volume">~$6.0 Trillion</td></tr>
-                                            <tr><td class="p-3" data-label="Market">Cryptocurrency</td><td class="p-3 text-right" data-label="Daily Volume">$42B - $87B</td><td class="p-3 text-right" data-label="Estimated Algorithmic %">50% - 70% (Estimate)</td><td class="p-3 text-right" data-label="Estimated Algorithmic Volume">$21B - $61B (Estimate)</td></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <div class="chart-container"><canvas id="algoVolumeChart"></canvas></div>
-                                </div>
-                            </div>
+                    <h2 class="text-3xl font-bold text-center mb-8">A Massive, Underserved Market</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8 text-center">
+                         <p class="text-lg text-stone-600 mx-auto">The market is at a perfect inflection point. The AI boom is creating unprecedented demand for intelligent tools, just as a new generation of retail investors seeks sophisticated ways to manage their own capital.</p>
+                        <div class="bg-teal-50 p-6 rounded-lg border border-teal-200">
+                             <h3 class="text-xl font-bold text-teal-800">AI Trading Platform Market</h3>
+                            <p class="text-6xl font-bold text-teal-600 my-4">$69.95 Billion</p>
+                             <p class="text-stone-600 font-semibold">Projected market size by 2034, growing at a 20.04% CAGR.</p>
+                             <p class="text-xs text-stone-500 mt-2">Source: Precedence Research</p>
                         </div>
-                        <div class="pt-8">
-                            <h3 class="text-xl font-bold mb-4 text-center">Market Size</h3>
-                             <p class="text-stone-600 mb-6 text-center max-w-4xl mx-auto">The global algorithmic trading market is a subject of analysis by numerous research firms, each employing distinct methodologies, definitions, and data sources. This often results in a wide range of market size valuations and growth forecasts. The table below synthesizes estimates from several prominent industry reports, providing a comparative overview of their findings.</p>
-                            <div class="table-container">
-                                <table class="w-full text-left text-sm responsive-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="p-3 font-semibold">Source</th>
-                                            <th class="p-3 font-semibold text-right">2024 Size (USD)</th>
-                                            <th class="p-3 font-semibold text-right">2025 Size (USD)</th>
-                                            <th class="p-3 font-semibold text-right">Forecast Horizon</th>
-                                            <th class="p-3 font-semibold text-right">Forecast Size (USD)</th>
-                                            <th class="p-3 font-semibold text-right">CAGR</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-stone-200">
-                                        <tr><td class="p-3" data-label="Source">Mordor Intelligence</td><td class="p-3 text-right" data-label="2024 Size (USD)">-</td><td class="p-3 text-right" data-label="2025 Size (USD)">$18.73 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2030</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$28.44 Billion</td><td class="p-3 text-right" data-label="CAGR">8.71% (2025-2030)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Research and Markets</td><td class="p-3 text-right" data-label="2024 Size (USD)">$19.95 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$22.03 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2029</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$38.4 Billion</td><td class="p-3 text-right" data-label="CAGR">14.9% (Forecast Period)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Grand View Research</td><td class="p-3 text-right" data-label="2024 Size (USD)">$21.06 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$23.48 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2030</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$42.99 Billion</td><td class="p-3 text-right" data-label="CAGR">12.9% (2025-2030)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Straits Research</td><td class="p-3 text-right" data-label="2024 Size (USD)">$51.14 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$57.65 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2033</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$150.36 Billion</td><td class="p-3 text-right" data-label="CAGR">12.73% (2025-2033)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Market.us</td><td class="p-3 text-right" data-label="2024 Size (USD)">$13.05 Billion (2023)</td><td class="p-3 text-right" data-label="2025 Size (USD)">-</td><td class="p-3 text-right" data-label="Forecast Horizon">2033</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$35.45 Billion</td><td class="p-3 text-right" data-label="CAGR">10.51% (2024-2033)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Precedence Research (AI Trading Platforms)¹</td><td class="p-3 text-right" data-label="2024 Size (USD)">$11.26 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$13.52 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2034</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$69.95 Billion</td><td class="p-3 text-right" data-label="CAGR">20.04% (2025-2034)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Fortune Business Insights</td><td class="p-3 text-right" data-label="2024 Size (USD)">$2.36 Billion</td><td class="p-3 text-right" data-label="2025 Size (USD)">$2.53 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2032</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$4.06 Billion</td><td class="p-3 text-right" data-label="CAGR">7.0% (2025-2032)</td></tr>
-                                        <tr><td class="p-3" data-label="Source">Coherent Market Insights</td><td class="p-3 text-right" data-label="2024 Size (USD)">-</td><td class="p-3 text-right" data-label="2025 Size (USD)">$3.28 Billion</td><td class="p-3 text-right" data-label="Forecast Horizon">2032</td><td class="p-3 text-right" data-label="Forecast Size (USD)">$6.05 Billion</td><td class="p-3 text-right" data-label="CAGR">9.1% (2025-2032)</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                             <p class="text-xs text-stone-500 mt-4">¹This report focuses specifically on the "AI Trading Platform" market, a segment of the broader algorithmic trading industry.</p>
-                        </div>
+                         <p class="text-lg text-stone-600 mx-auto">Quantix is perfectly positioned to capture this market by providing the accessible, powerful AI tools that retail traders are actively seeking.</p>
                     </div>
                 </section>
 
