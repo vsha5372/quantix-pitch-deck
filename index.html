@@ -130,17 +130,24 @@
         .thumbnail-item.active {
             border-color: var(--accent-primary);
         }
+        /* Summary View Modal */
+        .summary-modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .hidden-by-summary {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="antialiased">
     <div class="flex">
         <!-- Sidebar Navigation: Provides easy access to all sections of the report -->
-        <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:block">
+        <aside class="sticky top-0 h-screen w-64 bg-white border-r border-stone-200 p-6 flex-shrink-0 hidden md:flex flex-col">
             <div class="flex items-center space-x-3 mb-8">
                 <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl">Q</div>
                 <h1 class="text-2xl font-bold text-stone-800">Quantix</h1>
             </div>
-            <nav id="main-nav" class="flex flex-col space-y-2">
+            <nav id="main-nav" class="flex flex-col space-y-2 flex-grow">
                 <a href="#summary" class="nav-link p-3 rounded-lg transition text-sm">Summary</a>
                 <a href="#problem" class="nav-link p-3 rounded-lg transition text-sm">The Problem</a>
                 <a href="#solution" class="nav-link p-3 rounded-lg transition text-sm">Our Solution</a>
@@ -156,12 +163,18 @@
                 <a href="#competition" class="nav-link p-3 rounded-lg transition text-sm">Competition</a>
                 <a href="#why-quantix" class="nav-link p-3 rounded-lg transition text-sm">Why Quantix</a>
             </nav>
+            <div class="mt-auto pt-4 border-t border-stone-200">
+                <div class="flex flex-col space-y-2">
+                    <button id="summary-view-btn" class="w-full text-sm font-semibold py-2 px-4 rounded-lg bg-teal-50 text-teal-700 hover:bg-teal-100 transition">Summary View</button>
+                    <button id="full-view-btn" class="w-full text-sm font-semibold py-2 px-4 rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">Full Presentation</button>
+                </div>
+            </div>
         </aside>
 
         <div id="main-content" class="flex-1 overflow-y-auto h-screen scroll-smooth">
             <main class="p-4 md:p-8">
                 <!-- Section: Executive Summary -->
-                <section id="summary" class="mb-16 scroll-mt-24 min-h-[70vh] flex flex-col justify-center">
+                <section id="summary" class="summary-toggleable mb-16 scroll-mt-24 min-h-[70vh] flex flex-col justify-center" data-id="summary" data-title="Summary">
                     <div class="text-center mb-10">
                         <h2 class="text-4xl font-bold tracking-tight">The first no-code platform that lets anyone build institutional-grade AI trading strategies.</h2>
                         <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Quantix is the <span class="font-bold text-teal-600">ChatGPT of AI trading</span> — making institutional-grade strategy creation accessible to everyone in minutes, not months.</p>
@@ -187,7 +200,7 @@
                 </section>
 
                 <!-- Section: The Problem -->
-                <section id="problem" class="mb-16 scroll-mt-24 min-h-[50vh] flex items-center">
+                <section id="problem" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh] flex items-center" data-id="problem" data-title="The Problem">
                      <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl mx-auto">
                         <h2 class="text-3xl font-bold text-center mb-4">We put Wall Street power in Main Street hands</h2>
                         <p class="text-lg text-stone-600 text-center mb-8 max-w-3xl mx-auto">An estimated 95% of retail traders fail. They're at a massive disadvantage because they can't access, build, or afford the sophisticated trading tools that institutions use to dominate the markets.</p>
@@ -209,7 +222,7 @@
                 </section>
 
                 <!-- Section: The Solution -->
-                <section id="solution" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="solution" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="solution" data-title="Our Solution">
                     <h2 class="text-3xl font-bold text-center mb-8">Our Solution: Quantix IQ</h2>
                     <p class="text-center text-lg text-stone-600 max-w-3xl mx-auto mb-10">We solve this problem by giving retail traders the power of institutional AI, without the complexity or cost.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -244,7 +257,7 @@
                 </section>
 
                 <!-- Section: Go-To-Market Strategy -->
-                <section id="strategy" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="strategy" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="strategy" data-title="Go-To-Market Strategy">
                     <h2 class="text-3xl font-bold text-center mb-8">Go-To-Market Strategy</h2>
                     <div class="relative pl-4 border-l-2 border-teal-500">
                         <!-- Phase 1 -->
@@ -276,7 +289,7 @@
                 </section>
 
                 <!-- Section: Roadmap -->
-                <section id="roadmap" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="roadmap" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="roadmap" data-title="Roadmap Summary">
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Roadmap Summary</h2>
                     <div class="relative max-w-4xl mx-auto">
                         <div class="hidden md:block border-l-2 border-teal-300 absolute h-full top-0 left-1/2 -ml-px"></div>
@@ -326,7 +339,7 @@
                 </section>
 
                 <!-- NEW Section: Roadmap Diagram -->
-                <section id="roadmap-diagram" class="mb-16 scroll-mt-24">
+                <section id="roadmap-diagram" class="summary-toggleable mb-16 scroll-mt-24" data-id="roadmap-diagram" data-title="Roadmap Diagram">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-3xl font-bold text-center text-gray-800">Detailed 2-Year Roadmap</h2>
                         <div id="roadmap-style-selector" class="flex items-center space-x-2 bg-white p-1 rounded-lg shadow">
@@ -661,7 +674,7 @@
                 </section>
 
                 <!-- Section: Quantix Key Functionalities -->
-                <section id="key-functionalities" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="key-functionalities" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="key-functionalities" data-title="Key Functionalities">
                     <h2 class="text-3xl font-bold text-center mb-12">Quantix Key Functionalities</h2>
                     <div id="functionalities-container" class="max-w-5xl mx-auto">
                         <!-- Main Display Area -->
@@ -680,7 +693,7 @@
                 </section>
 
                 <!-- Section: Market Size -->
-                <section id="market-size" class="mb-16 scroll-mt-24">
+                <section id="market-size" class="summary-toggleable mb-16 scroll-mt-24" data-id="market-size" data-title="Market Size">
                     <h2 class="text-3xl font-bold text-center mb-8">A Massive, Underserved Market</h2>
                     <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8 text-center">
                          <p class="text-lg text-stone-600 mx-auto">The market is at a perfect inflection point. The AI boom is creating unprecedented demand for intelligent tools, just as a new generation of retail investors seeks sophisticated ways to manage their own capital.</p>
@@ -695,7 +708,7 @@
                 </section>
 
                 <!-- Section: How Quantix Marketplace Works -->
-                <section id="how-it-works" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="how-it-works" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="how-it-works" data-title="How It Works">
                     <h2 class="text-3xl font-bold text-center mb-8">How Quantix Marketplace Works</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -710,7 +723,7 @@
                 </section>
 
                 <!-- Section: Supported Exchanges -->
-                <section id="supported-exchanges" class="mb-16 scroll-mt-24">
+                <section id="supported-exchanges" class="summary-toggleable mb-16 scroll-mt-24" data-id="supported-exchanges" data-title="Supported Exchanges">
                     <h2 class="text-3xl font-bold text-center mb-8">Supported Exchanges & Brokers</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -769,10 +782,10 @@
                 </section>
 
                 <!-- Section: Financials -->
-                <section id="financials" class="mb-16 scroll-mt-24">
+                <section id="financials" class="summary-toggleable mb-16 scroll-mt-24" data-id="financials" data-title="Financials">
                     <h2 class="text-3xl font-bold text-center mb-8">Financial Projections</h2>
                     <div class="space-y-12">
-                         <div class="bg-white p-6 rounded-lg shadow-md">
+                         <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-financial-summary" data-title="Table: 5-Year Financial Plan">
                             <h3 class="text-xl font-bold mb-4">5-Year Financial Plan</h3>
                             <div class="table-container">
                                 <table class="w-full text-left text-sm summary-table responsive-table" id="financial-summary-table">
@@ -780,7 +793,7 @@
                                 </table>
                             </div>
                         </div>
-                         <div class="bg-white p-6 rounded-lg shadow-md">
+                         <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-kpi-summary" data-title="Table: Key Performance Indicators">
                             <h3 class="text-xl font-bold mb-4">Key Performance Indicators (KPIs)</h3>
                             <div class="table-container">
                                 <table class="w-full text-left text-sm responsive-table" id="kpi-summary-table">
@@ -789,15 +802,15 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-1 gap-8">
-                            <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-revenue" data-title="Chart: Revenue by Business Unit">
                                 <h3 class="text-xl font-bold mb-4 text-center">Revenue by Business Unit</h3>
                                 <div class="chart-container"><canvas id="revenueChart"></canvas></div>
                             </div>
-                            <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-cashflow" data-title="Chart: Quarterly Cash Flow">
                                 <h3 class="text-xl font-bold mb-4 text-center">Quarterly Cash Flow & Milestones</h3>
                                 <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
                             </div>
-                             <div class="bg-white p-6 rounded-lg shadow-md">
+                             <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="chart-runrate" data-title="Chart: Annual Revenue Run Rate">
                                 <h3 class="text-xl font-bold mb-4 text-center">Annual Revenue Run Rate (EOY)</h3>
                                 <div class="chart-container"><canvas id="runRateChart"></canvas></div>
                             </div>
@@ -806,9 +819,9 @@
                 </section>
 
                 <!-- Section: Team & Budget -->
-                <section id="team-budget" class="mb-16 scroll-mt-24">
+                <section id="team-budget" class="summary-toggleable mb-16 scroll-mt-24" data-id="team-budget" data-title="Team & Budget">
                     <h2 class="text-3xl font-bold text-center mb-8">Team Growth & Budget</h2>
-                     <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div class="bg-white p-6 rounded-lg shadow-md summary-toggleable" data-id="table-opex" data-title="Table: 5-Year Operating Expenses">
                         <h3 class="text-xl font-bold mb-4">5-Year Operating Expenses</h3>
                         <div class="table-container">
                              <table class="w-full text-left text-sm responsive-table" id="opex-summary-table">
@@ -819,7 +832,7 @@
                 </section>
 
                 <!-- NEW Section: Use of Funds -->
-                <section id="use-of-funds" class="mb-16 scroll-mt-24">
+                <section id="use-of-funds" class="summary-toggleable mb-16 scroll-mt-24" data-id="use-of-funds" data-title="Use of Funds">
                     <h2 class="text-3xl font-bold text-center mb-12">Use of Funds</h2>
                     <div class="bg-white p-8 rounded-lg shadow-md max-w-5xl mx-auto">
                         <div class="text-center mb-8">
@@ -827,7 +840,7 @@
                             <p class="text-stone-600 mt-2">To accelerate our go-to-market strategy, expand our team, and scale our platform infrastructure.</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                            <div class="chart-container relative h-80 w-80 mx-auto">
+                            <div class="chart-container relative h-80 w-80 mx-auto summary-toggleable" data-id="chart-use-of-funds" data-title="Chart: Use of Funds">
                                 <canvas id="useOfFundsChart"></canvas>
                             </div>
                             <div>
@@ -875,7 +888,7 @@
                 </section>
 
                  <!-- Section: Team -->
-                <section id="team" class="mb-16 scroll-mt-24">
+                <section id="team" class="summary-toggleable mb-16 scroll-mt-24" data-id="team" data-title="Team">
                     <h2 class="text-3xl font-bold text-center mb-8">Quantix Team</h2>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         <div class="text-center">
@@ -937,7 +950,7 @@
                 </section>
 
                  <!-- Section: Competition -->
-                <section id="competition" class="mb-16 scroll-mt-24">
+                <section id="competition" class="summary-toggleable mb-16 scroll-mt-24" data-id="competition" data-title="Competition">
                     <h2 class="text-3xl font-bold text-center mb-8">Validated Competitive Landscape</h2>
                     <div class="bg-white p-6 rounded-lg shadow-md space-y-8">
                         <p class="text-stone-600 text-center max-w-4xl mx-auto">Here are the regenerated competitive landscape tables from the previous analysis, which correct and add nuance to the information presented in the pitch deck.</p>
@@ -1004,7 +1017,7 @@
                     </div>
                 </section>
                 <!-- NEW SECTION: Why Quantix -->
-                <section id="why-quantix" class="mb-16 scroll-mt-24 min-h-[50vh]">
+                <section id="why-quantix" class="summary-toggleable mb-16 scroll-mt-24 min-h-[50vh]" data-id="why-quantix" data-title="Why Quantix">
                     <h2 class="text-3xl font-bold text-center mb-12">Why Quantix? Our Competitive Edge</h2>
                     <div class="bg-white p-6 rounded-lg shadow-md max-w-6xl mx-auto">
                         <div id="why-quantix-tabs" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
@@ -1022,6 +1035,24 @@
             </main>
         </div>
     </div>
+
+    <!-- Summary View Modal -->
+    <div id="summary-modal" class="summary-modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b border-stone-200">
+                <h3 class="text-xl font-bold">Customize Summary View</h3>
+                <button id="close-summary-modal" class="text-stone-500 hover:text-stone-800">&times;</button>
+            </div>
+            <div id="summary-options" class="p-6 overflow-y-auto">
+                <!-- Checkboxes will be generated here by JS -->
+            </div>
+            <div class="p-4 mt-auto border-t border-stone-200 flex justify-end space-x-3">
+                <button id="cancel-summary" class="text-sm font-semibold py-2 px-4 rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">Cancel</button>
+                <button id="apply-summary" class="text-sm font-semibold py-2 px-4 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Apply Summary</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1781,7 +1812,83 @@
                 });
             }
 
-            renderFunctionalities(); // Initial render
+            // --- Summary View Logic ---
+            const summaryModal = document.getElementById('summary-modal');
+            const summaryOptionsContainer = document.getElementById('summary-options');
+            const summaryViewBtn = document.getElementById('summary-view-btn');
+            const fullViewBtn = document.getElementById('full-view-btn');
+            const closeModalBtn = document.getElementById('close-summary-modal');
+            const cancelBtn = document.getElementById('cancel-summary');
+            const applyBtn = document.getElementById('apply-summary');
+            const allToggleableElements = document.querySelectorAll('.summary-toggleable');
+            const STORAGE_KEY = 'quantixSummaryViewSelection';
+
+            const populateSettingsModal = () => {
+                let html = '<div class="space-y-4">';
+                allToggleableElements.forEach(el => {
+                    if (el.tagName === 'SECTION') {
+                        html += `<div class="font-bold text-lg pt-4">${el.dataset.title}</div>`;
+                    }
+                    const isChecked = !el.classList.contains('hidden-by-summary');
+                    html += `
+                        <label class="flex items-center space-x-3 cursor-pointer ${el.tagName !== 'SECTION' ? 'pl-6' : ''}">
+                            <input type="checkbox" data-target-id="${el.dataset.id}" class="form-checkbox h-5 w-5 text-teal-600 rounded" ${isChecked ? 'checked' : ''}>
+                            <span class="text-stone-700">${el.dataset.title}</span>
+                        </label>
+                    `;
+                });
+                html += '</div>';
+                summaryOptionsContainer.innerHTML = html;
+            };
+
+            const applySummaryView = (selection) => {
+                allToggleableElements.forEach(el => {
+                    if (selection.includes(el.dataset.id)) {
+                        el.classList.remove('hidden-by-summary');
+                    } else {
+                        el.classList.add('hidden-by-summary');
+                    }
+                });
+                summaryModal.classList.add('hidden');
+            };
+
+            const showFullView = () => {
+                allToggleableElements.forEach(el => {
+                    el.classList.remove('hidden-by-summary');
+                });
+                localStorage.removeItem(STORAGE_KEY);
+            };
+
+            const saveSettings = () => {
+                const selectedIds = [];
+                summaryOptionsContainer.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                    selectedIds.push(checkbox.dataset.targetId);
+                });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedIds));
+                applySummaryView(selectedIds);
+            };
+
+            const loadSettings = () => {
+                const savedSelection = localStorage.getItem(STORAGE_KEY);
+                if (savedSelection) {
+                    applySummaryView(JSON.parse(savedSelection));
+                }
+            };
+
+            summaryViewBtn.addEventListener('click', () => {
+                populateSettingsModal();
+                summaryModal.classList.remove('hidden');
+                summaryModal.classList.add('flex');
+            });
+
+            fullViewBtn.addEventListener('click', showFullView);
+            closeModalBtn.addEventListener('click', () => summaryModal.classList.add('hidden'));
+            cancelBtn.addEventListener('click', () => summaryModal.classList.add('hidden'));
+            applyBtn.addEventListener('click', saveSettings);
+
+            // Initial Load
+            loadSettings();
+            renderFunctionalities();
             renderTabContent('marketplace');
             renderFinancialSummaryTable();
             renderKpiTable();
