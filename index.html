@@ -2001,14 +2001,21 @@
                 // External Links
                 document.getElementById('bots-link').style.display = settings.showBotsLink ? 'block' : 'none';
                 document.getElementById('financing-link').style.display = settings.showFinancingLink ? 'block' : 'none';
-                document.getElementById('top-bots-link').style.display = settings.showBotsLink ? 'block' : 'none';
-                document.getElementById('top-financing-link').style.display = settings.showFinancingLink ? 'block' : 'none';
+
+                const topBotsLink = document.getElementById('top-bots-link');
+                if (topBotsLink) topBotsLink.style.display = settings.showBotsLink ? 'block' : 'none';
+
+                const topFinancingLink = document.getElementById('top-financing-link');
+                if(topFinancingLink) topFinancingLink.style.display = settings.showFinancingLink ? 'block' : 'none';
             };
 
             const saveGlobalSettings = () => {
+                const checkedNavMode = document.querySelector('input[name="navMode"]:checked');
+                const checkedMenuPosition = document.querySelector('input[name="menuPosition"]:checked');
+
                 const settings = {
-                    navigationMode: document.querySelector('input[name="navMode"]:checked').value,
-                    menuPosition: document.querySelector('input[name="menuPosition"]:checked').value,
+                    navigationMode: checkedNavMode ? checkedNavMode.value : 'scrolling',
+                    menuPosition: checkedMenuPosition ? checkedMenuPosition.value : 'side',
                     showBotsLink: document.getElementById('setting-show-bots-link').checked,
                     showFinancingLink: document.getElementById('setting-show-financing-link').checked,
                 };
