@@ -256,13 +256,13 @@
                                     <h3 class="font-semibold text-lg mb-2">The Coding Barrier</h3>
                                     <p class="text-sm text-stone-600">Building a trading bot requires deep programming and quantitative skills, shutting out most people.</p>
                                 </div>
-                                <div class="bg-stone-100 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-lg mb-2">Prohibitive Costs</h3>
-                                    <p class="text-sm text-stone-600">Institutional platforms cost tens of thousands per year, while retail "bots" are often ineffective scripts.</p>
+                                <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
+                                    <h3 class="font-semibold text-lg mb-2">Affordable Pricing</h3>
+                                    <p class="text-sm text-stone-600">Our freemium model makes powerful tools accessible to everyone.</p>
                                 </div>
-                                 <div class="bg-stone-100 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-lg mb-2">Lack of True AI</h3>
-                                    <p class="text-sm text-stone-600">Most available tools are simple automation, not machine learning (ML) AI that can learn, adapt, and create novel strategies.</p>
+                                 <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-teal-500">
+                                    <h3 class="font-semibold text-lg mb-2">Proven Strategies</h3>
+                                    <p class="text-sm text-stone-600">Access a marketplace of pre-built, high-performance bots.</p>
                                 </div>
                             </div>
                         </div>
@@ -1538,7 +1538,7 @@
                 };
 
                 for (let y = 0; y < 5; y++) {
-                    const yearData = monthlyData.slice(y * 12, (y + 1) * 12);
+                    const yearData = peopleData.monthlyData.slice(y * 12, (y + 1) * 12);
                     opexData.salaries.push(yearData.reduce((s, m) => s + m.payroll, 0));
                     opexData.benefits.push(yearData.reduce((s, m) => s + m.benefitsTaxes, 0));
                     const combinedGA = yearData.reduce((s, m) => s + m.travel + m.it + m.comms + m.recruitingFees + m.salesBonuses, 0);
